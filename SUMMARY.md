@@ -1,0 +1,23 @@
+# Table of contents
+
+* [Introduction](README.md)
+* [Basics](basics/README.md)
+  * [Getting started](basics/getting-started.md)
+  * [Effects](basics/effects.md)
+  * [Routing](basics/routing.md)
+  * [Middlewares](basics/middlewares.md)
+  * [Error handling](basics/error-handling.md)
+* [Available middlewares](available-middlewares/README.md)
+  * [middleware-logger](available-middlewares/logger.md)
+  * [middleware-body](available-middlewares/body.md)
+  * [middleware-joi](available-middlewares/joi.md)
+  * [middleware-jwt](available-middlewares/jwt/README.md)
+    * [Token signing](available-middlewares/jwt/token-creation.md)
+* [API reference](api-reference-old/README.md)
+  * [core: httpListener](api-reference-old/core-httplistener.md)
+  * [core: EffectFactory](api-reference-old/core-effectfactory.md)
+  * [core: combineRoutes](api-reference-old/core-combineroutes.md)
+  * [operator: use](api-reference-old/use.md)
+* [FAQ](faq.md)
+* [Changelog](changelog.md)
+
