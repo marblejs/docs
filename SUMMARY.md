@@ -41,6 +41,7 @@
 * [middleware-jwt](api-reference/middleware-jwt/README.md)
   * [Token signing](api-reference/middleware-jwt/token-creation.md)
 * [middleware-joi](api-reference/middleware-joi.md)
+* [middleware-cors](api-reference/middleware-cors.md)
 
 ## Other
 
