@@ -99,5 +99,5 @@ export default httpListener({
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-Headers notation is case insensitive. You can write `content-type` it will works.
+Headers notation is case insensitive. `content-type` will also work.
 
