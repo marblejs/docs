@@ -11,7 +11,7 @@
   * [Context](advanced/context.md)
   * [Server events](advanced/server-events.md)
   * [Validation](advanced/validation.md)
-  * [Streaming](advanced/streaming-api.md)
+  * [Streaming](advanced/streaming.md)
   * [Output interceptor](advanced/output.md)
 * [WebSockets](websockets/README.md)
   * [Getting started](websockets/getting-started.md)
