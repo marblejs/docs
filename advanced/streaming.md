@@ -2,7 +2,7 @@
 
 Streams are collections of data that might not be available all at once, and they don’t have to fit in memory. This makes streams really powerful when working with large amounts of data, or data that’s coming from an external source one _chunk_ at a time.
 
-Since Marble.js **v2.1** you can send directly Node.js streams through _HttpEffectResponse_ `body` attribute which will be piped internally as client response.
+Since Marble.js **v2.1** you can send Node.js streams directly through _HttpEffectResponse_ `body` attribute which will be piped internally as client response.
 
 ```typescript
 import { r, combineRoutes, use } from '@marblejs/core';
