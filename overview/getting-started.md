@@ -45,7 +45,7 @@ export default httpListener({ middlewares, effects });
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-then we define our basic `api` effect which responds with "hello world" string.  
+And here is our simple "hello world" endpoint.  
 
 {% code-tabs %}
 {% code-tabs-item title="api.effects.ts" %}
@@ -131,4 +131,3 @@ export const server = http
 {% endcode-tabs %}
 
 In the next chapter you will learn how to create basic **Marble.js** endpoints using [Effects](effects.md).
-
