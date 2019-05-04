@@ -23,6 +23,11 @@ The very basic configuration consists of two steps: _HTTP listener_ definition a
 {% code-tabs %}
 {% code-tabs-item title="http.listener.ts" %}
 ```typescript
+import { httpListener } from '@marblejs/core';
+import { logger$ } from '@marblejs/middleware-logger';
+import { bodyParser$ } from '@marblejs/middleware-body';
+import { api$ } from './api.effects';
+
 const middlewares = [
   logger$(),
   bodyParser$(),
@@ -30,12 +35,30 @@ const middlewares = [
 ];
 
 const effects = [
-  endpoint1$,
-  endpoint2$,
+  api$,
+  // endpoint2$
   // ...
 ];
 
 export default httpListener({ middlewares, effects });
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+then we define our basic `api` effect which responds with "hello world" string.  
+
+{% code-tabs %}
+{% code-tabs-item title="api.effects.ts" %}
+```typescript
+import { r } from '@marblejs/core';
+import { mapTo } from 'rxjs/operators';
+
+export const api$ = r.pipe(
+  r.matchPath('/'),
+  r.matchType('GET'),
+  r.useEffect(req$ => req$.pipe(
+     mapTo({ body: 'Hello, world!' }),
+  )));
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
@@ -57,7 +80,32 @@ export const server = createServer({
 server.run();
 ```
 {% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode-tabs %}  
+
+{% hint style="info" %}
+you can always visit [example repository](https://github.com/marblejs/example) for a complete Marble.js app example. 
+{% endhint %}
+
+We'll use [TypeScript](https://www.typescriptlang.org/) in the documentation but you can always write Marble apps in standard JavaScript (and any other language that transpiles to JavaScript). 
+
+To test run your server you can install `typescript` compiler and `ts-node`:  
+```bash
+$ yarn add typescript ts-node
+```  
+
+then add the following script to your `package.json` file:  
+```JSON
+"scripts": {
+  "start": "ts-node index.ts"
+}
+```
+
+Now go ahead, create `server.ts`, `http.listener.ts`, `api.effects.ts` modules in your project and run your server:  
+```bash
+$ yarn start
+```
+
+finally test your "functional" server by visiting [http://localhost:1337]()
 
 {% hint style="info" %}
 For more API specific details about server bootstraping, visit [createServer](../api-reference/core/createserver.md) API reference.
