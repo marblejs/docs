@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.1.1 - 2019-04-10
+
+**Whats new?**
+
+* **@marblejs/core**: added more HTTP statuses \#123 \(closes: \#121\)
+* **@marblejs/core**: ability to grab the initial request from HTTP `output$` via `EffectMetadata.initiator` \#124 \(closes: \#122\)
+
+```typescript
+const output$: HttpOutputEffect = (res$, _, { initiator }) =>
+  res$.pipe(
+    // do something with response
+  );
+```
+
+**Fixes**
+
+* **@marblejs/core**: `response.handler` improved the way of how Node.js streams are detected \#125 
+
 ## 2.1.0 - 2019-04-02
 
 **Whats new?**
