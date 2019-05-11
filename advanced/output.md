@@ -31,7 +31,7 @@ const output$: HttpOutputEffect = (res$, _, { initiator }) =>
         case 'br':
           return ({
             ...res,
-            headers: { ...res.headers, 'Content-Encoding': 'gzip' },
+            headers: { ...res.headers, 'Content-Encoding': 'br' },
             body: res.body.pipe(zlib.createBrotliDecompress()),
           });
         case 'gzip':
@@ -43,7 +43,7 @@ const output$: HttpOutputEffect = (res$, _, { initiator }) =>
         case 'deflate':
           return ({
             ...res,
-            headers: { ...res.headers, 'Content-Encoding': 'gzip' },
+            headers: { ...res.headers, 'Content-Encoding': 'deflate' },
             body: res.body.pipe(zlib.createInflate()),
           });
         default:
