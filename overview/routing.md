@@ -11,7 +11,9 @@ description: >-
 
 As we know - every API requires composable routing. Lets assume that we have a separate **User** feature where its API endpoints respond to _GET_ and _POST_ methods on `/user` path.
 
-_Since Marble.js. v2.0, you can choose between two ways of defining HTTP routes - using_ [_`EffectFactory`_](../api-reference/core/core-effectfactory.md) _or using_ [_`r.pipe`_](../api-reference/core/r.pipe.md) _operators. For example purposes lets stick to the second, newest way, which has more functional flavor and is more composable._
+{% hint style="info" %}
+Since Marble.js. v2.0, you can choose between two ways of defining HTTP routes - using [`EffectFactory`](../api-reference/core/core-effectfactory.md) or using [`r.pipe`](../api-reference/core/r.pipe.md) operators. For example purposes lets stick to the second, newest way, which has more functional flavor and is more composable.
+{% endhint %}
 
 `r.pipe` is an indexed monad builder used for collecting information about Marble REST route details, like: _path_, request _method type_, _middlewares_ and connected _Effect_.
 
