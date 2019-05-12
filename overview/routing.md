@@ -74,7 +74,7 @@ export const api$ = combineRoutes(
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-As you can see,  previously defined routes can be combined together, so as a result the routing is built in much more structured way. If we analyze the above example, the routing will be mapped to the following API routing table.
+As you can see,  previously defined routes can be combined together, so as a result the routing is built in much more structured way. If we analyze the above example, the routing will be mapped to the following routing table.
 
 ```text
 GET    /api/v1
