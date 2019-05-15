@@ -7,6 +7,7 @@
   * [Routing](overview/routing.md)
   * [Middlewares](overview/middlewares.md)
   * [Error handling](overview/error-handling.md)
+  * [How does it glue​ together?](overview/how-does-it-fit-together.md)
 * [Advanced](advanced/README.md)
   * [Context](advanced/context.md)
   * [Server events](advanced/server-events.md)
