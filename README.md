@@ -38,7 +38,7 @@ $ yarn add @marblejs/core rxjs
 
 ## Examples
 
-If you would like to get a quick glimpse of a simple RESTful API build with Marble.js, visit the following link:
+If you would like to get a quick glimpse of a simple RESTful API built with Marble.js, visit the following link:
 
 {% page-ref page="overview/how-does-it-fit-together.md" %}
 
