@@ -24,7 +24,7 @@ const logger$: HttpMiddlewareEffect = (req$, res) =>
   );
 ```
 
-In order to use our custom middleware, waht we need to do is to attach the defined middleware to `httpListener` config.
+In order to use our custom middleware, what we need to do is to attach the defined middleware to `httpListener` config.
 
 ```typescript
 const middlewares = [
