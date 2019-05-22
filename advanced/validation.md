@@ -38,7 +38,7 @@ interface AgeAdultBrand {
   readonly AgeAdult: unique symbol;
 }
 
-type AdultAge = t.brand(
+const AdultAge = t.brand(
   t.number,
   (age): age is t.Branded<number, AgeAdultBrand> => age >= 18,
   'AgeAdult'

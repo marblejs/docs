@@ -28,7 +28,7 @@ In order to use our custom middleware, what we need to do is to attach the defin
 
 ```typescript
 const middlewares = [
-  // 👇 our custom middleware 
+  // 👇 our custom middleware 
   logger$,
 ];
 
@@ -37,7 +37,7 @@ const app = httpListener({ middlewares, effects });
 
 ### Parametrized middleware
 
-There are some cases when our custom middleware needs to be parametrized - for example dummy _logger$_ middleware should _console.log_  request URL's conditionally. To achieve this behavior we have to make our middleware function _curried_, where the last returned function should conform to`HttpMiddlewareEffect` interface.
+There are some cases when our custom middleware needs to be parametrized - for example dummy _logger$_ middleware should _console.log_ request URL's conditionally. To achieve this behavior we have to make our middleware function _curried_, where the last returned function should conform to`HttpMiddlewareEffect` interface.
 
 ```typescript
 interface LoggerOpts {
@@ -54,7 +54,7 @@ The improved logging middleare, can be composed like in the following example:
 
 ```typescript
 const middlewares = [
-  // 👇 our custom middleware
+  // 👇 our custom middleware
   logger$({ showUrl: true }),
 ];
 ```
@@ -160,6 +160,4 @@ export default httpListener({ middlewares, effects });
 {% hint style="info" %}
 The stacking order of middlewares inside `httpListener` and `combineRoutes` matters, because middlewares are run sequentially \(one after another\).
 {% endhint %}
-
-
 
