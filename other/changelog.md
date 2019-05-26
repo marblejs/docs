@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.2.0 - 2019-05-26
+
+**Whats new?**
+
+* **@marblejs/core**: access server event stream via Context `serverEvent$` token \#128 
+
+**Fixes**
+
+* **@marblejs/core**: lazy reader dependencies are bootstrapped only once \(during initial context ask\) \#129 
+* **@marblejs/websockets**: incoming WebSocket connection is validated via `verifyClient` hook, just before the initial handshake \#133 
+* **@marblejs/middleware-io**: `requestValidator$` can update decoded values \#132 \(closes: \#131 
+* **all** - set RxJS peer dependencies to minor version
+
 ## 2.1.1 - 2019-04-10
 
 **Whats new?**
