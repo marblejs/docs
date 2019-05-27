@@ -45,7 +45,7 @@ export default httpListener({ middlewares, effects });
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-And here is our simple "hello world" endpoint.  
+And here is our simple "hello world" endpoint.
 
 {% code-tabs %}
 {% code-tabs-item title="api.effects.ts" %}
@@ -80,32 +80,35 @@ export const server = createServer({
 server.run();
 ```
 {% endcode-tabs-item %}
-{% endcode-tabs %}  
+{% endcode-tabs %}
 
 {% hint style="info" %}
-you can always visit [example repository](https://github.com/marblejs/example) for a complete Marble.js app example. 
+you can always visit [example repository](https://github.com/marblejs/example) for a complete Marble.js app example.
 {% endhint %}
 
-We'll use [TypeScript](https://www.typescriptlang.org/) in the documentation but you can always write Marble apps in standard JavaScript (and any other language that transpiles to JavaScript). 
+We'll use [TypeScript](https://www.typescriptlang.org/) in the documentation but you can always write Marble apps in standard JavaScript \(and any other language that transpiles to JavaScript\).
 
-To test run your server you can install `typescript` compiler and `ts-node`:  
+To test run your server you can install `typescript` compiler and `ts-node`:
+
 ```bash
 $ yarn add typescript ts-node
-```  
+```
 
-then add the following script to your `package.json` file:  
-```JSON
+then add the following script to your `package.json` file:
+
+```javascript
 "scripts": {
   "start": "ts-node index.ts"
 }
 ```
 
-Now go ahead, create `server.ts`, `http.listener.ts`, `api.effects.ts` modules in your project and run your server:  
+Now go ahead, create `server.ts`, `http.listener.ts`, `api.effects.ts` modules in your project and run your server:
+
 ```bash
 $ yarn start
 ```
 
-finally test your "functional" server by visiting [http://localhost:1337]()
+finally test your "functional" server by visiting [http://localhost:1337](getting-started.md)
 
 {% hint style="info" %}
 For more API specific details about server bootstraping, visit [createServer](../api-reference/core/createserver.md) API reference.
@@ -122,7 +125,7 @@ import httpListener from './http.listener';
 
 const httpServer = httpListener
   .run(createContext());
-  
+
 export const server = http
   .createServer(httpServer)
   .listen(1337, '127.0.0.1');
@@ -131,3 +134,4 @@ export const server = http
 {% endcode-tabs %}
 
 In the next chapter you will learn how to create basic **Marble.js** endpoints using [Effects](effects.md).
+

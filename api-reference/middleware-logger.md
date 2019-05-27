@@ -45,7 +45,7 @@ logger$ :: LoggerOptions -> HttpMiddlewareEffect
 | _parameter_ | definition |
 | :--- | :--- |
 | _silent_ | &lt;optional&gt; `boolean` |
-| _stream_ | &lt;optional&gt; `WriteStream` |
+| _stream_ | &lt;optional&gt; `WritableLike` |
 | _filter_ | &lt;optional&gt; `(HttpResponse, HttpRequest) => boolean` |
 
 ### Usage

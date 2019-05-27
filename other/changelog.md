@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.2 - 2019-05-27
+
+**Fixes**
+
+* **@marblejs/middleware-logger**: changed `LoggerOptions.stream` type from `fs.WritableStream` into `WritableLike`
+
 ## 2.2.0 - 2019-05-26
 
 **Whats new?**
