@@ -1,5 +1,29 @@
 # Changelog
 
+## 2.3.1 - 2019-06-25
+
+**Fixes**
+
+* **@marblejs/middleware-multipart:** fixed an issue when the middleware stream is resolved too early when the `stream` handler is attached \([\#151](https://github.com/marblejs/marble/pull/151)\)
+
+## 2.3.0 - 2019-06-25
+
+**What's new?**
+
+* **@marblejs/middleware-multipart:** `multipart/form-data` middleware based on [busboy](https://github.com/mscdex/busboy) library.
+
+## 2.2.3 - 2019-06-20
+
+**What's new?**
+
+* **@marblejs/core:** Added ability to apply req/res metadata in testing mode \([\#141](https://github.com/marblejs/marble/pull/141)\)
+
+**Fixes**
+
+* **@marblejs/core:** Body is not stringified when it's a stream, regardless of Content-Type header \([\#137](https://github.com/marblejs/marble/pull/137)\)
+* **@marblejs/core:** Query parameter ending with ".com" or similar doesn’t return 500 error \([\#147](https://github.com/marblejs/marble/pull/147)\) \(closes: [\#145](https://github.com/marblejs/marble/issues/145) \)
+* **@marblejs/core/+internal:** Simplified `createHttpRequest` function and it's usages \([\#140](https://github.com/marblejs/marble/pull/140)\)
+
 ## 2.2.2 - 2019-05-27
 
 **Fixes**
