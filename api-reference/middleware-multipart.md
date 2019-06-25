@@ -1,6 +1,8 @@
-# middleware-multipart
+---
+description: A multipart/form-data middleware based on busboy library.
+---
 
-A _multipart/form-data_ middleware based on [busboy](https://github.com/mscdex/busboy) library.
+# middleware-multipart
 
 ### Installation
 
