@@ -44,7 +44,7 @@ createServer({
   // ...
   dependencies: [
     bindTo(d1Token)(d1),
-    bindTo(d12Token)(d2),
+    bindTo(d2Token)(d2),
   ],
   // ...
 });
