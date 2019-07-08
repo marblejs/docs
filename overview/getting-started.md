@@ -5,13 +5,13 @@
 **Marble.js** requires node **v8.0** or higher:
 
 ```bash
-$ npm i @marblejs/core rxjs
+$ npm i @marblejs/core @marblejs/middleware-logger @marblejs/middleware-body rxjs
 ```
 
 or if you are a hipster:
 
 ```bash
-$ yarn add @marblejs/core rxjs
+$ yarn add @marblejs/core @marblejs/middleware-logger @marblejs/middleware-body rxjs
 ```
 
 ## Bootstrapping
@@ -98,7 +98,7 @@ then add the following script to your `package.json` file:
 
 ```javascript
 "scripts": {
-  "start": "ts-node index.ts"
+  "start": "ts-node server.ts"
 }
 ```
 
