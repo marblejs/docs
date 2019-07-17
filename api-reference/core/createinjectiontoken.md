@@ -20,7 +20,7 @@ createContextToken :: () -> ContextToken
 
 ### **Example**
 
-The following example creates and associates injection token with Marbke.js WebSocket server.
+The following example creates and associates injection token with Marble.js WebSocket server.
 
 ```typescript
 import { createContextToken } from '@marblejs/core';
