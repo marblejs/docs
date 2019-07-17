@@ -52,7 +52,7 @@ createServer({
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-Having our dependencies defined, let's define some test Effect where we can test how our dependency can be consumed. 
+Having our dependencies defined, let's define some test Effect where we can test how our dependency can be consumed.
 
 {% code-tabs %}
 {% code-tabs-item title="example.effect.ts" %}
@@ -71,7 +71,7 @@ export const example$ = r.pipe(
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-The type safety is very important. If you are percipiet, you'll notice that using previously defined `d2Token` together with provided dependency we can also grab its inferred type. Reading from the context is not safe every time, thats why the provided dependency is wrapped arround [`Option`](https://gcanti.github.io/fp-ts/Option.html) monad that you can work on. As you can see the real benefit of using Readers is to be able to provide that context in an implicit way without the need to state it explicitly on each one of the functions that needs it.
+The type safety is very important. If you are percipiet, you'll notice that using previously defined `d2Token` together with provided dependency we can also grab its inferred type. Reading from the context is not safe every time, thats why the provided dependency is wrapped arround [`Option`](https://gcanti.github.io/fp-ts/Option.html) monad that you can work on. As you can see the real benefit of using Readers is to be able to provide that context in an implicit way without the need to state it explicitly on each one of the functions that needs it.
 
 If you will try to do a `GET /` request, you should see in the `Hello, world!` message in the respone. Thats how Dependency Injection work in Marble.js!
 
@@ -146,15 +146,15 @@ const postItem$ = r.pipe(
   r.useEffect((req$, _, { ask }) => req$.pipe(
     use(requestValidator$({ body: itemDto }),
     // ...
-    tap(item => ask(WsServerToken).map(server =>
-      server.sendBroadcastResponse({ type: 'ADDED_ITEM', payload: item })),
-    ),
-    map(item => ({ body: item })),
+    tap(payload => ask(WsServerToken)
+      .map(server => server.sendBroadcastResponse({ type: 'ADDED_ITEM', payload }))
+      .getOrElse(EMPTY)),
+    map(body => ({ body })),
   )));
 
 export default httpListener({
   middlewares: [bodyParser$()],
-  effects: [postItem$]
+  effects: [postItem$],
 });
 ```
 {% endcode-tabs-item %}
