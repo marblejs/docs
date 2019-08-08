@@ -124,7 +124,7 @@ Decoded path parameters are placed in the `req.params` property. If there are no
 }
 ```
 
-For parisng and decoding URL parameters, Marble.js makes use of [`path-to-regexp`](https://github.com/pillarjs/path-to-regexp) libray.
+For parsing and decoding URL parameters, Marble.js makes use of [`path-to-regexp`](https://github.com/pillarjs/path-to-regexp) library.
 
 {% hint style="danger" %}
 All properties and values in `req.params` object are untrusted and should be validated before trusting.
