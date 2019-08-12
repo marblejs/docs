@@ -35,9 +35,9 @@ const middlewares = [
 const app = httpListener({ middlewares, effects });
 ```
 
-### Parametrized middleware
+### Parameterized middleware
 
-There are some cases when our custom middleware needs to be parametrized - for example dummy _logger$_ middleware should _console.log_ request URL's conditionally. To achieve this behavior we have to make our middleware function _curried_, where the last returned function should conform to`HttpMiddlewareEffect` interface.
+There are some cases when our custom middleware needs to be parameterized - for example dummy _logger$_ middleware should _console.log_ request URL's conditionally. To achieve this behavior we have to make our middleware function _curried_, where the last returned function should conform to`HttpMiddlewareEffect` interface.
 
 ```typescript
 interface LoggerOpts {
@@ -50,7 +50,7 @@ const logger$ = (opts: LoggerOpts = {}): HttpMiddlewareEffect => req$ =>
   );
 ```
 
-The improved logging middleare, can be composed like in the following example:
+The improved logging middleware, can be composed like in the following example:
 
 ```typescript
 const middlewares = [
@@ -82,7 +82,7 @@ In _Marble.js_ you can compose middlewares in four ways:
 
 ### via _Effect_
 
-There are many scenarrios where we would like to apply middlewares inside our API _Effects_. One of them is to authorize only specific endpoints. Going to meet the requirements, _Marble.js_ allows us to compose them using dedicated [use operator](../api-reference/core/operator-use.md), directly inside request stream pipeline.
+There are many scenarios where we would like to apply middlewares inside our API _Effects_. One of them is to authorize only specific endpoints. Going to meet the requirements, _Marble.js_ allows us to compose them using dedicated [use operator](../api-reference/core/operator-use.md), directly inside request stream pipeline.
 
 Lets say we have an endpoint for getting list of all users registered in the system, but we would like to make it secure, and available only for authorized users. All we need to do is to compose authorization middleware using dedicated for this case `use` operator which takes as an argument our middleware.
 
