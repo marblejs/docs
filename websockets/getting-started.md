@@ -2,9 +2,7 @@
 
 ## Installation
 
-In order to work with _WebSockets_ module you need to install WebSocket module:
-
-```bash
+```
 $ npm i @marblejs/websockets
 ```
 
@@ -16,7 +14,7 @@ $ yarn add @marblejs/websockets
 
 ## Bootstrapping
 
-Like [_httpListener_](../api-reference/core/core-httplistener.md) __the WebSocket module defines a similar way for bootstrapping. The [_webSocketListener_](../api-reference/websockets/websocketlistener.md) includes definitions of all _middlewares_ and WebSocket _effects_.
+Like [_httpListener_](../api-reference/core/core-httplistener.md) __the WebSocket module defines a similar way of bootstrapping the app. The [_webSocketListener_](../api-reference/websockets/websocketlistener.md) includes definitions of all _middlewares_ and WebSocket _effects_.
 
 {% code-tabs %}
 {% code-tabs-item title="webSocket.listener.ts" %}

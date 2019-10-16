@@ -44,7 +44,7 @@ export const user$ = combineRoutes(
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-Defined _HttpEffects_ can be grouped together using  `combineRoutes` function, which combines routing for prefixed path passed as a first argument. Exported group of _Effects_ can be combined with other _Effects_ like in the example below.
+Defined _HttpEffects_ can be grouped together using `combineRoutes` function, which combines routing for prefixed path passed as a first argument. Exported group of _Effects_ can be combined with other _Effects_ like in the example below.
 
 {% code-tabs %}
 {% code-tabs-item title="api.effects.ts" %}
@@ -74,7 +74,7 @@ export const api$ = combineRoutes(
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-As you can see,  previously defined routes can be combined together, so as a result the routing is built in much more structured way. If we analyze the above example, the routing will be mapped to the following routing table.
+As you can see, previously defined routes can be combined together, so as a result the routing is built in much more structured way. If we analyze the above example, the routing will be mapped to the following routing table.
 
 ```text
 GET    /api/v1

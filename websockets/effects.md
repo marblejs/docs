@@ -1,7 +1,5 @@
 # Effects
 
-\*\*\*\*
-
 Marble.js defines a common interface for many different kinds Effects. As you probably know, **@marblejs/core** defines a `HttpEffect` type for dealing with HTTP request streams. In case of **@marblejs/websockets**, the module defines a `WsEffect` which works within WebSocket protocol and deals with streams of Events.
 
 ## Hello, world!
