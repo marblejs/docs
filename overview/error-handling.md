@@ -21,9 +21,9 @@ const authorize$: HttpMiddlewareEffect = req$ =>
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-_Marble.js comes with dedicated `HttpError`_ class for defining a request related errors that can be catched easily via error middleware. Using _RxJS_ built-in `throwError` method, we can throw an error and catch it on an upper level \(eg. directly inside _Effect_ or _ErrorEffect_\).
+_Marble.js comes with a dedicated `HttpError`_ class for defining request related errors that can be caught easily via error middleware. Using the _RxJS_ built-in `throwError` method, we can throw an error and catch it on an upper level \(e.g. directly inside _Effect_ or _ErrorEffect_\).
 
-`HttpError` class resides in `@marblejs/core` package. The constructor takes as a first parameter an error message and as a second parameter a `HttpStatus` code that can be a plain _JavaScript_ `number` or _TypeScript_ enum type that can also be imported via core package. Optionally you can pass the third argument, which can contain any other error related values.
+The `HttpError` class resides in the `@marblejs/core` package. The constructor takes as a first parameter an error message and as a second parameter a `HttpStatus` code that can be a plain _JavaScript_ `number` or _TypeScript_ enum type that can also be imported via core package. Optionally you can pass the third argument, which can contain any other error related values.
 
 ```typescript
 new HttpError('Forbidden', HttpStatus.FORBIDDEN, { resource: 'index.html' });

@@ -2,7 +2,7 @@
 
 Writing REST API in Marble.js isn't hard as you might think. The developer has to understand mostly only the main building block which is the _Effect_ and how the data flows through it.
 
-The aim of this chapter is to demonstrate how building blocks described in previous chapters glue together. For ease of understaning lets build a tiny RESTful API for users handling. Lets omit the implementation details of database access and focus only on the Marble.js related things.
+The aim of this chapter is to demonstrate how building blocks described in previous chapters glue together. For ease of understaning lets build a tiny RESTful API for user handling. Lets omit the implementation details of database access and focus only on the Marble.js related things.
 
 ```typescript
 import { createServer, combineRoutes, httpListener, r, HttpError, use } from '@marblejs/core';

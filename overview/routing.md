@@ -12,7 +12,7 @@ description: >-
 As we know - every API requires composable routing. Lets assume that we have a separate **User** feature where its API endpoints respond to _GET_ and _POST_ methods on `/user` path.
 
 {% hint style="info" %}
-Since Marble.js. v2.0, you can choose between two ways of defining HTTP routes - using [`EffectFactory`](../api-reference/core/core-effectfactory.md) or using [`r.pipe`](../api-reference/core/r.pipe.md) operators. For example purposes lets stick to the second, newest way, which has more functional flavor and is more composable.
+Since Marble.js. v2.0, you can choose between two ways of defining HTTP routes - using [`EffectFactory`](../api-reference/core/core-effectfactory.md) or using [`r.pipe`](../api-reference/core/r.pipe.md) operators. In this example we will stick to the second, newer way, which has a more functional flavor and is more composable.
 {% endhint %}
 
 `r.pipe` is an indexed monad builder used for collecting information about Marble REST route details, like: _path_, request _method type_, _middlewares_ and connected _Effect_.
@@ -44,7 +44,7 @@ export const user$ = combineRoutes(
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-Defined _HttpEffects_ can be grouped together using `combineRoutes` function, which combines routing for prefixed path passed as a first argument. Exported group of _Effects_ can be combined with other _Effects_ like in the example below.
+Defined _HttpEffects_ can be grouped together using `combineRoutes` function, which combines routing for a prefixed path passed as a first argument. Exported group of _Effects_ can be combined with other _Effects_ like in the example below.
 
 {% code-tabs %}
 {% code-tabs-item title="api.effects.ts" %}
@@ -74,7 +74,7 @@ export const api$ = combineRoutes(
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-As you can see, previously defined routes can be combined together, so as a result the routing is built in much more structured way. If we analyze the above example, the routing will be mapped to the following routing table.
+As you can see, the previously defined routes can be combined together, so as a result the routing is built in a much more structured way. If we analyze the above example, the routing will be mapped to the following routing table.
 
 ```text
 GET    /api/v1
@@ -83,7 +83,7 @@ GET    /api/v1/user
 POST   /api/v1/user
 ```
 
-There are some cases where there is a need to compose a bunch of middlewares before grouped routes, eg. to authenticate requests only for a selecteted group of endpoints. Instead of composing middlewares using [use operator](../api-reference/core/operator-use.md) for each route separately, you can compose them via extended second parameter in`combineRoutes()` function.
+There are some cases where there is a need to compose a bunch of middlewares before grouped routes, e.g. to authenticate requests only for a selected group of endpoints. Instead of composing middlewares using [use operator](../api-reference/core/operator-use.md) for each route separately, you can compose them via the extended second parameter in`combineRoutes()` function.
 
 ```typescript
 const user$ = combineRoutes('/user', {
@@ -94,14 +94,14 @@ const user$ = combineRoutes('/user', {
 
 ## Body parameters
 
-Marble.js doesn't come with build-in mechanism for parsing _POST_, _PUT_ and _PATCH_ request bodies. In order to get parsed request body you can use dedicated _@marblejs/middleware-body_ package. A new `req.body` object containing the parsed data will populated on the request object after the middleware, or undefined if there was no body to parse, the `Content-Type` was not matched, or an error occurred. To learn more about body parsing middleware visit the [@marblejs/middleware-body](../api-reference/middleware-body.md) API specification.
+Marble.js doesn't come with a built-in mechanism for parsing _POST_, _PUT_ and _PATCH_ request bodies. In order to get the parsed request body you can use dedicated _@marblejs/middleware-body_ package. A new `req.body` object containing the parsed data will be populated on the request object after the middleware, or undefined if there was no body to parse, the `Content-Type` was not matched, or an error occurred. To learn more about body parsing middleware visit the [@marblejs/middleware-body](../api-reference/middleware-body.md) API specification.
 
 {% hint style="danger" %}
-All properties and values in `req.body`object are untrusted and should be validated before trusting.
+All properties and values in `req.body`object are untrusted and should be validated before usage.
 {% endhint %}
 
 {% hint style="danger" %}
-By design, the `req.body, req.params, req.query`are type of `unknown`. In order to work with decoded values you should validate them before \(eg. using dedicated validator middleware\) or explictly assert attributes to the given type. We highly recommend to use the [@marblejs/middlware-io](../api-reference/middleware-io.md) package which allows you to properly infer the type of validated properties.
+By design, the `req.body, req.params, req.query`are of type `unknown`. In order to work with decoded values you should validate them before \(e.g. using dedicated validator middleware\) or explictly assert attributes to the given type. We highly recommend to use the [@marblejs/middlware-io](../api-reference/middleware-io.md) package which allows you to properly infer the type of validated properties.
 {% endhint %}
 
 ## URL parameters
@@ -115,7 +115,7 @@ const foo$ = r.pipe(
 );
 ```
 
-Decoded path parameters are placed in the `req.params` property. If there are no decoded URL parameters then the property contains an empty object. For the above example and route `/bob/12` the `req.params` object will contain the following parameters:
+Decoded path parameters are placed in the `req.params` property. If there are no decoded URL parameters then the property contains an empty object. For the above example and route `/bob/12` the `req.params` object will contain the following properties:
 
 ```typescript
 {
@@ -127,14 +127,14 @@ Decoded path parameters are placed in the `req.params` property. If there are no
 For parsing and decoding URL parameters, Marble.js makes use of [`path-to-regexp`](https://github.com/pillarjs/path-to-regexp) library.
 
 {% hint style="danger" %}
-All properties and values in `req.params` object are untrusted and should be validated before trusting.
+All properties and values in `req.params` object are untrusted and should be validated before usage.
 {% endhint %}
 
 {% hint style="info" %}
 You should validate incoming URL params using dedicated [requestValidator$](../api-reference/middleware-io.md) middleware.
 {% endhint %}
 
-Path parameters can be suffixed with an asterisk \(`*`\) to denote a zero or more parameter matches. The code snippet below shows the example use case of "zero-or-more" parameter. For example, it can be useful for defining routing for static assets.
+Path parameters can be suffixed with an asterisk \(`*`\) to denote a zero or more parameter matches. The code snippet below shows an example use case of a "zero-or-more" parameter. For example, it can be useful for defining routing for static assets.
 
 {% code-tabs %}
 {% code-tabs-item title="getFile.effect.ts" %}
@@ -185,7 +185,7 @@ req.query = {
 ```
 
 {% hint style="danger" %}
-All properties and values in `req.query` object are untrusted and should be validated before trusting.
+All properties and values in `req.query` object are untrusted and should be validated before usage.
 {% endhint %}
 
 {% hint style="info" %}
