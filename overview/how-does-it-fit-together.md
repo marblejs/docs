@@ -5,11 +5,24 @@ Writing REST API in Marble.js isn't hard as you might think. The developer has t
 The aim of this chapter is to demonstrate how building blocks described in previous chapters glue together. For ease of understaning lets build a tiny RESTful API for users handling. Lets omit the implementation details of database access and focus only on the Marble.js related things.
 
 ```typescript
-import { createServer, combineRoutes, httpListener, r, HttpError, use } from '@marblejs/core';
+import { createServer, combineRoutes, httpListener, r, HttpError, use, HttpStatus } from '@marblejs/core';
 import { logger$ } from '@marblejs/middleware-logger';
 import { bodyParser$ } from '@marblejs/middleware-body';
 import { requestValidator$, t } from '@marblejs/middleware-io';
+import { mergeMapTo, mergeMap, catchError, mapTo, map } from 'rxjs/operators';
+import { of, throwError, from } from 'rxjs';
 
+
+function getUserCollection() {
+  return from([{ id: '1' }]);
+}
+
+function getUserById(id: string) {
+  if (id !== '1') {
+    throw new Error('User not found');
+  }
+  return of({ id: '1', name: 'Test' });
+}
 
 /*------------------------
   👇 USERS API definition
@@ -26,7 +39,7 @@ const getUserList$ = r.pipe(
   r.matchType('GET'),
   r.useEffect(req$ => req$.pipe(
     mergeMapTo(getUserCollection()),
-    map(body => ({ body }),
+    map(body => ({ body })),
   )),
 );
 
@@ -35,13 +48,13 @@ const getUser$ = r.pipe(
   r.matchType('GET'),
   r.useEffect(req$ => req$.pipe(
     use(getUserValidator$),
-    mergeMap(req$ => of(req.params.id).pipe(
+    mergeMap(req$ => of(req$.params.id).pipe(
       mergeMap(getUserById),
-      map(body => ({ body }),
+      map(body => ({ body })),
       catchError(() => throwError(
         new HttpError('User does not exist', HttpStatus.NOT_FOUND)
       ))
-    ),
+    )),
   )),
 );
 
