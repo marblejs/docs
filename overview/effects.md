@@ -10,9 +10,9 @@ const helloEffect$: HttpEffect = req$ => req$.pipe(
 );
 ```
 
-The _Effect_ above responds to incoming request with `Hello, world!` message. In Marble.js, every _Effect_ tries to be referentailly transparent, which means that each incoming request has to be mapped to object with attributes like `body`, `status` or `headers`. If the _status_ code or _headers_ are not defined, then API by default responds with _200_ status and _application/json_ header.
+The _Effect_ above responds to incoming request with `Hello, world!` message. In Marble.js, every _Effect_ tries to be referentailly transparent, which means that each incoming request has to be mapped to an object with attributes like `body`, `status` or `headers`. If the _status_ code or _headers_ are not defined, then the API by default responds with _200_ status and _application/json_ header.
 
-In order to route our first _Effect,_ we have to define the path and HTTP method that the incoming request should be matched to. The simplest implementation of HTTP API endpoint can look like in example below.
+In order to route our first _Effect,_ we have to define the path and HTTP method that the incoming request should be matched to. The simplest implementation of an HTTP API endpoint can look like this.
 
 {% code-tabs %}
 {% code-tabs-item title="effect-with-pipe.ts" %}
@@ -74,7 +74,7 @@ Since Marble.js 2.0, you can build HTTP API routes using [`EffectFactory`](../ap
 
 ## HttpRequest
 
-Every _HttpEffect_ has an access to two most basics objects created by _http.Server_. **HttpRequest** is an abstraction over basic _Node.js_ [http.IncomingMessage](https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_incomingmessage) object. It may be used to access response status, headers and data, but in most scenarios you don't have to deal with all available APIs offered by _IncomingMessage_ class. The most common properties available in request object are:
+Every _HttpEffect_ has an access to two most basics objects created by _http.Server_. **HttpRequest** is an abstraction over the basic _Node.js_ [http.IncomingMessage](https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_incomingmessage) object. It may be used to access response status, headers and data, but in most scenarios you don't have to deal with all available APIs offered by _IncomingMessage_ class. The most common properties available in request object are:
 
 * _url_
 * _method_
@@ -89,9 +89,9 @@ For more details about available API offered in `http.IncomingMessage`, please v
 
 ## HttpResponse
 
-Like previously described _HttpRequest_, the **HttpResponse** object is also an abstraction over basic _Node.js_ [http.ServerResponse](https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_serverresponse) object. Besides the default API, the response object exposes an `res.send` method, which can be a handy wrapper over _Marble.js_ responding mechanism. For more detailed information about _res.send_ method, visit [Middlewares](middlewares.md#sending-a-response-earlier) chapter.
+Like the previously described _HttpRequest_, the **HttpResponse** object is also an abstraction over basic _Node.js_ [http.ServerResponse](https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_serverresponse) object. Besides the default API, the response object exposes an `res.send` method, which can be a handy wrapper over _Marble.js_ responding mechanism. For more information about the _res.send_ method, visit [Middlewares](middlewares.md#sending-a-response-earlier) chapter.
 
 {% hint style="info" %}
-For more details about available API offered in `http.ServerResponse`, please visit [official Node.js docummentation](https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_serverresponse).
+For more details about the available API offered in `http.ServerResponse`, please visit [official Node.js docummentation](https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_serverresponse).
 {% endhint %}
 

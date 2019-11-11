@@ -4,7 +4,7 @@ It is a common requirement to encounter the necessity of having various operatio
 
 ## Building your own middleware
 
-Because everything here is a stream, also plugged-in middlewares are based on similar _Effect_ interface. By default, framework comes with composable middlewares like: [logging](../api-reference/middleware-logger.md), request [body parsing](../api-reference/middleware-body.md) or request [validator](../api-reference/middleware-io.md). Below you can see how simple can look the dummy HTTP request logging middleware.
+Because everything here is a stream, the plugged-in middlewares are also based on a similar _Effect_ interface. By default, framework comes with composable middlewares like: [logging](../api-reference/middleware-logger.md), request [body parsing](../api-reference/middleware-body.md) or request [validator](../api-reference/middleware-io.md). Below you can see how simple can a dummy HTTP request logging middleware look.
 
 ```typescript
 const logger$ = (req$: Observable<HttpRequest>, res: HttpResponse): Observable<HttpRequest> =>
@@ -13,9 +13,9 @@ const logger$ = (req$: Observable<HttpRequest>, res: HttpResponse): Observable<H
   );
 ```
 
-In the example above we get the stream of requests, then tap the `console.log` side effect and returns the same stream as a response of our middleware pipeline. The middleware, in comparison to basic effect, must return the request at the end.
+In the example above we get a stream of requests, then tap the `console.log` side effect and return the same stream as a response from our middleware pipeline. The middleware, compared to the basic effect, must return the request at the end.
 
-If you prefer shorter type definitions, you can use a `HttpMiddlewareEffect` function interface.
+If you prefer shorter type definitions, you can use the `HttpMiddlewareEffect` function interface.
 
 ```typescript
 const logger$: HttpMiddlewareEffect = (req$, res) =>
@@ -24,7 +24,7 @@ const logger$: HttpMiddlewareEffect = (req$, res) =>
   );
 ```
 
-In order to use our custom middleware, what we need to do is to attach the defined middleware to `httpListener` config.
+In order to use our custom middleware, we need to attach the defined middleware to the `httpListener` config.
 
 ```typescript
 const middlewares = [
@@ -37,7 +37,7 @@ const app = httpListener({ middlewares, effects });
 
 ### Parameterized middleware
 
-There are some cases when our custom middleware needs to be parameterized - for example dummy _logger$_ middleware should _console.log_ request URL's conditionally. To achieve this behavior we have to make our middleware function _curried_, where the last returned function should conform to`HttpMiddlewareEffect` interface.
+There are some cases when our custom middleware needs to be parameterized - for example, the dummy _logger$_ middleware should _console.log_ request URL's conditionally. To achieve this behavior we can make our middleware function _curried_, where the last returned function should conform to`HttpMiddlewareEffect` interface.
 
 ```typescript
 interface LoggerOpts {
@@ -61,7 +61,7 @@ const middlewares = [
 
 ### Sending a response earlier
 
-Some types of middlewares need to send a HTTP response earlier. In this case Marble.js exposes a dedicated `res.send` method which allows to send a HTTP response using the same common interface that we use for sending a response inside API _Effects_. The mentioned method returns an empty _Observable_ \(_Observable that immediately completes_\) as a result, so it can be composed easily inside middleware pipeline.
+Some types of middlewares need to send an HTTP response earlier. For this case Marble.js exposes a dedicated `res.send` method which allows to send an HTTP response using the same common interface that we use for sending a response inside API _Effects_. The mentioned method returns an empty _Observable_ \(_Observable that immediately completes_\) as a result, so it can be composed easily inside a middleware pipeline.
 
 ```typescript
 const middleware$: HttpMiddlewareEffect = (req$, res) =>
@@ -131,7 +131,7 @@ As you probably noticed, `auth.middleware` introduces an example use case of err
 
 ### via _combineRoutes_
 
-There are some cases where you have to compose a bunch of middlewares before grouped routes, eg. to authorize only a selecteted group of endpoints. Instead of composing middlewares for each route separately, using [use operator](../api-reference/core/operator-use.md), you can also compose them via extended second parameter in`combineRoutes()` function.
+There are some cases where you have to compose a bunch of middlewares before grouped routes, e.g. to authorize only a selected group of endpoints. Instead of composing middlewares for each route separately, using [use operator](../api-reference/core/operator-use.md), you can also compose them via the extended second parameter in`combineRoutes()` function.
 
 ```typescript
 const api$ = combineRoutes('api/v1', {
@@ -142,7 +142,7 @@ const api$ = combineRoutes('api/v1', {
 
 ### via _httpListener_
 
-If your middleware should operate globally, eg. in case of request logging, the best place is to compose it inside `httpListener`. In this case the middleware will operate for each request that will go through your HTTP server.
+If your middleware should operate globally, e.g. in case of request logging, the best place is to compose it inside `httpListener`. In this case the middleware will operate on each request that goes through your HTTP server.
 
 ```typescript
 const middlewares = [
