@@ -50,7 +50,7 @@ Defined _HttpEffects_ can be grouped together using `combineRoutes` function, wh
 {% code-tabs-item title="api.effects.ts" %}
 ```typescript
 import { combineRoutes, r } from '@marblejs/core';
-import { user$ } from './user.effect';
+import { user$ } from './user.effects';
 
 const root$ = r.pipe(
   r.matchPath('/'),
