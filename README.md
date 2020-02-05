@@ -4,6 +4,14 @@
 
 **Marble.js** is a functional reactive [Node.js](http://nodejs.org) framework for building **server-side** applications, based on [TypeScript](https://www.typescriptlang.org) and [RxJS](http://reactivex.io/rxjs).
 
+{% hint style="info" %}
+**Brace yourself Marble.js v3.0 is coming!**
+{% endhint %}
+
+{% embed url="https://medium.com/@jflakus/announcing-marble-js-3-0-a-marbellous-evolution-ba9cdc91d591" %}
+
+
+
 ## Philosophy
 
 The core concept of **Marble.js** assumes that almost everything is a stream. The main building block of the whole framework is an Effect, which is just a function that returns a stream of events.
