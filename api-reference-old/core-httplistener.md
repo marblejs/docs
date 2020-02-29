@@ -40,8 +40,7 @@ httpListener :: HttpListenerConfig -> (IncomingMessage, OutgoingMessage) -> void
 
 ### **Example**
 
-{% code-tabs %}
-{% code-tabs-item title="app.ts" %}
+{% code title="app.ts" %}
 ```typescript
 import { httpListener } from '@marblejs/core';
 import { bodyParser$ } from '@marblejs/middleware-body';
@@ -59,6 +58,5 @@ const effects = [
 
 export const app = httpListener({ middlewares, effects });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 

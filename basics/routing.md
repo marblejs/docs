@@ -13,8 +13,7 @@ Every API requires composable routing. With _Marble.js_ routing composition coul
 
 In _Marble.js_ routing is builded via specialized `EffectFactory` function responsible for collecting information about _Effect_ routing details like path, request method type and connected _Effect_ handler.
 
-{% code-tabs %}
-{% code-tabs-item title="user.effects.ts" %}
+{% code title="user.effects.ts" %}
 ```typescript
 const getUsers$ = EffectFactory
   .matchPath('/')
@@ -35,13 +34,11 @@ export const user$ = combineRoutes(
   [ getUsers$, postUser$ ],
 );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 Each API _Effect_ can be grouped via  `combineRoutes` function which combines routing for different _Effects,_ prefixed with path passed as a first argument.
 
-{% code-tabs %}
-{% code-tabs-item title="api.effects.ts" %}
+{% code title="api.effects.ts" %}
 ```typescript
 import { user$ } from 'user.controller.ts';
 
@@ -64,8 +61,7 @@ export const api$ = combineRoutes(
   [ root$, foo$, user$ ],
 );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 It is very important to mention that each combined _Effect_ group can be composed together, so as a result the routing can be built in much more structured manner. If we analyze example above, at a result it will be mapped to following API endpoints:
 
@@ -110,8 +106,7 @@ You can validate URL parameters using dedicated [validator$](/marble/~/drafts/-L
 
 Parameters can be suffixed with an asterisk \(`*`\) to denote a zero or more parameter matches. The code snippet below shows the example use case of "zero-or-more" parameter. It can be useful eg. for defining routing for static assets.
 
-{% code-tabs %}
-{% code-tabs-item title="getFile.effect.ts" %}
+{% code title="getFile.effect.ts" %}
 ```typescript
 const getFile$ = EffectFactory
   .matchPath('/:dir*')
@@ -122,8 +117,7 @@ const getFile$ = EffectFactory
     map(body => ({ body }))
   ));
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 ## Query parameters
 

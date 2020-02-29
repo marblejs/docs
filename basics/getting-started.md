@@ -20,8 +20,7 @@ The bootstrapping consists of two very simple steps: _HTTP handler_ definition a
 
 `httpListener` is the starting point of every _Marble.js_ application. It includes definitions of all _middlewares_ and API _effects_.
 
-{% code-tabs %}
-{% code-tabs-item title="app.ts" %}
+{% code title="app.ts" %}
 ```typescript
 const middlewares = [
   logger$,
@@ -36,13 +35,11 @@ const effects = [
 
 export const app = httpListener({ middlewares, effects });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 Because ****_Marble.js_ is built on top of [_Node.js_](https://nodejs.org/en/) __platform and doesn't create any abstractions for server bootstrapping - all you need to do is to call `createServer` with initialized _app_ and then start listening to given _port_ and _hostname_.
 
-{% code-tabs %}
-{% code-tabs-item title="server.ts" %}
+{% code title="server.ts" %}
 ```typescript
 import { app } from './app.ts';
 
@@ -50,6 +47,5 @@ const httpServer = http
   .createServer(app)
   .listen(PORT, HOSTNAME);
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 

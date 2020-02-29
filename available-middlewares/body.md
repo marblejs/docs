@@ -20,8 +20,7 @@ import { bodyParser$ } from '@marblejs/middleware-body';
 
 ### Usage
 
-{% code-tabs %}
-{% code-tabs-item title="app.ts" %}
+{% code title="app.ts" %}
 ```typescript
 import { bodyParser$ } from '@marblejs/middleware-body';
 
@@ -36,8 +35,7 @@ const effects = [
 
 export const app = httpListener({ middlewares, effects });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 Lets assume that we have the following _CURL_ command, which triggers `POST api/login` endpoint:
 
@@ -59,8 +57,7 @@ req.body = {
 
 where the _POST_ request body can be intercepted inside sample _Effect_ like follows:
 
-{% code-tabs %}
-{% code-tabs-item title="dummyLogin.effect.ts" %}
+{% code title="dummyLogin.effect.ts" %}
 ```typescript
 const dummyLogin$ = EffectFactory
   .matchPath('/login')
@@ -70,8 +67,7 @@ const dummyLogin$ = EffectFactory
     map(body => ({ body: `Hello, ${body.username}!` }))
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 {% hint style="danger" %}
 All properties and values in `req.body` object are untrusted and should be validated before trusting.

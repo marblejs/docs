@@ -17,9 +17,11 @@ RxJS-friendly abstractions that can be partially applied and composed inside Eff
 
 ### Installation
 
+{% code title="" %}
 ```bash
 $ npm i @marblejs/middleware-jwt
 ```
+{% endcode %}
 
 Requires `@marblejs/core` to be installed.
 
@@ -56,11 +58,13 @@ verifyPayload$ :: object -> Observable<object>
 
 The function checks the presence of the user id in the database and then returns an _Observable_ of found user instance. 
 
+{% code title="" %}
 ```typescript
 const verifyPayload$ = (payload: Payload) => UserDao
   .findById(payload._id)
   .pipe(flatMap(neverNullable));
 ```
+{% endcode %}
 {% endtab %}
 
 {% tab title="VerifyOptions" %}
@@ -93,8 +97,7 @@ You can read more about token creation [here](token-creation.md).
 
 It is recommended to extract the middleware configuration into separate file. This way you can reuse it in many places.
 
-{% code-tabs %}
-{% code-tabs-item title="auth.middleware.ts" %}
+{% code title="auth.middleware.ts" %}
 ```typescript
 import { authorize$ as jwt$ } from '@marblejs/middleware-jwt';
 import { SECRET_KEY } from './config';
@@ -107,8 +110,7 @@ const verifyPayload$ = (payload: Payload) => UserDao
 
 export const authorize$ = jwt$(config, verifyPayload$);
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 The configured middleware can be simply composed in any route, that should be validated.
 

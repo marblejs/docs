@@ -39,8 +39,7 @@ Factorized `RouteEffecGroup` object.
 
 ### Example
 
-{% code-tabs %}
-{% code-tabs-item title="user.effects.ts" %}
+{% code title="user.effects.ts" %}
 ```typescript
 import { combineRoutes } from '@marblejs/core';
 import { authorize$ } from 'auth.middleware';
@@ -53,11 +52,9 @@ export const user$ = combineRoutes('/user', {
   effects: [getUsers$, postUser$],
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
-{% code-tabs %}
-{% code-tabs-item title="api.effects.ts" %}
+{% code title="api.effects.ts" %}
 ```typescript
 import { combineRoutes } from '@marblejs/core';
 import { user$ } from './user';
@@ -70,6 +67,5 @@ export const api$ = combineRoutes(
   [ root$, user$, notFound$ ],
 );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 

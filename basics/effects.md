@@ -6,6 +6,7 @@
 
 The simplest implementation of API endpoint can look like this:
 
+{% code title="" %}
 ```typescript
 const helloWorld$ = EffectFactory
   .matchPath('/')
@@ -14,6 +15,7 @@ const helloWorld$ = EffectFactory
     mapTo({ body: `Hello, world!` })
   ));
 ```
+{% endcode %}
 
 The sample _Effect_ above resolves every _HTTP_ request that matches to root `/` path and _GET_ method type and at the end responds with `Hello, world!` message. Simple as hell, right?
 
@@ -21,8 +23,7 @@ Every API _Effect_ request has to be mapped to object which can contain attribut
 
 A little bit more complex example can look like this:
 
-{% code-tabs %}
-{% code-tabs-item title="postUser.effect.ts" %}
+{% code title="postUser.effect.ts" %}
 ```typescript
 const postUser$ = EffectFactory
   .matchPath('/user')
@@ -33,8 +34,7 @@ const postUser$ = EffectFactory
     map(response => ({ body: response }))
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 The example above will match every _POST_ request that matches to `/user` url. Using previously parsed _POST_ body \(see [bodyParser$](../available-middlewares/body.md) middleware\) we can map it to sample _DAO_ which returns a `response` object as an action confirmation.
 

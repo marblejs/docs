@@ -87,8 +87,7 @@ There are many case why we would like to apply middlewares inside our API _Effec
 
 Lets say we have an endpoint for getting list of all users registered in the system, but we would like to make it secure, and available only for authorized users. All we need to do is to compose authorization middleware using dedicated for this case `use` operator which takes as an argument our middleware.
 
-{% code-tabs %}
-{% code-tabs-item title="getUsers.effect.ts" %}
+{% code title="getUsers.effect.ts" %}
 ```typescript
 import { authorize$ } from 'auth.middleware`;
 
@@ -101,13 +100,11 @@ const getUsers$: EffectFactory
     // ...
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 Where example implementation of `authorize$` middleware can look like in the following snippet:
 
-{% code-tabs %}
-{% code-tabs-item title="auth.middleware.ts" %}
+{% code title="auth.middleware.ts" %}
 ```typescript
 const authorize$: Middleware = req$ =>
   req$.pipe(
@@ -118,8 +115,7 @@ const authorize$: Middleware = req$ =>
     )),
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 {% hint style="info" %}
 As you probably noticed `auth.middleware` introduces a sample use case of error handling. You can read more about it in dedicated [Error handling](error-handling.md) chapter.
@@ -140,6 +136,7 @@ const api$ = combineRoutes('api/v1', {
 
 If your the middleware should operate globally, eg. in case of request logging, then the best place to compose it inside `httpListener`. In this case the middleware will operate for each request that will go through your HTTP server.
 
+{% code title="" %}
 ```typescript
 const middlewares = [
   logger$,
@@ -150,6 +147,7 @@ const effects = [...];
 
 export const app = httpListener({ middlewares, effects });
 ```
+{% endcode %}
 
 {% hint style="info" %}
 The order of placing middlewares inside `httpListener` and `combineRoutes` matters, because the middlewares are run sequentially \(one after another\). 

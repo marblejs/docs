@@ -4,8 +4,7 @@
 
 Lets take a look again at sample authorization middleware.
 
-{% code-tabs %}
-{% code-tabs-item title="auth.middleware.ts" %}
+{% code title="auth.middleware.ts" %}
 ```typescript
 export const authorize$: Middleware = req$ =>
   req$.pipe(
@@ -16,8 +15,7 @@ export const authorize$: Middleware = req$ =>
     )),
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 _Marble.js comes with dedicated `HttpError`_ class for defining a request related errors that can be catched easily via error middleware. Using _RxJS_ built-in `throwError` method, we can throw a passed error object and catch it on an upper level \(eg. inside API Effect or error middleware\) via _RxJS_ `catchError`method.
 
@@ -50,8 +48,7 @@ The _Effect_ above will handle **all** paths and **all** method types ****and at
 
 By default _Marble.js_ comes with simple and lightweight error handling effect. Because _middlewares_ and _Effects_ are based on the same generic interface, your error handlers can work very similar to normal API _Effects_.
 
-{% code-tabs %}
-{% code-tabs-item title="error.middleware.ts" %}
+{% code title="error.middleware.ts" %}
 ```typescript
 const error$: Effect<EffectResponse, ThrownError> = (req$, res, err) =>
   req$.pipe(
@@ -61,15 +58,13 @@ const error$: Effect<EffectResponse, ThrownError> = (req$, res, err) =>
      }),
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 As any other _Effect_, error handler maps the stream of errored requests to objects of type _EffectResponse_ \(`status`, `body`, `headers`\). The difference is that it takes as a third argument an intercepted error object which can be used for error handling-related logic.
 
 To connect the custom error handler, all you need to do is to attach it to `errorEffect` property in `httpListener` config object.
 
-{% code-tabs %}
-{% code-tabs-item title="app.ts" %}
+{% code title="app.ts" %}
 ```typescript
 const app = httpListener({
   middlewares,
@@ -78,8 +73,7 @@ const app = httpListener({
   errorEffect: error$,
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 
 

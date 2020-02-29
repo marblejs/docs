@@ -56,20 +56,17 @@ loggerWithOpts$ :: (LoggerOptions) -> Middleware
 
 1. Default behaviour. Log every response to _process_._stdout_ \(_console.log_\):
 
-{% code-tabs %}
-{% code-tabs-item title="logger.middleware.ts" %}
+{% code title="logger.middleware.ts" %}
 ```typescript
 import { loggerWithOpts$ } from '@marblejs/middleware-logger';
 
 export const logger$ = loggerWithOpts$();
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 2. Customized logging behaviour:
 
-{% code-tabs %}
-{% code-tabs-item title="logger.middleware.ts" %}
+{% code title="logger.middleware.ts" %}
 ```typescript
 import { loggerWithOpts$ } from '@marblejs/middleware-logger';
 import { isTestEnv } from './util';
@@ -80,8 +77,7 @@ export const logger$ = loggerWithOpts$({
   filter: req => req.status >= 400;
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 * **silent** - When `true` the logging is turned off \(usually useful during testing\),
 * **stream** - Output stream for writing log messages, defaults to _process.stdout_. In the example above every response will be written to file pointed by provided `SOME_PATH` variable,

@@ -76,8 +76,7 @@ generateExpirationInHours :: number -> number
 
 ## **Example**
 
-{% code-tabs %}
-{% code-tabs-item title="token.helper.ts" %}
+{% code title="token.helper.ts" %}
 ```typescript
 export const generateTokenPayload = (user: User) => ({
   id: user.id,
@@ -86,11 +85,9 @@ export const generateTokenPayload = (user: User) => ({
   // 👆 token will expire within the next 4 hours
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
-{% code-tabs %}
-{% code-tabs-item title="login.effect.ts" %}
+{% code title="login.effect.ts" %}
 ```typescript
 import { generateTokenPayload } from './token.helper';
 
@@ -109,6 +106,5 @@ const login$ = EffectFactory
     )),
   ));
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
