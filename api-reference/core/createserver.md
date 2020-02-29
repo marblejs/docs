@@ -49,8 +49,7 @@ _**ServerInfo**_
 
 ### **Example**
 
-{% code-tabs %}
-{% code-tabs-item title="index.ts" %}
+{% code title="index.ts" %}
 ```typescript
 import httpListener from './http.listener';
 import { createServer, bindTo } from '@marblejs/core';
@@ -78,6 +77,5 @@ server.run(
   process.env.NODE_ENV !== 'test'
 );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 

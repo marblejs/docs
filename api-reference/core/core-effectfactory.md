@@ -72,8 +72,7 @@ Factorized `RouteEffect` object.
 
 ## Example
 
-{% code-tabs %}
-{% code-tabs-item title="root.effect.ts" %}
+{% code title="root.effect.ts" %}
 ```typescript
 import { EffectFactory } from '@marblejs/core';
 
@@ -84,8 +83,7 @@ export const root$ = EffectFactory
     mapTo({ body: `Hello, world! 👻` })
   ));
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 
 

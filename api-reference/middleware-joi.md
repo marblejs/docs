@@ -21,9 +21,11 @@ For more advanced request or event validation purposes we highly recommend to us
 
 ### Installation
 
+{% code title="" %}
 ```bash
 $ npm i @marblejs/middleware-joi
 ```
+{% endcode %}
 
 Requires `@marblejs/core` to be installed.
 
@@ -59,8 +61,7 @@ validator$ :: (Schema, Joi.ValidationOptions) -> HttpMiddlewareEffect
 
 **1.** Example of using middleware on a _GET_ route to validate query parameters:
 
-{% code-tabs %}
-{% code-tabs-item title="foo.effect.ts" %}
+{% code title="foo.effect.ts" %}
 ```typescript
 import { r } from '@marblejs/core';
 import { validator$, Joi } from '@marblejs/middleware-joi';
@@ -77,8 +78,7 @@ const foo$ = r.pipe(
     // ...
   )));
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 Example above will validate each incoming request connected with `foo$` _Effect_. The validation blueprint defines that the `id` query parameter should be a number between _&lt;1..10&gt;_. If the schema requirements are not satisfied the middleware will throw an error with description what went wrong.
 
@@ -93,8 +93,7 @@ Example above will validate each incoming request connected with `foo$` _Effect_
 
 **2.** Example of validating all incoming requests:
 
-{% code-tabs %}
-{% code-tabs-item title="app.ts" %}
+{% code title="app.ts" %}
 ```typescript
 import { validator$, Joi } from '@marblejs/middleware-joi';
 
@@ -119,8 +118,7 @@ const effects = [
 
 const app = httpListener({ middlewares, effects });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 ### Credits
 

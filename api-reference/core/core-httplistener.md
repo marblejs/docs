@@ -45,8 +45,7 @@ Besides the default http server handler, the `httpListener` returns also an conf
 
 ### **Example**
 
-{% code-tabs %}
-{% code-tabs-item title="http.listener" %}
+{% code title="http.listener" %}
 ```typescript
 import { httpListener } from '@marblejs/core';
 import { bodyParser$ } from '@marblejs/middleware-body';
@@ -64,6 +63,5 @@ const effects = [
 
 export default httpListener({ middlewares, effects });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 

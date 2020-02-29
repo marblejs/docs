@@ -57,8 +57,7 @@ Note that provided options are merged with default options so you need to overwr
 
 ### Basic usage
 
-{% code-tabs %}
-{% code-tabs-item title="app.ts" %}
+{% code title="app.ts" %}
 ```typescript
 import { cors$ } from '@marblejs/middleware-cors';
 
@@ -73,15 +72,13 @@ export default httpListener({
   effects: [/* ... */],
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 For security purpose it's better to be strict as possible when configuring CORS options.
 
 ### Strict usage
 
-{% code-tabs %}
-{% code-tabs-item title="app.ts" %}
+{% code title="app.ts" %}
 ```typescript
 import { cors$ } from '@marblejs/middleware-cors';
 
@@ -96,8 +93,7 @@ export default httpListener({
   effects: [/* ... */],
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 Headers notation is case insensitive. `content-type` will also work.
 

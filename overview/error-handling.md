@@ -4,8 +4,8 @@
 
 Lets take a look again at the previous example of authorization middleware.
 
-{% code-tabs %}
-{% code-tabs-item title="auth.middleware.ts" %}
+{% tabs %}
+{% tab title="auth.middleware.ts" %}
 ```typescript
 import { HttpError, HttpStatus } from '@marblejs/core';
 
@@ -18,8 +18,8 @@ const authorize$: HttpMiddlewareEffect = req$ =>
     )),
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 _Marble.js comes with a dedicated `HttpError`_ class for defining request related errors that can be caught easily via error middleware. Using the _RxJS_ built-in `throwError` method, we can throw an error and catch it on an upper level \(e.g. directly inside _Effect_ or _ErrorEffect_\).
 
@@ -44,7 +44,7 @@ const notFound$ = r.pipe(
   )));
 ```
 
-The _HttpEffect_ above handles **all** paths and **all** method types ****and throws an 404 error code that can be intercepted via _HttpErrorEffect_.
+The _HttpEffect_ above handles **all** paths and **all** method types _\*\*_and throws an 404 error code that can be intercepted via _HttpErrorEffect_.
 
 `notFound$` _Effects_ can be placed in any layer you want, eg. you can have multiple _Effects_ that will handle missing routes in dedicated organization levels of your API structure.
 
@@ -52,8 +52,8 @@ The _HttpEffect_ above handles **all** paths and **all** method types ****and th
 
 By default _Marble.js_ comes with simple and lightweight error handling _Effect_. Because middlewares and _Effects_ are based on the same generic interface, your error handlers can work very similar.
 
-{% code-tabs %}
-{% code-tabs-item title="error.middleware.ts" %}
+{% tabs %}
+{% tab title="error.middleware.ts" %}
 ```typescript
 const customError$: HttpErrorEffect<ThrownError> = (req$, res, meta) =>
   req$.pipe(
@@ -64,15 +64,15 @@ const customError$: HttpErrorEffect<ThrownError> = (req$, res, meta) =>
     }),
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 As any other _Effect_, error handler maps the stream of errored requests to objects of type _HttpEffectResponse_ \(`status`, `body`, `headers`\). The _HttpErrorEffect_ can retrieve from the third argument an intercepted error object which can be used for error handling-related logic.
 
 To connect the custom error handler, all you need to do is to attach it to `error$` property in `httpListener` config object.
 
-{% code-tabs %}
-{% code-tabs-item title="http.listener.ts" %}
+{% tabs %}
+{% tab title="http.listener.ts" %}
 ```typescript
 httpListener({
   middlewares,
@@ -81,8 +81,6 @@ httpListener({
   error$: customError$,
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
-
-
+{% endtab %}
+{% endtabs %}
 

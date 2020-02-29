@@ -86,8 +86,8 @@ There are many scenarios where we would like to apply middlewares inside our API
 
 Lets say we have an endpoint for getting list of all users registered in the system, but we would like to make it secure, and available only for authorized users. All we need to do is to compose authorization middleware using dedicated for this case `use` operator which takes as an argument our middleware.
 
-{% code-tabs %}
-{% code-tabs-item title="getUsers.effect.ts" %}
+{% tabs %}
+{% tab title="getUsers.effect.ts" %}
 ```typescript
 import { use, r } from '@marblejs/core';
 import { authorize$ } from './auth.middleware';
@@ -103,15 +103,15 @@ const getUsers$ = r.pipe(
     // ...
   )));
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 Using `r.pipe` operators, the middlwares can be composed in two ways. The first one doesn't infer the returned `HttpRequest` type of chained middlewares.
 
 The example implementation of `authorize$` middleware can look like in the following snippet:
 
-{% code-tabs %}
-{% code-tabs-item title="auth.middleware.ts" %}
+{% tabs %}
+{% tab title="auth.middleware.ts" %}
 ```typescript
 const authorize$: HttpMiddlewareEffect = req$ =>
   req$.pipe(
@@ -122,8 +122,8 @@ const authorize$: HttpMiddlewareEffect = req$ =>
     )),
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 {% hint style="info" %}
 As you probably noticed, `auth.middleware` introduces an example use case of error handling. You can read more about it in dedicated [Error handling](error-handling.md) chapter.

@@ -31,8 +31,7 @@ webSocketListener :: WebSocketListenerConfig -> WebSocket.ServerOptions -> Conte
 
 ### **Example**
 
-{% code-tabs %}
-{% code-tabs-item title="websocket.listener.ts" %}
+{% code title="websocket.listener.ts" %}
 ```typescript
 import { webSocketListener } from '@marblejs/websockets';
 import { example$ } from './example.effect';
@@ -43,6 +42,5 @@ export default webSocketListener({
   effects: [add$],
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 

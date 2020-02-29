@@ -17,8 +17,8 @@ Since Marble.js. v2.0, you can choose between two ways of defining HTTP routes -
 
 `r.pipe` is an indexed monad builder used for collecting information about Marble REST route details, like: _path_, request _method type_, _middlewares_ and connected _Effect_.
 
-{% code-tabs %}
-{% code-tabs-item title="user.effects.ts" %}
+{% tabs %}
+{% tab title="user.effects.ts" %}
 ```typescript
 import { combineRoutes, r } from '@marblejs/core';
 
@@ -41,13 +41,13 @@ export const user$ = combineRoutes(
   [ getUsers$, postUser$ ],
 );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 Defined _HttpEffects_ can be grouped together using `combineRoutes` function, which combines routing for a prefixed path passed as a first argument. Exported group of _Effects_ can be combined with other _Effects_ like in the example below.
 
-{% code-tabs %}
-{% code-tabs-item title="api.effects.ts" %}
+{% tabs %}
+{% tab title="api.effects.ts" %}
 ```typescript
 import { combineRoutes, r } from '@marblejs/core';
 import { user$ } from './user.effects';
@@ -71,8 +71,8 @@ export const api$ = combineRoutes(
   [ root$, foo$, user$ ],
 );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 As you can see, the previously defined routes can be combined together, so as a result the routing is built in a much more structured way. If we analyze the above example, the routing will be mapped to the following routing table.
 
@@ -136,8 +136,8 @@ You should validate incoming URL params using dedicated [requestValidator$](../a
 
 Path parameters can be suffixed with an asterisk \(`*`\) to denote a zero or more parameter matches. The code snippet below shows an example use case of a "zero-or-more" parameter. For example, it can be useful for defining routing for static assets.
 
-{% code-tabs %}
-{% code-tabs-item title="getFile.effect.ts" %}
+{% tabs %}
+{% tab title="getFile.effect.ts" %}
 ```typescript
 const getFile$ = r.pipe(
   r.matchPath('/:dir*'),
@@ -149,8 +149,8 @@ const getFile$ = r.pipe(
     map(body => ({ body }))
   )));
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 ## Query parameters
 

@@ -54,8 +54,7 @@ _**ValidatorOptions**_
 
 Let's define a user schema that will be used for I/O validation.
 
-{% code-tabs %}
-{% code-tabs-item title="user.schema.ts" %}
+{% code title="user.schema.ts" %}
 ```typescript
 export const userSchema = t.type({
   id: t.string,
@@ -69,8 +68,7 @@ export const userSchema = t.type({
 
 export type User = t.TypeOf<typeof userSchema>;
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 ```typescript
 import { use, r } from '@marblejs/core';

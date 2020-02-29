@@ -18,8 +18,7 @@ In Marble.js you don't have to create the app context explicitly. In order to cr
 
 Every dependency that you would like to register inside the Context has to conform to `ContextReader` interface, which means that the registered function should be able to read from the bootstrapped server context. Knowing the basics, let's create some readers!
 
-{% code-tabs %}
-{% code-tabs-item title="example.ts" %}
+{% code title="example.ts" %}
 ```typescript
 import { createContextToken, reader } from '@marblejs/core';
 
@@ -31,11 +30,9 @@ export const d2 = reader.map(ask =>
   ask(d1Token).map(v => v + ', world!').getOrElse('')
 );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
-{% code-tabs %}
-{% code-tabs-item title="index.ts" %}
+{% code title="index.ts" %}
 ```typescript
 import { bindTo createServer } from '@marblejs/core';
 import { d1, d2, d1Token, d2Token } from './example';
@@ -49,13 +46,11 @@ createServer({
   // ...
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 Having our dependencies defined, let's define some test Effect where we can test how our dependency can be consumed.
 
-{% code-tabs %}
-{% code-tabs-item title="example.effect.ts" %}
+{% code title="example.effect.ts" %}
 ```typescript
 import { r } from '@marblejs/core';
 import { d2Token } from './example';
@@ -68,8 +63,7 @@ export const example$ = r.pipe(
     map(msg => ({ body: msg })),
   )));
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 The type safety is very important. If you are percipient, you'll notice that using previously defined `d2Token` together with provided dependency we can also grab its inferred type. Reading from the context is not safe every time, thats why the provided dependency is wrapped arround [`Option`](https://gcanti.github.io/fp-ts/Option.html) monad that you can work on. As you can see the real benefit of using Readers is to be able to provide that context in an implicit way without the need to state it explicitly on each one of the functions that needs it.
 
@@ -83,19 +77,16 @@ Let's say you have a HTTP server that would like to connect with a WebSocket ser
 
 Lets look at an example of eagerly binding of a WebSocket server.
 
-{% code-tabs %}
-{% code-tabs-item title="tokens.ts" %}
+{% code title="tokens.ts" %}
 ```typescript
 import { createContextToken } from '@marblejs/core';
 import { MarbleWebSocketServer } from '@marblejs/websockets';
 
 export const WsServerToken = createContextToken<MarbleWebSocketServer>();
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
-{% code-tabs %}
-{% code-tabs-item title="index.ts" %}
+{% code title="index.ts" %}
 ```typescript
 import { createServer, bindTo } from '@marblejs/core';
 import { mapToServer } from '@marblejs/websockets';
@@ -113,8 +104,7 @@ const server = createServer({
 
 server.run();
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 In order to instantiate our registered dependency as soon as possible, you have to run it inside `bindTo` function. It means that the registered dependency will try to resolve its dependencies during the binding, using previously registered context.
 
@@ -132,8 +122,7 @@ bindTo(Token)(dependency().run);
 
 Having the WebSocket dependency eagerly registered we can ask for it eg. inside HTTP Effect. Note that provided dependency won't be instantiated while asking - we can easily grab previously instantiated WebSocket server on demand. 😎
 
-{% code-tabs %}
-{% code-tabs-item title="http.listener.ts" %}
+{% code title="http.listener.ts" %}
 ```typescript
 import { httpListener } from '@marblejs/core';
 import { requestValidator$ } from '@marblejs/middleware-io';
@@ -157,6 +146,5 @@ export default httpListener({
   effects: [postItem$],
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 

@@ -14,17 +14,17 @@ The _Effect_ above responds to incoming request with `Hello, world!` message. In
 
 In order to route our first _Effect,_ we have to define the path and HTTP method that the incoming request should be matched to. The simplest implementation of an HTTP API endpoint can look like this.
 
-{% code-tabs %}
-{% code-tabs-item title="effect-with-pipe.ts" %}
+{% tabs %}
+{% tab title="effect-with-pipe.ts" %}
 ```typescript
 const hello$ = r.pipe(
   r.matchPath('/'),
   r.matchType('GET'),
   r.useEffect(helloEffect$));
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="effect-with-EffectFactory.ts" %}
+{% tab title="effect-with-EffectFactory.ts" %}
 ```typescript
 const hello$ = EffectFactory
   .matchPath('/')
@@ -33,13 +33,13 @@ const hello$ = EffectFactory
     mapTo({ body: `Hello, world!` })
   ));
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 Lets define a little bit more complex endpoint.
 
-{% code-tabs %}
-{% code-tabs-item title="postUser.effect.1.ts" %}
+{% tabs %}
+{% tab title="postUser.effect.1.ts" %}
 ```typescript
 const postUser$ = r.pipe(
   r.matchPath('/user'),
@@ -50,9 +50,9 @@ const postUser$ = r.pipe(
     map(response => ({ body: response }))
   )));
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="postUser.effect.2.ts" %}
+{% tab title="postUser.effect.2.ts" %}
 ```typescript
 const postUser$ = EffectFactory
   .matchPath('/user')
@@ -63,8 +63,8 @@ const postUser$ = EffectFactory
     map(response => ({ body: response }))
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 The example above will match every _POST_ request that matches to `/user` url. Using previously parsed _POST_ body \(see [bodyParser$](../api-reference/middleware-body.md) middleware\) we can map it to example _DAO_ which returns a `HttpEffectResponse` object as an action confirmation.
 

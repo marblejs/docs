@@ -52,8 +52,7 @@ logger$ :: LoggerOptions -> HttpMiddlewareEffect
 
 1. Default behaviour. Log every response to _process_._stdout_:
 
-{% code-tabs %}
-{% code-tabs-item title="logger.middleware.ts" %}
+{% code title="logger.middleware.ts" %}
 ```typescript
 import { logger$ } from '@marblejs/middleware-logger';
 
@@ -64,13 +63,11 @@ const middlewares = [
 
 export const app = httpListener({ middlewares, effects: [] });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 2. Customized logging behaviour:
 
-{% code-tabs %}
-{% code-tabs-item title="logger.middleware.ts" %}
+{% code title="logger.middleware.ts" %}
 ```typescript
 import { logger$ } from '@marblejs/middleware-logger';
 import { isTestEnv } from './util';
@@ -86,8 +83,7 @@ const middlewares = [
 
 export const app = httpListener({ middlewares, effects: [] });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 * **silent** - When `true` the logging is turned off \(usually useful during testing\),
 * **stream** - Output stream for writing log messages, defaults to _process.stdout_. In the example above every response will be written to file pointed by provided `PATH` variable,

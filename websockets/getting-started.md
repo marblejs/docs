@@ -16,8 +16,7 @@ $ yarn add @marblejs/websockets
 
 Like [_httpListener_](../api-reference/core/core-httplistener.md) __the WebSocket module defines a similar way of bootstrapping the app. The [_webSocketListener_](../api-reference/websockets/websocketlistener.md) includes definitions of all _middlewares_ and WebSocket _effects_.
 
-{% code-tabs %}
-{% code-tabs-item title="webSocket.listener.ts" %}
+{% code title="webSocket.listener.ts" %}
 ```typescript
 const effects = [
   effect1$,
@@ -33,21 +32,18 @@ const middlewares = [
 
 export default webSocketListener({ effects, middlewares });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 To connect the previously configured WebSocket listener, you have to create a context token first.
 
-{% code-tabs %}
-{% code-tabs-item title="tokens.ts" %}
+{% code title="tokens.ts" %}
 ```typescript
 import { createContextToken } from '@marblejs/core';
 import { MarbleWebSocketServer } from '@marblejs/websockets';
 
 export const WebSocketServerToken = createContextToken<MarbleWebSocketServer>();
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 {% hint style="info" %}
 You can learn more about Marble.js Context mechanism [here](../advanced/context.md).
@@ -55,8 +51,7 @@ You can learn more about Marble.js Context mechanism [here](../advanced/context.
 
 Then all you have to do is to register the defined module inside _createServer_ `dependencies`.
 
-{% code-tabs %}
-{% code-tabs-item title="index.ts" %}
+{% code title="index.ts" %}
 ```typescript
 import { bindTo createServer } from '@marblejs/core';
 import { WebSocketServerToken } from './tokens.ts';
@@ -74,8 +69,7 @@ const server = createServer({
 
 server.run();
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 You can create and run a WebSocket server by providing the port value in `webSocketListener` config object. You can also upgrade the currently running http server by providing `noServer: true` in config object or by ommiting it.
 

@@ -6,8 +6,7 @@ Like any other Effect, Marble.js defines a similar way for defining middlewares.
 
 Lets create a simple logger middleware like we previously did in case of HTTP.
 
-{% code-tabs %}
-{% code-tabs-item title="logger.ws-middleware.ts" %}
+{% code title="logger.ws-middleware.ts" %}
 ```typescript
 import { Event } from '@marblejs/core';
 import { WsMiddlewareEffect } from '@marblejs/websockets';
@@ -24,13 +23,11 @@ export const logger$ = (event$: Observable<Event>): Observable<Event> =>
     tap(e => console.log(`type: ${e.type}, payload: ${e.payload}`)),
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 Similar to any other middleware or effect, we have to register it inside the listener.
 
-{% code-tabs %}
-{% code-tabs-item title="webSocket.listener.ts" %}
+{% code title="webSocket.listener.ts" %}
 ```typescript
 import { webSocketListener } from '@marblejs/websockets';
 import { logger$ } from './logger.ws-middleware';
@@ -40,8 +37,7 @@ export const webSocketServer = webSocketListener({
   // ...
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 ## Middlewares composition
 

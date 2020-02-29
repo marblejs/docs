@@ -31,8 +31,7 @@ new EventError(event, 'some error message', additionalData);
 
 By default _Marble.js_ comes with simple and lightweight error handling effect, but you can define a custom one if you want.
 
-{% code-tabs %}
-{% code-tabs-item title="error.ws-effect.ts" %}
+{% code title="error.ws-effect.ts" %}
 ```typescript
 export const customError$: WsErrorEffect<ThrownError> = (event$, client, meta) =>
   req$.pipe(
@@ -42,15 +41,13 @@ export const customError$: WsErrorEffect<ThrownError> = (event$, client, meta) =
     }),
   );
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 As any other Effect, error handler maps the stream of errored events to objects of type _Event_ \(`type`, `payload`\). The _WsErrorEffect_ can retrieve from the third argument an intercepted error object which can be used for error handling-related logic.
 
 To connect the custom error effect, all you have to do is to attach it to `error$` property in `webSocketListener` config object.
 
-{% code-tabs %}
-{% code-tabs-item title="webSocket.listener.ts" %}
+{% code title="webSocket.listener.ts" %}
 ```typescript
 import { webSocketListener } from '@marblejs/websockets';
 import { customError$ } from './error.ws-effect';
@@ -62,6 +59,5 @@ const webSocketServer = webSocketListener({
   error$: customError$,
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 

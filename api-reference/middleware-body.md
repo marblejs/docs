@@ -41,8 +41,7 @@ The `type` option is used to determine what media type the middleware will parse
 
 ### Basic usage
 
-{% code-tabs %}
-{% code-tabs-item title="app.ts" %}
+{% code title="app.ts" %}
 ```typescript
 import { bodyParser$ } from '@marblejs/middleware-body';
 
@@ -51,8 +50,7 @@ export default httpListener({
   effects: [/* ... */],
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 Lets assume that we have the following _CURL_ command, which triggers `POST /api/login` endpoint:
 
@@ -74,8 +72,7 @@ req.body = {
 
 The _POST_ request body can be intercepted like follows.
 
-{% code-tabs %}
-{% code-tabs-item title="login.effect.ts" %}
+{% code title="login.effect.ts" %}
 ```typescript
 import { r } from '@marblejs/core';
 
@@ -87,8 +84,7 @@ export const login$ = r.pipe(
     map(body => ({ body: `Hello, ${body.username}!` }))
   )));
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 {% hint style="danger" %}
 All properties and values in `req.body` object are untrusted \(unknown\) and should be validated before trusting.
