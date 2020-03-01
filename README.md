@@ -16,7 +16,7 @@ The core concept of **Marble.js** assumes that almost everything is a stream. Th
 
 ![](.gitbook/assets/effect.jpg)
 
-Marble.js doesn't operate only over basic [HTTP](http/effects.md) protocol but can be used also for messaging purposes \(including [WebSocket](messaging/websockets.md), [microservices](messaging/microservices/), [CQRS](messaging/cqrs.md)\), where the multi-event nature fits best. Don't be scared of the complexity and abstractions — Marble.js framework, in general, is incredibly simple. For more details about its specifics, please visit the next chapters that will guide you through the framework environment and implementation details.
+Marble.js doesn't operate only over basic [HTTP](http/effects.md) protocol but can be used also for general MDA \(Message-Driven Architecture\) solutions, including [WebSocket](messaging/websockets.md), [microservices](messaging/microservices/) or [CQRS](messaging/cqrs.md), where the multi-event nature fits best. Don't be scared of the complexity and abstractions — Marble.js framework, in general, is incredibly simple. For more details about its specifics, please visit the next chapters that will guide you through the framework environment and implementation details.
 
 > _For those who are curious about the framework name - it comes from a popular way of visually expressing the time-based behavior of event streams, aka marble diagrams. This kind of domain-specific language is a popular way of testing asynchronous streams, especially in RxJS environments._
 
