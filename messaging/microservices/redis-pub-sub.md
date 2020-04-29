@@ -8,10 +8,6 @@ description: >-
 
 > Aside from data storage, [Redis](https://redis.io/) can be used as a Publisher/Subscriber platform. In this pattern, publishers can issue messages to any number of subscribers on a channel. These messages are fire-and-forget, in that if a message is published and no subscribers exists, the message evaporates and cannot be recovered.
 
-{% hint style="warning" %}
-Redis transport layer is still in **beta phase**. The final version will be released in _Marble.js v3.1_
-{% endhint %}
-
 ## Installation
 
 Before the usage remember to install required packages.
