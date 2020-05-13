@@ -12,7 +12,7 @@ or if you are a hipster:
 $ yarn add @marblejs/core fp-ts rxjs
 ```
 
-Every `@marblejs/*` package requires `@marblejs/core` + `fp-ts` + `rxjs` to have installed first.
+Every `@marblejs/*` package requires `@marblejs/core` + `fp-ts` + `rxjs` to be installed first.
 
 | package | description |
 | :--- | :--- |
