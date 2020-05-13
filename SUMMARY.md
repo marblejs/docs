@@ -54,6 +54,7 @@
     * [operator: use](other/api-reference/core/operator-use.md)
     * [operator: act](other/api-reference/core/operator-act.md)
   * [messaging](other/api-reference/messaging/README.md)
+    * [messagingClient](other/api-reference/messaging/messagingclient.md)
     * [createMicroservice](other/api-reference/messaging/createmicroservice.md)
     * [reply](other/api-reference/messaging/reply.md)
   * [websockets](other/api-reference/websockets/README.md)
