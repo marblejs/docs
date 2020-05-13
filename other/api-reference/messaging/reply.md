@@ -7,7 +7,7 @@ description: Constructs a reply-event
 ### **Importing** <a id="importing"></a>
 
 ```typescript
-import { reply } from '@marblejs/core';
+import { reply } from '@marblejs/messaging';
 ```
 
 ### **Type declaration**
@@ -18,7 +18,7 @@ reply :: EventMetadata -> Event -> Event
 reply :: Event -> Event -> Event
 ```
 
-The function is responsible for constructing a reply-event based on provided value, that can be in form of channel name, EventMetadata object or origin event.
+The function is responsible for constructing a reply-event for a channel name, EventMetadata object or origin event.
 
 ### **Example**
 
