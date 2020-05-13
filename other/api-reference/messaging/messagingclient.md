@@ -35,7 +35,7 @@ messagingClient :: MessagingClientConfig
 Because of asynchronous nature of messaging client, all created readers have to be bound to server creators via eager binding 👉 [\#bindEagerlyTo](../core/bindeagerlyto.md)
 {% endhint %}
 
-To learn more about messagingClient output interface please visit:
+To learn more about `messagingClient` output interface please visit:
 
 {% page-ref page="../../../messaging/microservices/" %}
 
