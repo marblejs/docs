@@ -7,7 +7,7 @@ description: >-
 
 # Context
 
-## Dependency Injection
+## raderDependency Injection
 
 Dependency Injection \(DI\) is a very simple concept, which can be implemented in many different ways. It means to get dependencies of a class passed in by using constructor, or to get dependencies of a function passed in by using arguments, or even more advanced techniques. If we step back and look at the concept in a more abstract way, the only thing to remember is that we gain the possibility to provide dependencies to any of our entities any point in time. Now we can provide different implementations of those dependencies by using extension \(polymorphism\), interface implementation, or whatever technique we want to use.
 
