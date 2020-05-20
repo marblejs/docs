@@ -157,24 +157,45 @@ export const listener = messagingListener({
 
 * Use PascalCase naming convention with `Token` suffix for token definitions.
 * Always remember to define a context token name identifier. It will help you in quick recognizing what dependency is missing when asking for a dependency via `useContext` hook function.
+* Place token next to reader definition. It will be easier to navigate to reader implementation via popular "Go to Implementation" mechanism.
 
 ❌**Bad**
 
+{% tabs %}
+{% tab title="tokens.ts" %}
 ```typescript
 import { createContextToken } from '@marblejs/core';
 
-const userRepository = createContextToken<UserRepository>();
+export const userRepository = createContextToken<UserRepository>();
 ```
+{% endtab %}
+
+{% tab title="user.repository.ts" %}
+```typescript
+import { createReader } from '@marblejs/core';
+
+export const userRepository = createReader(() => ...);
+```
+{% endtab %}
+{% endtabs %}
 
 ✅**Good**
 
+{% tabs %}
+{% tab title="user.repository" %}
 ```typescript
-import { createContextToken } from '@marblejs/core';
+import { createContextToken, createReader } from '@marblejs/core';
 
-const UserRepositoryToken = createContextToken<UserRepository>('UserRepository');
+export type UserRepository = ReturnType<typeof UserRepository>;
+
+export const UserRepository = createReader(() => ...);
+
+export const UserRepositoryToken = createContextToken<UserRepository>('UserRepository');
 ```
+{% endtab %}
+{% endtabs %}
 
-### Binding
+### Eager vs Lazy binding
 
 Identify which dependencies should be bound to the app context eagerly \(before app startup\) and which lazily.
 
@@ -183,14 +204,11 @@ Identify which dependencies should be bound to the app context eagerly \(before 
 ```typescript
 import { createContextToken, createReader } from '@marblejs/core';
 
-export const DatabaseConnectionToken = createContextToken<DatabaseConnection>('DatabaseConnection');
-
-export const DatabaseConnection = createReader(async _ => {
-  ...
-  return connection;
-});
-
 export type DatabaseConnection = Connection;
+
+export const DatabaseConnection = createReader(async _ => ...);
+
+export const DatabaseConnectionToken = createContextToken<DatabaseConnection>('DatabaseConnection');
 ```
 
 Note that in case of [async readers](../http/context.md#async-readers) the type of created reader will be: `Reader<Context, Promise<Connection>>`
