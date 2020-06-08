@@ -25,7 +25,7 @@ By convention Marble.js follows suffixed file naming which results in:
 
 In Marble.js HTTP effects are tightly connected to the route on which they operate. Having them in a separation makes the code more less readable and understandable. Always try to keep them as a one unit. Every HttpEffect that comes through `r.pipe` route builder is accessible via `.effect` property of the returned `RouteEffect` object. You can access it via this way if you want to unit test only the effect function.
 
-**❌Bad**
+**❌ Bad**
 
 {% tabs %}
 {% tab title="getFoo.route.ts" %}
@@ -51,7 +51,7 @@ export const getFooEffect: HttpEffect = (req$, ctx) => req$.pipe(
 {% endtab %}
 {% endtabs %}
 
-✅**Good**
+✅ **Good**
 
 {% tabs %}
 {% tab title="getFoo.effect.ts" %}
@@ -159,7 +159,7 @@ export const listener = messagingListener({
 * Always remember to define a context token name identifier. It will help you in quick recognizing what dependency is missing when asking for a dependency via `useContext` hook function.
 * Place token next to reader definition. It will be easier to navigate to reader implementation via popular "Go to Implementation" mechanism.
 
-❌**Bad**
+❌ **Bad**
 
 {% tabs %}
 {% tab title="tokens.ts" %}
@@ -179,7 +179,7 @@ export const userRepository = createReader(() => ...);
 {% endtab %}
 {% endtabs %}
 
-✅**Good**
+✅ **Good**
 
 {% tabs %}
 {% tab title="user.repository" %}
@@ -213,7 +213,7 @@ export const DatabaseConnectionToken = createContextToken<DatabaseConnection>('D
 
 Note that in case of [async readers](../http/context.md#async-readers) the type of created reader will be: `Reader<Context, Promise<Connection>>`
 
-❌**Bad**
+❌ **Bad**
 
 ```typescript
 import { bindTo, bindLazilyTo, useContext } from '@marblejs/core';
@@ -231,7 +231,7 @@ const connection = useContext(DatabaseConnectionToken)(ask);
 // typeof connection === Promise<Connection>;
 ```
 
-✅**Good**
+✅ **Good**
 
 ```typescript
 import { bindEagerlyTo, useContext } from '@marblejs/core';
@@ -251,7 +251,7 @@ const connection = useContext(DatabaseConnectionToken)(ask);
 
 Always try to inject bound dependencies at the top level of your effects \(before returned Observable stream\). All effects are evaluated eagerly, so in case of missing context dependency the framework will be able to spot issues during initial bootstrap. 
 
-❌**Bad**
+❌ **Bad**
 
 ```typescript
 const postUser$ = r.pipe(
@@ -273,7 +273,7 @@ const postUser$ = r.pipe(
   ));
 ```
 
-✅**Good**
+✅ **Good**
 
 ```typescript
 const postUser$ = r.pipe(
