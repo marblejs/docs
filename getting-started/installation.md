@@ -2,6 +2,8 @@
 
 **Marble.js** requires node **v8.0** or higher:
 
+>
+
 ```bash
 $ npm i @marblejs/core fp-ts rxjs
 ```
@@ -19,6 +21,7 @@ Every `@marblejs/*` package requires `@marblejs/core` + `fp-ts` + `rxjs` to be i
 | [@marblejs/core](../other/api-reference/core/) | Core module |
 | [@marblejs/messaging](../other/api-reference/messaging/) | Messaging module |
 | [@marblejs/websockets](../other/api-reference/websockets/) | WebSocket module |
+| [@marblejs/testing](../testing/http-testing.md) | Testing module |
 | [@marblejs/middleware-logger](../other/api-reference/middleware-logger.md) | Logger middleware |
 | [@marblejs/middleware-body](../other/api-reference/middleware-body.md) | Body parser middleware |
 | [@marblejs/middleware-io](../other/api-reference/middleware-io.md) | I/O validation middleware |

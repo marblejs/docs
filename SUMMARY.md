@@ -33,6 +33,10 @@
 * [CQRS](messaging/cqrs.md)
 * [WebSockets](messaging/websockets.md)
 
+## Testing
+
+* [HTTP routes testing](testing/http-testing.md)
+
 ## Other
 
 * [How does it glue together?](other/how-does-it-glue-together.md)
