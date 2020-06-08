@@ -292,3 +292,94 @@ const postUser$ = r.pipe(
   }));
 ```
 
+## Messaging
+
+### Effect output
+
+* Each processed event should be mapped to a different event type to avoid infinite-loops.
+* In case you don't want to emit anything in the effect stream you can skip emitted values, eg. by `ignoreElements` operator.
+
+❌ **Bad**
+
+```typescript
+import { matchEvent } from '@marblejs/core';
+import { MsgEffect } from '@marblejs/messaging';
+
+const foo$: MsgEffect = event$ =>
+  event$.pipe(
+    matchEvent('FOO'),
+    tap(doSomeWork),
+  );
+```
+
+**✅ Good**
+
+```typescript
+import { act, matchEvent } from '@marblejs/core';
+import { MsgEffect } from '@marblejs/messaging';
+import { pipe } from 'fp-ts/lib/pipeable';
+
+const foo$: MsgEffect = event$ =>
+  event$.pipe(
+    matchEvent('FOO'),
+    act(event => pipe(
+      doSomeWork(event),
+      map(payload => ({ type: 'FOO_RESULT', payload })),
+    )),
+  );
+```
+
+### Error handling
+
+* Each messaging effect should handle errors in a disposable streams either via `mergeMap/switchMap/...` operators with combination of `catchError` or via`act` operator.
+
+❌ **Bad**
+
+```typescript
+import { matchEvent } from '@marblejs/core';
+import { MsgEffect } from '@marblejs/messaging';
+
+const foo$: MsgEffect = event$ =>
+  event$.pipe(
+    matchEvent('FOO'),
+    mergeMap(doSomeWork),
+    map(payload => ({ type: 'FOO_RESULT', payload }),
+  );
+```
+
+✅ **Good**
+
+```typescript
+import { act, matchEvent } from '@marblejs/core';
+import { MsgEffect } from '@marblejs/messaging';
+import { pipe } from 'fp-ts/lib/pipeable';
+import { catchError } from 'rxjs/operators';
+
+const foo$: MsgEffect = event$ =>
+  event$.pipe(
+    matchEvent('FOO'),
+    mergeMap(event => pipe(
+      doSomeWork(event),
+      map(payload => ({ type: 'FOO_RESULT', payload })),
+      catchError(error => ({ type: 'FOO_ERROR', error })),
+    )),
+  );
+```
+
+**✅ Even better**
+
+```typescript
+import { act, matchEvent } from '@marblejs/core';
+import { MsgEffect } from '@marblejs/messaging';
+import { pipe } from 'fp-ts/lib/pipeable';
+
+const foo$: MsgEffect = event$ =>
+  event$.pipe(
+    matchEvent('FOO'),
+    act(event => pipe(
+      doSomeWork(event),
+      map(payload => ({ type: 'FOO_RESULT', payload })),
+    )),
+  );
+```
+
