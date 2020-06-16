@@ -114,7 +114,7 @@ const getUser$: MsgEffect = event$ =>
     act(event => pipe(
       getUser(event.payload.id),
       map(payload => ({
-        type: event.type,
+        type: 'GET_USER_RESULT',
         payload,
         metadata: e.metadata, // { correlationId, replyTo }
       })),
@@ -135,12 +135,16 @@ const getUser$: MsgEffect = event$ =>
     matchEvent('GET_USER'),
     act(event => pipe(
       getUser(event.payload.id),
-      map(payload => reply(event)({ type: event.type, payload })),
+      map(payload => reply(event)({ type: 'GET_USER_RESULT', payload })),
     )),
   );
 ```
 
 {% hint style="info" %}
 To learn more about `reply` function please visit messaging [API documentation.](../../other/api-reference/messaging/reply.md)
+{% endhint %}
+
+{% hint style="warning" %}
+When replying to an incoming event, remember to define a different event type than the origin one, if not there is a high risk that an emitted command \(non RPC message\) will produce an infinite loop.
 {% endhint %}
 
