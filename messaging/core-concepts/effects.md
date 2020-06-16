@@ -145,6 +145,6 @@ To learn more about `reply` function please visit messaging [API documentation.]
 {% endhint %}
 
 {% hint style="warning" %}
-When replying to an incoming event, remember to define a different event type than the origin one, if not there is a high risk that an emitted command \(non RPC message\) will produce an infinite loop.
+When replying to an incoming event, remember to define a different event type than the origin one. In some specific use cases there is a high risk that an emitted command \(non RPC message\) will produce an infinite loop.
 {% endhint %}
 
