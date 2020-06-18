@@ -91,15 +91,33 @@ When manual acknowledgements are turned on, we must send a proper acknowledgemen
 ```typescript
 import { MsgEffect } from '@marblejs/messaging';
 import { matchEvent } from '@marblejs/core';
-import { mapTo, tap } from 'rxjs/operators';
+import { pipe } from 'fp-ts/lib/pipeable';
+import { mapTo, tap, catchError } from 'rxjs/operators';
 
 const foo$: MsgEffect = (event$, ctx) =>
   event$.pipe(
     matchEvent('FOO'),
-    tap(event => ctx.client.ackMessage(event.metadata?.raw)),
-    mapTo({ type: 'FOO_RESPONSE' }),
+    act(event => pipe(
+      // do some work ...
+      tap(event => ctx.client.ackMessage(event.metadata?.raw)),
+      mapTo({ type: 'FOO_RESPONSE' }),
+      catchError(error => {
+        ctx.client.nackMessage(event.metadata?.raw, false);
+        return throwError(error);
+      });
+    )),
   );
 ```
 
 `TransportLayerConnection` interface \(available through effect **ctx.client**\) defines two methods for managing events acknowledgement: `ackMessage()` and `nackMessage()`. In order to _ack_/_nack_ message you have to pass an initial event metadata raw object.
+
+The second boolean parameter of `nackMessage` function defines if an event consumer should requeue failed event again or throw it away. By default it is set to `true` which means that every time the consumer will try to nack the incoming message it will be again requeued to origin channel \(queue\).
+
+{% hint style="warning" %}
+It is in the responsibility of developer to nack the errored message. If the consumer won't nack the message, it will hang and wait for non-acknowledgement infinitely till the connection won't be closed.
+{% endhint %}
+
+{% hint style="info" %}
+If the microservice \(consumer\) is in acknowledgement mode \(`expectAck: true`\), all outgoing messages that target the same origin queue won't be emitted to prevent accidental consumer blocking. If you would like to emit another event, eg. as a confirmation response to the origin queue with acknowledgement mode enabled, you have to emit the event explicitly by connected messaging client.
+{% endhint %}
 
