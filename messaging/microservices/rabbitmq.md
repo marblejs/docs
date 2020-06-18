@@ -111,10 +111,10 @@ const foo$: MsgEffect = (event$, ctx) =>
 
 `TransportLayerConnection` interface \(available through effect **ctx.client**\) defines two methods for managing events acknowledgement: `ackMessage()` and `nackMessage()`. In order to _ack_/_nack_ message you have to pass an initial event metadata raw object.
 
-The second boolean parameter of `nackMessage` function defines if an event consumer should requeue failed event again or throw it away. By default it is set to `true` which means that every time the consumer will try to nack the incoming message it will be again requeued to origin channel \(queue\).
+The second boolean parameter of `nackMessage` function defines if an event consumer should re-queue failed event again or throw it away. By default it is set to `true` which means that every time the consumer will try to _nack_ the incoming message, it will be again re-sent to the origin channel \(queue\).
 
 {% hint style="warning" %}
-It is in the responsibility of developer to nack the errored message. If the consumer won't nack the message, it will hang and wait for non-acknowledgement infinitely till the connection won't be closed.
+It is in the responsibility of developer to _nack_ messages \(even in case of unhandled errors\). If the consumer won't _nack_ the message, it will hang up and wait for \(non-\)acknowledgement signal infinitely till the connection won't be closed.
 {% endhint %}
 
 {% hint style="info" %}
