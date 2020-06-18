@@ -74,7 +74,7 @@ import { pipe } from 'fp-ts/lib/pipeable';
 import { Logger, LoggerLevel, createReader } from '@marblejs/core';
 import { CustomLogger } from './customLogger';
 
-export const loggerReader = createReader<Logger>(() => opts => {
+export const CustomLoggerReader = createReader<Logger>(() => opts => {
   const tag = opts.tag;
   const level = opts.level ?? LoggerLevel.INFO;
   const message = `${opts.type} ${opts.message}`;
@@ -97,12 +97,12 @@ Then in your server definition you have to override the binding.
 
 ```typescript
 import { bindTo, createServer, LoggerToken } from '@marblejs/core';
-import { loggerReader } from './logger.reader.ts';
+import { CustomeLoggerReader } from './logger.reader.ts';
 
 const server = createServer({
   // ...
   dependencies: [
-    bindTo(LoggerToken)(loggerReader),
+    bindTo(LoggerToken)(CustomLoggerReader),
   ],
 });
 ```
