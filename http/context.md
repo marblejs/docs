@@ -31,14 +31,14 @@ import { pipe } from 'fp-ts/lib/pipeable';
 import * as R from 'fp-ts/lib/Reader';
 import * as O from 'fp-ts/lib/Option';
 
-export const d1Token = createContextToken<string>('d1Token');
-export const d2Token = createContextToken<string>('d2Token');
+export const Dependency1Token = createContextToken<string>('Dependency1');
+export const Dependency2Token = createContextToken<string>('Dependency2');
 
-export const d1 = pipe(reader, R.map(() => 'Hello'));
-export const d2 = pipe(reader, R.map(ask => pipe(
-  ask(d1Token),
+export const Dependency1 = pipe(reader, R.map(() => 'Hello'));
+export const Dependency2 = pipe(reader, R.map(ask => pipe(
+  ask(Dependency1Token),
   O.map(v => v + ', world!'),
-  O..getOrElse(() => ''),
+  O.getOrElse(() => ''),
 )));
 ```
 {% endtab %}
@@ -48,13 +48,13 @@ export const d2 = pipe(reader, R.map(ask => pipe(
 {% tab title="index.ts" %}
 ```typescript
 import { bindTo createServer } from '@marblejs/core';
-import { d1, d2, d1Token, d2Token } from './example';
+import { Dependency1, Dependency2, Dependency1Token, Dependency2Token } from './example';
 
 const server = createServer({
   // ...
   dependencies: [
-    bindTo(d1Token)(d1),
-    bindTo(d2Token)(d2),
+    bindTo(Dependency1Token)(Dependency1),
+    bindTo(Dependency2Token)(Dependency2),
   ],
   // ...
 });
@@ -62,7 +62,7 @@ const server = createServer({
 {% endtab %}
 {% endtabs %}
 
-Having our dependencies defined, let's define some test Effect where we can test how our dependency can be consumed.
+Having our dependencies defined, let's define some test Effect where we can check how our dependency can be consumed.
 
 {% tabs %}
 {% tab title="example.effect.ts" %}
@@ -70,20 +70,20 @@ Having our dependencies defined, let's define some test Effect where we can test
 import { r } from '@marblejs/core';
 import { pipe } from 'fp-ts/lib/pipeable';
 import * as O from 'fp-ts/lib/Option';
-import { d2Token } from './example';
+import { Dependency2Token } from './example';
 
 export const example$ = r.pipe(
   r.matchPath('/'),
   r.matchType('GET'),
   r.useEffect((req$, ctx) => {
   
-    const d2 = pipe(
-      ctx.ask(d2Token),
+    const dependency2 = pipe(
+      ctx.ask(Dependency2Token),
       O.getOrElse(() => ''),
     );
     
     return req$.pipe(
-      mapTo(d2),
+      mapTo(dependency2),
       map(body => ({ body })),
     ));
   });
@@ -91,43 +91,44 @@ export const example$ = r.pipe(
 {% endtab %}
 {% endtabs %}
 
-Each Marble.js Effect defines a second argument called as `EffectContext` which holds i.a. the context provider \(**ask**\) and the contextual client instance \(in case of HTTP module it will be a running HttpServer\).
+If you will try to do a `GET /` request, you should see in the `Hello, world!` message in the response. Thats how Dependency Injection work in Marble.js!
 
-The type safety is very important. If you are percipient, you'll notice that using previously defined `d2Token` , together with provided dependency, we can also grab its inferred type. Reading from the context is not a safe operation, thus the provided dependency is wrapped around [Option](https://gcanti.github.io/fp-ts/Option.html) monad that you can work on. As you can see the real benefit of using Readers is to be able to provide that context in an implicit way without the need to state it explicitly on each one of the functions that needs it.
+Each Marble.js Effect defines a second argument called as `EffectContext` which holds i.a. the context provider \(**ask**\) and the contextual client instance \(in case of HTTP module it will be a running _HttpServer_\).
+
+The type safety is very important. If you are percipient, you'll notice that by using previously defined `Dependency2Token` , we can also grab the dependency inferred type. Reading from the context is not a safe operation, thus the provided dependency is wrapped around [Option](https://gcanti.github.io/fp-ts/Option.html) monad that you can work on. As you can see the real benefit of using Readers is to be able to provide that context in an implicit way without the need to state it explicitly on each one of the functions that needs it.
 
 {% hint style="info" %}
-Since all Marble.js Effects are eagerly bootstrapped, the provided dependency will be injected only once at app startup.
+All Marble.js Effects are eagerly bootstrapped, which means that we you can inject dependencies only once at app startup, if the dependency is injected before the main _Observable_ stream.
 {% endhint %}
-
-If you will try to do a `GET /` request, you should see in the `Hello, world!` message in the response. Thats how Dependency Injection work in Marble.js!
 
 ## createReader + useContext
 
-As you can see reading from context is a very verbose operation - you have to pipe the reader instance, ask the context provider wit a token, map the result and add a fallback in case of unmeet dependency. That's a lot work to do!  What is really needed is to is to resolve all required dependency before the startup by asking the context and failing in case of unmeet dependency - that's the typical use case. Go out towards our expectations, Marble.js defines a useful `createReader` and `useContext` utility functions that save us a lot of unnecessary boilerplate. Let's redefine the previous example.
+As you can see reading from context is a very verbose operation - you have to pipe the reader instance, ask the context provider with a token, map the result and add a fallback in case of unmeet dependency. That's a lot of work to do! What is really needed is to resolve all required dependencies before the startup by asking the context and failing in case of unmeet dependency - that's the typical use case. Going out towards expectations, Marble.js defines a useful `createReader` and `useContext` utility functions that save a lot of unnecessary boilerplate. Let's redefine the previous example.
 
 ```typescript
 import { createContextToken, createReader } from '@marblejs/core';
 
-export const d1Token = createContextToken<string>('d1Token');
-export const d2Token = createContextToken<string>('d2Token');
+export const Dependency1Token = createContextToken<string>('Dependency1');
+export const Dependency2Token = createContextToken<string>('Dependency2');
 
-export const d1 = createReader(() => 'Hello');
-export const d2 = createReader(ask => useContext(d1Token)(ask) + ', world!');
+export const Dependency1 = createReader(() => 'Hello');
+export const Dependency2 = createReader(ask =>
+  useContext(Dependency1Token)(ask) + ', world!');
 ```
 
 ```typescript
 import { r, useContext } from '@marblejs/core';
-import { d2Token } from './example';
+import { Dependency2Token } from './example';
 
 export const example$ = r.pipe(
   r.matchPath('/'),
   r.matchType('GET'),
   r.useEffect((req$, ctx) => {
   
-    const d2 = useContext(d2Token)(ctx.ask);
+    const dependency2 = useContext(Dependency2Token)(ctx.ask);
     
     return req$.pipe(
-      mapTo(d2),
+      mapTo(Dependency2),
       map(body => ({ body })),
     ));
   });
@@ -139,25 +140,25 @@ In order to have a more grained control over injected context dependencies, plea
 
 ## Eager vs lazy readers
 
-Let's say you have a HTTP server that would like to connect with another server. When bootstrapping a WebSocket server we want to instantiate it as soon as possible \(aka eagerly\). The Marble.js Context was designed with a need for flexible way of connecting dependent modules - eagerly or lazily.
+Let's say you have a HTTP server that would like to connect with another one. When bootstrapping a WebSocket server we want to instantiate it as soon as possible \(aka eagerly\). The Marble.js Context was designed with a need for flexible way of connecting dependent modules - eagerly or lazily.
 
-**By default Instances are created lazily when they are needed**. If a dependency is never used by another component, then it won’t be created at all. This is usually what you want. For most readers there’s no point creating them until they’re needed. However, in some cases you want dependencies to be started up straight away or even if they’re not used by another function. For example, you might want to send a message to a remote system or warm up a cache when the application starts. You can force a dependency to be created eagerly by using an **eager binding**.
+**By default Instances are created lazily - when they are needed**. If a dependency is never used by another component, then it won’t be created at all. This is usually what you want. For most readers there’s no point creating them until they’re needed. However, in some cases you want your dependencies to be started up straight away or even if they’re not used by another function. For example, you might want to send a message to a remote system or warm up a cache when the application starts. You can force a dependency to be created eagerly by using an **eager binding**.
 
 In order to instantiate our registered dependency as soon as possible, you have to run it inside `bindEagerlyTo` function. It means that the registered dependency will try to resolve its dependencies on server startup.
 
 {% hint style="warning" %}
-Note that the order of registered dependencies doesn't matter. Marble.js will start to resolve eager dependencies on on app startup, when all dependencies are already bound.
+Note that the order of registered lazy dependencies doesn't matter. Marble.js will start to resolve eager dependencies on on app startup, when all dependencies are already bound.
 {% endhint %}
 
 ```typescript
 import { bindTo, bindLazilyTo, bindEagerly } from '@marblejs/core';
 
 // lazy binding
-bindTo(Token)(dependency);
-bindLazilyTo(Token)(dependency);
+bindTo(Token)(Dependency);
+bindLazilyTo(Token)(Dependency);
 
 // eager binding
-bindEagerly(Token)(dependency);
+bindEagerly(Token)(Dependency);
 ```
 
 ## Async readers
@@ -178,7 +179,7 @@ bindTo(Token)(async () => 'bar');
 const foo = useContext(Token)(ask);   // foo === Promise<'bar'>
 ```
 
-Lets look at an example of eagerly binding of a WebSocket server.
+Let's look at an example of eager binding of a WebSocket server.
 
 {% tabs %}
 {% tab title="tokens.ts" %}
@@ -187,7 +188,7 @@ import { createContextToken } from '@marblejs/core';
 import { WebSocketServerConnection } from '@marblejs/websockets';
 
 export const WebSocketServerToken =
-  createContextToken<WebSocketServerConnection>('WebSocketServerToken');
+  createContextToken<WebSocketServerConnection>('WebSocketServer');
 ```
 {% endtab %}
 {% endtabs %}
@@ -215,7 +216,7 @@ const server = createServer({
 Having the WebSocket dependency eagerly registered we can ask for it inside an Effect.
 
 {% hint style="info" %}
-Note that provided dependency won't be instantiated while asking since it is already evaluated.
+Note that provided dependency won't be instantiated one more time while asking since it is already evaluated.
 {% endhint %}
 
 {% tabs %}
