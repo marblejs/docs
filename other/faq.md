@@ -12,5 +12,9 @@ There are many alternatives available on Node.js platform. Marble.js defines a u
 
 Despite the single event nature of basic HTTP, there are no contradictions against using it for single events, like in HTTP. In Marble, RxJS is used as a hammer for expressing asynchronous flow with monadic manner, even if you have to deal with only one event. Marble.js doesn't operate only over basic [HTTP](../http/effects.md) protocol but can be used also for both [WebSocket](../messaging/websockets.md) and event-based [messaging](../messaging/core-concepts/effects.md) patterns, where the multi-event nature fits best. Don't be scared of the complexity and abstractions presented in RxJS API — the Marble.js framework, in general, is incredibly simple.
 
+## How to use Marble.js with GraphQL?
+
+There is no official module for GraphQL yet. Sorry.
+
 
 
