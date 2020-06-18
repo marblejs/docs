@@ -113,8 +113,6 @@ export const client = messagingClient({
   },
 });
 ```
-
->
 {% endtab %}
 {% endtabs %}
 
