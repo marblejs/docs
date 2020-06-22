@@ -40,7 +40,7 @@ import { use, r } from '@marblejs/core';
 import { requestValidator$, t } from '@marblejs/middleware-io';
 import { UserDto } from './user.dto';
 
-const valdiator$ = requestValidator$({
+const validator$ = requestValidator$({
   body: UserDto,
 });
 
@@ -60,7 +60,7 @@ const postUser$ = r.pipe(
 io-ts allows you to create a custom codec validators that must match to given predicate. There are ton of use cases where you can use this mechanism, eg. you would like to validate users which are adult \(age is bigger or equal 18\).
 
 ```typescript
-import { t } from '@marblejs/midddleware-io';
+import { t } from '@marblejs/middleware-io';
 
 interface AgeAdultBrand {
   readonly AgeAdult: unique symbol;
@@ -76,7 +76,7 @@ const User = t.type({
   id: t.string,
   name: t.string,
   age: AdultAge,
-}),
+})
 
 type User = t.TypeOf<typeof User>;
 
@@ -96,7 +96,7 @@ As you can see, io-ts requires some boilerplate in order to have it properly typ
 According to [io-ts](https://github.com/gcanti/io-ts) documentation you can define a validator with optional values as an intersection of optional and required properties.
 
 ```typescript
-import { t } from '@marblejs/midddleware-io';
+import { t } from '@marblejs/middleware-io';
 
 const Story = t.intersection([
   t.type({
@@ -125,7 +125,7 @@ type Story = {
 The generated `Story` type is not as clean as it might be. [Jasse Hallett](https://www.olioapps.com/blog/checking-types-real-world-typescript/) in his article proposed a slightly different approach to defining optional values in validator schemas. Lets define a handy `optional` combinator!
 
 ```typescript
-import { t } from '@marblejs/midddleware-io';
+import { t } from '@marblejs/middleware-io';
 
 export const optional = <T extends t.Any>(
   type: T,
@@ -144,7 +144,7 @@ export const optional = <T extends t.Any>(
 Using the introduced combinator our `Story` definition can be much more cleaner and readable.
 
 ```typescript
-import { t } from '@marblejs/midddleware-io';
+import { t } from '@marblejs/middleware-io';
 
 const Story = t.type({
   type: t.literal('story'),
