@@ -4,7 +4,7 @@
 
 [io-ts](https://github.com/gcanti/io-ts) is a nifty library that validates and checks at runtime that incoming data has the shape that you expect. This powerful library can extract a static type from the validator that is guaranteed to match any values that pass validation.
 
-Lets say that we would like to validate users that can contain different roles from the given set: `'ADMIN' | 'GUEST'`. You can create string literals using combination of `t.union` and `t.literal` codecs. 
+Lets say that we would like to validate users that can contain different roles from the given set: `'ADMIN' | 'GUEST'`. You can create string literals using combination of `t.union` and `t.literal` codecs.
 
 {% tabs %}
 {% tab title="user.dto.ts" %}

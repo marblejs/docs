@@ -39,6 +39,10 @@ interface EventMetadata {
 }
 ```
 
+{% hint style="info" %}
+The design decision behind Marble.js messaging assumes that all events are serialized to the plain form that can be easily transferred via the underlying I/O transport layer. This means that _Date_ objects or other specialized instances will be serialized to the simpler form, eg. to string or object records.
+{% endhint %}
+
 ### Type-safety
 
 In order to maintain events in a type safe way `@marblejs/core` module exposes a dedicated builder that allows to create a type-safe, unionized set of events.

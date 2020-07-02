@@ -37,7 +37,7 @@ const userCreated$: MsgEffect = event$ =>
   );
 ```
 
-Effects can define the matching against one or more events. Marble.js exposes a [`matchEvent`](../../other/api-reference/core/operator-matchevent.md) operator that is an abstraction over RxJS `filter` operator, with additional functionalities and type-safety underneath.
+Effects can define the matching against one or more events. Marble.js exposes a [`matchEvent`](../../other/api-reference/core/operator-matchevent.md) operator that is just an abstraction over RxJS `filter` operator, with additional functionalities and type-safety underneath.
 
 {% hint style="warning" %}
 Keep in mind that messaging effects will always try to emit back the outgoing event. Mapping to  the same input event will cause an infinite loop. You should always map the input event to different event type, or skip emitted values, eg. by `ignoreElements` operator, in case you don't want to output anything.
