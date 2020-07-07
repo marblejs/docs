@@ -89,7 +89,7 @@ const microservice = createMicroservice({
 When manual acknowledgements are turned on, we must send a proper acknowledgement from the worker to signal that we are done with a task.
 
 ```typescript
-import { MsgEffect } from '@marblejs/messaging';
+import { MsgEffect, ackEvent, nackEvent } from '@marblejs/messaging';
 import { matchEvent } from '@marblejs/core';
 import { pipe } from 'fp-ts/lib/pipeable';
 import { mapTo, tap, catchError } from 'rxjs/operators';
@@ -98,23 +98,27 @@ const foo$: MsgEffect = (event$, ctx) =>
   event$.pipe(
     matchEvent('FOO'),
     act(event => pipe(
-      // do some work ...
-      tap(event => ctx.client.ackMessage(event.metadata?.raw)),
+      // do some work...
+      // ...and ack event
+      tap(event => ackEvent(ctx)(event)()),
       mapTo({ type: 'FOO_RESPONSE' }),
-      catchError(error => {
-        ctx.client.nackMessage(event.metadata?.raw, false);
-        return throwError(error);
-      });
+      catchError(error => pipe(
+        // nack event in case of an exception 
+        defer(nackEvent(ctx)(event)),
+        mergeMapTo(throwError(error)),
+      ));
     )),
   );
 ```
 
-`TransportLayerConnection` interface \(available through effect **ctx.client**\) defines two methods for managing events acknowledgement: `ackMessage()` and `nackMessage()`. In order to _ack_/_nack_ message you have to pass an initial event metadata raw object.
+**@marblejs/messaging** v3.3 introduces three handy functions for event acknowledgement: `ackEvent`, `nackEvent` and `nackAndResendEvent`. While the behavior of the first function is obvious, the second function will reject the event immediately, where the second one will try to resend the event again to the origin channel. You have to pass `EffectContext` first and the incoming event object to which acknowledgement will be made. Since all three functions are doing an asynchronous side effect, you have to call it explicitly.
 
-The second boolean parameter of `nackMessage` function defines if an event consumer should re-queue failed event again or throw it away. By default it is set to `true` which means that every time the consumer will try to _nack_ the incoming message, it will be again re-sent to the origin channel \(queue\).
+```typescript
+nackEvent(ctx)(event)() // Task<boolean> === () => Promise<boolean>
+```
 
 {% hint style="warning" %}
-It is in the responsibility of developer to _nack_ messages \(even in case of unhandled errors\). If the consumer won't _nack_ the message, it will hang up and wait for \(non-\)acknowledgement signal infinitely till the connection won't be closed.
+It is in the responsibility of developer to _nack_ messages. If the consumer won't _nack_ the message, it will hang up and wait for \(non-\)acknowledgement signal till the default transport layer timeout or the connection closing signal. After this time the event will be automatically rejected.
 {% endhint %}
 
 {% hint style="info" %}
