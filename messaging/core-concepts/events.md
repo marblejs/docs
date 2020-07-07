@@ -81,7 +81,7 @@ const userUpdatedEvent = UserUpdatedEvent.create({
 
 typeof userUpdatedEvent === EventWithPayload<{
   id: string;
-}, UserEventType.>
+}, UserEventType.USER_UPDATED>
 ```
 
 In order to match the incoming event agains the type and validator all you have to do is to apply the event codec to `matchEvent` operator and `eventValidator$`.
