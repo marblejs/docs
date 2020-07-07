@@ -43,37 +43,62 @@ interface EventMetadata {
 The design decision behind Marble.js messaging assumes that all events are serialized to the plain form that can be easily transferred via the underlying I/O transport layer. This means that _Date_ objects or other specialized instances will be serialized to the simpler form, eg. to string or object records.
 {% endhint %}
 
-### Type-safety
+### I/O event decoding/encoding
+
+Event-based communication follows the same laws as request-based communication - each incoming event should be validated before usage. With an introduction of version 3.3.0, **@marblejs/core** module exposes a dedicated **event** decoder/encoder which helps with maintaining a set of event codecs thanks to everyone well known `io-ts` library.
 
 In order to maintain events in a type safe way `@marblejs/core` module exposes a dedicated builder that allows to create a type-safe, unionized set of events.
 
 {% tabs %}
 {% tab title="user.events.ts" %}
 ```typescript
-import { createEvent, EventsUnion } from '@marblejs/core';
+import { event } from '@marblejs/core';
+import * as t from 'io-ts';
 
 enum UserEventType {
   USER_CREATED = 'USER_CREATED',
   USER_UPDATED = 'USER_UPDATED',
 };
 
-const UserEvent = {
-  userCreated: createEvent(
-    UserEventType.USER_CREATED,
-    (id: string) => ({ id }),
-  ),
-  userUpdated: createEvent(
-    UserEventType.USER_UPDATED,
-    (id: string) => ({ id }),
-  ),
-};
+export const UserCreatedEvent =
+  event(UserEventType.USER_CREATED)(t.type({
+    id: t.string,
+  }));
+  
 
-type UserEvent = EventsUnion<typeof UserEvent>;
+export const UserUpdatedEvent =
+  event(UserEventType.USER_UPDATED)(t.type({
+    id: t.string,
+  }));
 ```
 {% endtab %}
 {% endtabs %}
 
-{% hint style="info" %}
-To learn more about `createEvent` function please visit core [API documentation](../../other/api-reference/core/createevent.md).
-{% endhint %}
+Thanks to `io-ts` library we can infer event type from its definition and construct the event object accordingly:
+
+```typescript
+const userUpdatedEvent = UserUpdatedEvent.create({ 
+  id: 'some_id',
+});
+
+typeof userUpdatedEvent === EventWithPayload<{
+  id: string;
+}, UserEventType.>
+```
+
+In order to match the incoming event agains the type and validator all you have to do is to apply the event codec to `matchEvent` operator and `eventValidator$`.
+
+```typescript
+import { act, matchEvent } from '@marblejs/core';
+import { MsgEffect } from '@marblejs/messaging';
+import { eventValidator$ } from '@marblejs/middleware-io';
+import { UserUpdatedEvent } from './user.events';
+
+const userUpdated$: MsgEffect = event$ =>
+  event$.pipe(
+    matchEvent(UserUpdatedEvent),
+    act(eventValidator$(UserUpdatedEvent)),
+    act(event => ...),
+  );
+```
 
