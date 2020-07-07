@@ -102,6 +102,43 @@ Similar to every messaging client, the reader exposes two main methods:
 Let's build a simple event-based app that demonstrates how to dispatch commands from an endpoint and process them in a command handler.
 
 {% tabs %}
+{% tab title="user.command.ts" %}
+```typescript
+import { event } from '@marblejs/core';
+import * as t from 'io-ts';
+
+export enum UserCommandType {
+  CREATE_USER = 'CREATE_USER',
+};
+
+export const CreateUserCommand =
+  event(UserCommandType.CREATE_USER)(t.type({
+    firstName: t.string,
+    lastName: t.string,
+  }));
+```
+{% endtab %}
+{% endtabs %}
+
+{% tabs %}
+{% tab title="user.event.ts" %}
+```typescript
+import { event } from '@marblejs/core';
+import * as t from 'io-ts';
+
+export enum UserEventType {
+  USER_CREATED = 'USER_CREATED',
+};
+
+export const UserCreatedEvent =
+  event(UserCommandType.USER_CREATED)(t.type({
+    id: t.string,
+  }));
+```
+{% endtab %}
+{% endtabs %}
+
+{% tabs %}
 {% tab title="createUser.effect.ts" %}
 ```typescript
 import { act, useContext, matchEvent } from '@marblejs/core';
@@ -109,21 +146,22 @@ import { reply, MsgEffect } from '@marblejs/messaging';
 import { mergeMap } from 'rxjs/operators';
 import { pipe } 'fp-ts/lib/pipeable';
 import { createUser } from './user.model';
-import { UserCommand } from './user.commands';
+import { CreateUserCommand } from './user.command';
+import { UserCreatedEvent } from './user.event';
 import { UserRespositoryToken } from './tokens';
 
 export const createUser$: MsgEffect = (event$, ctx) => {
   const userRepository = useContext(UserRespositoryToken)(ctx.ask);
   
   return event$.pipe(
-    matchEvent(UserCommand.createUser),
+    matchEvent(CreateUserCommand),
     act(event => pipe(
       event.payload,
       createUser,
       userRepository.persist,
       mergeMap(user => [
-        UserEvent.userCreated(user.id),
-        reply(event)({ type: event.type }),
+        UserCreatedEvent.create({ id: user.id }),
+        reply(event)(UserCreatedEvent.create({ id: user.id })),
       ]),
     )),
   );
@@ -146,10 +184,10 @@ import { r, HttpStatus, useContext, use } from '@marblejs/core';
 import { map, mapTo, mergeMap } from 'rxjs/operators';
 import { EventBusClientToken } from '@marblejs/messaging';
 import { requestValidator$, t } from '@marblejs/middleware-io';
-import { UserCommand } from './user.commands';
+import { CreateUserCommand } from './user.commands';
 import { pipe } from 'fp-ts/lib/pipeable';
 
-const validator$ = requestValidator$({
+const validateRequest = requestValidator$({
   body: t.type({
     firstName: t.string,
     lastName: t.string,
@@ -163,12 +201,12 @@ export const postUser$ = r.pipe(
     const eventBusClient = useContext(EventBusClientToken)(ctx.ask);
 
     return req$.pipe(
-      use(validator$),
+      validateRequest,
       mergeMap(req => {
         const { firstName, lastName } = req.body;
         
         return pipe(
-          UserCommand.createUser(firstName, lastName),
+          CreateUserCommand.create({ firstName, lastName }),
           eventBusClient.send,
         );
       }),
