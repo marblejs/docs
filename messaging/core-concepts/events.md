@@ -47,8 +47,6 @@ The design decision behind Marble.js messaging assumes that all events are seria
 
 Event-based communication follows the same laws as request-based communication - each incoming event should be validated before usage. With an introduction of version 3.3.0, **@marblejs/core** module exposes a dedicated **event** decoder/encoder which helps with maintaining a set of event codecs thanks to everyone well known `io-ts` library.
 
-In order to maintain events in a type safe way `@marblejs/core` module exposes a dedicated builder that allows to create a type-safe, unionized set of events.
-
 {% tabs %}
 {% tab title="user.events.ts" %}
 ```typescript
