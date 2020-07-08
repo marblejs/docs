@@ -95,20 +95,18 @@ describe('user$', () => {
   const testBedSetup = useTestBedSetup()
 
   test('POST "/api/v1/user" creates user', async () => {
-    const dependencies = [ ... ];
     const { request } = await testBedSetup.useTestBed();
-    const body = { email: 'bob@test.com' };
 
     const response = await pipe(
       request('POST'),
       request.withPath('/api/v1/user'),
       request.withHeaders({ 'Authorization': 'Bearer FAKE' }),
-      request.withBody(body),
+      request.withBody({ email: 'bob@test.com' }),
       request.send,
     );
 
     expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual(body);
+    expect(response.body).toEqual({ email: 'bob@test.com' });
   });
   
   afterEach(async () => {
@@ -142,7 +140,6 @@ describe('user$', () => {
     ];
     
     const { request, ask } = await testBedSetup.useTestBed(dependencies);
-    const body = { email: 'bob@test.com' };
     
     // access bound instances 
     const userRepository = useContext(UserRepositoryToken)(ask);
@@ -152,12 +149,12 @@ describe('user$', () => {
       request('POST'),
       request.withPath('/api/v1/user'),
       request.withHeaders({ 'Authorization': 'Bearer FAKE' }),
-      request.withBody(body),
+      request.withBody({ email: 'bob@test.com' }),
       request.send,
     );
 
     expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual(body);
+    expect(response.body).toEqual({ email: 'bob@test.com' });
   });
   
   afterEach(async () => {
@@ -199,7 +196,7 @@ const response = await pipe(
   request('POST'),
   request.withPath('/api/v1/user'),
   request.withHeaders({ 'Authorization': 'Bearer FAKE_TOKEN' }),
-  request.withBody(data),
+  request.withBody({ email: 'bob@test.com' }),
   request.send,
 );
 
