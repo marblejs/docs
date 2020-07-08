@@ -5,14 +5,14 @@ Node.js streams are collections of data that might not be available all at onc
 With Marble.js you can map Node.js streams directly through HttpEffectResponse **body** attribute which will be piped internally as client response.
 
 ```typescript
-import { r, combineRoutes, use } from '@marblejs/core';
+import { r, combineRoutes } from '@marblejs/core';
 import { requestValidator$, t } from '@marblejs/middleware-io';
 import { readFile } from '@marblejs/core/dist/+internal';
 import { map } from 'rxjs/operators';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const validator$ = requestValidator$({
+const validateRequest = requestValidator$({
   params: t.type({ dir: t.string })
 });
 
@@ -20,7 +20,7 @@ const getFile$ = r.pipe(
   r.matchPath('/static/:dir*'),
   r.matchType('GET'),
   r.useEffect(req$ => req$.pipe(
-    use(validator$),
+    validateRequest,
     map(req => req.params.dir),
     map(dir => fs.createReadStream(path.resolve(STATIC_PATH, dir))),
     map(body => ({ body })),

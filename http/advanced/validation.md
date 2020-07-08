@@ -36,11 +36,11 @@ type User = {
 {% tabs %}
 {% tab title="postUser.effect.ts" %}
 ```typescript
-import { use, r } from '@marblejs/core';
+import { r } from '@marblejs/core';
 import { requestValidator$, t } from '@marblejs/middleware-io';
 import { UserDto } from './user.dto';
 
-const validator$ = requestValidator$({
+const validateRequest = requestValidator$({
   body: UserDto,
 });
 
@@ -48,7 +48,7 @@ const postUser$ = r.pipe(
   r.matchPath('/'),
   r.matchType('POST'),
   r.useEffect(req$ => req$.pipe(
-    use(validator$),
+    validateRequest,
     // ..
   )));
 ```
