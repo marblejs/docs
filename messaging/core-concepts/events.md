@@ -75,16 +75,20 @@ export const UserUpdatedEvent =
 Thanks to `io-ts` library we can infer event type from its definition and construct the event object accordingly:
 
 ```typescript
+/*
+const userUpdatedEvent: {
+  type: UserEventType.USER_UPDATED,
+  payload: {
+    id: string,
+  },
+}
+*/
 const userUpdatedEvent = UserUpdatedEvent.create({ 
   id: 'some_id',
 });
-
-typeof userUpdatedEvent === EventWithPayload<{
-  id: string;
-}, UserEventType.USER_UPDATED>
 ```
 
-In order to match the incoming event agains the type and validator all you have to do is to apply the event codec to `matchEvent` operator and `eventValidator$`.
+In order to match the incoming event agains the type literal and validator all you have to do is to apply the event codec to `matchEvent` operator and `eventValidator$` middleware.
 
 ```typescript
 import { act, matchEvent } from '@marblejs/core';
