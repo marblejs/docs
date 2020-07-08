@@ -40,7 +40,7 @@ interface EventMetadata {
 ```
 
 {% hint style="info" %}
-The design decision behind Marble.js messaging assumes that all events are serialized to the plain form that can be easily transferred via the underlying I/O transport layer. This means that _Date_ objects or other specialized instances will be serialized to the simpler form, eg. to string or object records.
+The design decision behind Marble.js messaging assumes that all events are serialized to the plain form that can be easily transferred via the underlying I/O transport layer. This means that  object instances like _Date_ will be serialized to the plain form of ISO string format.
 {% endhint %}
 
 ### I/O event decoding/encoding
