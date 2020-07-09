@@ -294,6 +294,127 @@ const postUser$ = r.pipe(
 
 ## Messaging
 
+### Event encoding/decoding
+
+* Use **UPPER\_SNAKE\_CASE** event type naming
+* Use enumerable string literal type or plain const record for gathering a map of all possible event types for given context
+* Use [`event`](../messaging/core-concepts/events.md#i-o-event-decoding-encoding) builder for I/O encoding/decoding
+* Separate group your messages into `Events`, `Commands` or `Queries` \(see: [CQRS](../messaging/cqrs.md) chapter\)
+
+❌ **Bad**
+
+{% tabs %}
+{% tab title="user.event.ts" %}
+```typescript
+import { Event } from '@marblejs/core';
+import * as t from 'io-ts';
+
+export const UserCreated = (id: string): Event => ({
+  type: 'UserCreated',
+  payload: { id },
+});
+
+export const UserUpdated = (id: string): Event => ({
+  type: 'UserUpdated',
+  payload: { id },
+});
+
+export const UserCreatedCodec = t.type({
+  type: t.literal('UserCreated'),
+  payload: t.type({ id: t.string }),
+});
+
+export const UserUpdatedCodec = t.type({
+  type: t.literal('UserUpdated'),
+  payload: t.type({ id: t.string }),
+});
+```
+{% endtab %}
+{% endtabs %}
+
+**✅ Good**
+
+```typescript
+import { event } from '@marblejs/core';
+import * as t from 'io-ts';
+
+export enum UserEventType {
+  USER_CREATED = 'USER_CREATED',
+  USER_UPDATED = 'USER_UPDATED',
+}
+
+export const UserCreatedEvent =
+  event(UserEventType.USER_CREATED)(t.type({
+    id: t.string,
+  }));
+  
+export const UserUpdatedEvent =
+  event(UserEventType.USER_UPDATED)(t.type({
+    id: t.string,
+  }));
+```
+
+### Event matching and validation
+
+* Always try match events by event I/O codec - avoid raw literals since they don't carry the actual event payload type
+* Event-based communication follows the same laws as request-based communication - each incoming event should be validated before usage \(eg. using previously mentioned `event` codec\).
+
+❌ **Bad**
+
+{% tabs %}
+{% tab title="userCreated.effect.ts" %}
+```typescript
+import { act, matchEvent } from '@marblejs/core';
+import { MsgEffect } from '@marblejs/messaging';
+
+export const userCreated$: MsgEffect = event$ =>
+  event$.pipe(
+    // event payload is unknown, no type is inferred... 
+    matchEvent('USER_CREATED'),
+    act(event => ...),
+  );
+```
+{% endtab %}
+{% endtabs %}
+
+❌ / **✅ Better**
+
+{% tabs %}
+{% tab title="userCreated.effect.ts" %}
+```typescript
+import { act, matchEvent } from '@marblejs/core';
+import { MsgEffect } from '@marblejs/messaging';
+import { UserCreatedEvent } from './user.event.ts';
+
+export const userCreated$: MsgEffect = event$ =>
+  event$.pipe(
+    // type is inferred but event still requires validation...
+    matchEvent(UserCreatedEvent),
+    act(event => ...),
+  );
+```
+{% endtab %}
+{% endtabs %}
+
+**✅ Good**
+
+{% tabs %}
+{% tab title="userCreated.effect.ts" %}
+```typescript
+import { act, matchEvent } from '@marblejs/core';
+import { MsgEffect } from '@marblejs/messaging';
+import { UserCreatedEvent } from './user.event.ts';
+
+export const userCreated$: MsgEffect = event$ =>
+  event$.pipe(
+    matchEvent(UserCreatedEvent),
+    act(eventValidator$(UserCreatedEvent)),
+    act(event => ...),
+  );
+```
+{% endtab %}
+{% endtabs %}
+
 ### Effect output
 
 * Each processed event should be mapped to a different event type to avoid infinite-loops.
