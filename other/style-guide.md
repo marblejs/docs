@@ -299,7 +299,7 @@ const postUser$ = r.pipe(
 * Use **UPPER\_SNAKE\_CASE** event type naming
 * Use enumerable string literal type or plain const record for gathering a map of all possible event types for given context
 * Use [`event`](../messaging/core-concepts/events.md#i-o-event-decoding-encoding) builder for I/O encoding/decoding
-* Separate group your messages into `Events`, `Commands` or `Queries` \(see: [CQRS](../messaging/cqrs.md) chapter\)
+* Group your messages into `Events`, `Commands` and `Queries` \(see: [CQRS](../messaging/cqrs.md) chapter\)
 
 ❌ **Bad**
 
