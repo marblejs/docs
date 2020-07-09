@@ -156,8 +156,8 @@ export const listener = messagingListener({
 ### Token naming and creation
 
 * Use PascalCase naming convention with `Token` suffix for token definitions.
-* Always remember to define a context token name identifier. It will help you in quick recognizing what dependency is missing when asking for a dependency via `useContext` hook function.
-* Place token next to reader definition. It will be easier to navigate to reader implementation via popular "Go to Implementation" mechanism.
+* Always remember to define a context token name identifier. It will help you quickly recognize what dependency is missing when asking for it via `useContext` hook function.
+* Place token next to reader definition. It is easier to navigate to reader implementation via popular "_Go to Implementation_" mechanism.
 
 ❌ **Bad**
 
