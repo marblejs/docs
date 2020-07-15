@@ -143,6 +143,7 @@ export const UserCreatedEvent =
 ```typescript
 import { act, useContext, matchEvent } from '@marblejs/core';
 import { reply, MsgEffect } from '@marblejs/messaging';
+import { eventValidator$ } from '@marblejs/middleware-io';
 import { mergeMap } from 'rxjs/operators';
 import { pipe } 'fp-ts/lib/pipeable';
 import { createUser } from './user.model';
@@ -155,6 +156,7 @@ export const createUser$: MsgEffect = (event$, ctx) => {
   
   return event$.pipe(
     matchEvent(CreateUserCommand),
+    act(eventValidator$(CreateUserCommand)),
     act(event => pipe(
       event.payload,
       createUser,
