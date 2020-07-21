@@ -111,7 +111,7 @@ const foo$: MsgEffect = (event$, ctx) =>
   );
 ```
 
-**@marblejs/messaging** v3.3 introduces three handy functions for event acknowledgement: `ackEvent`, `nackEvent` and `nackAndResendEvent`. While the behavior of the first function is obvious, the second function will reject the event immediately, where the second one will try to resend the event again to the origin channel. You have to pass `EffectContext` first and the incoming event object to which acknowledgement will be made. Since all three functions are doing an asynchronous side effect, you have to call it explicitly.
+**@marblejs/messaging** v3.3 introduces three handy functions for event acknowledgement: `ackEvent`, `nackEvent` and `nackAndResendEvent`. While the behavior of the first function is obvious, the second function will reject the event immediately, where the third one will try to resend the event again to the origin channel. You have to pass `EffectContext` first and the incoming event object to which acknowledgement will be made. Since all three functions are doing an asynchronous side effect, you have to call it explicitly.
 
 ```typescript
 nackEvent(ctx)(event)() // Task<boolean> === () => Promise<boolean>
