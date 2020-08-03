@@ -21,7 +21,7 @@ Marble.js doesn't operate only over basic [HTTP](http/effects.md) protocol but c
 > _For those who are curious about the framework name - it comes from a popular way of visually expressing the time-based behavior of event streams, aka marble diagrams. This kind of domain-specific language is a popular way of testing asynchronous streams, especially in RxJS environments._
 
 {% hint style="success" %}
-👉 If you have ever worked with libraries like [Redux Observable](https://redux-observable.js.org), [@ngrx/effects](https://github.com/ngrx/platform/blob/master/docs/effects/README.md) or other libraries that leverage functional reactive paradigm, you will feel like in home.
+👉 If you have ever worked with libraries like [Redux Observable](https://redux-observable.js.org), [@ngrx/effects](https://github.com/ngrx/platform/blob/master/docs/effects/README.md) or other libraries that leverage functional reactive paradigm, you will feel at home.
 {% endhint %}
 
 {% hint style="info" %}
