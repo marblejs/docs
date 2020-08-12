@@ -56,7 +56,7 @@ export const api$ = r.pipe(
 To create Marble app instance, we can use [`createServer`](../other/api-reference/core/createserver.md), which is a wrapper around Node.js server creator with much more possibilities and goods inside. When created, it won't automatically start listening to given port and hostname until you call its awaited instance.
 
 {% tabs %}
-{% tab title="index.ts" %}
+{% tab title="server.ts" %}
 ```typescript
 import { createServer } from '@marblejs/core';
 import { IO } from 'fp-ts/lib/IO';
@@ -96,7 +96,7 @@ Add the following script to your `package.json` file:
 }
 ```
 
-Now go ahead, create `index.ts`, `http.listener.ts`, `api.effects.ts` modules in your project and run your server:
+Now go ahead, create `server.ts`, `http.listener.ts`, `api.effects.ts` modules in your project and run your server:
 
 ```bash
 $ yarn start
