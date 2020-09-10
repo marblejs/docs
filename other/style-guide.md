@@ -258,7 +258,7 @@ const postUser$ = r.pipe(
   r.matchPath('/'),
   r.matchType('POST'),
   r.useEffect((req$, ask) => req$.pipe(
-    use(postUserValidator$),
+    validateRequest,
     mergeMap(req => {
       const userRepository = useContext(UserRepositoryToken)(ask);
       const { body } = req;
@@ -283,7 +283,7 @@ const postUser$ = r.pipe(
     const userRepository = useContext(UserRepositoryToken)(ask);
 
     return req$.pipe(
-      use(postUserValidator$),
+      validateRequest,
       map(req => req.body),
       mergeMap(userRepository.persist),
       mergeMap(userRepository.getById),

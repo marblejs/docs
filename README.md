@@ -8,7 +8,7 @@ description: >-
 
 ![](.gitbook/assets/wallpaper.jpg)
 
-{% embed url="https://medium.com/@jflakus/announcing-marble-js-3-0-a-marbellous-evolution-ba9cdc91d591" %}
+{% embed url="https://medium.com/@jflakus/announcing-marble-js-3-0-a-marbellous-evolution-ba9cdc91d591" caption="" %}
 
 ## Philosophy
 
@@ -30,9 +30,9 @@ Marble.js doesn't operate only over basic [HTTP](http/effects.md) protocol but c
 
 ## Previous articles
 
-{% embed url="https://medium.com/@jflakus/marble-2-reactive-better-functional-stronger-5924119d3098" %}
+{% embed url="https://medium.com/@jflakus/marble-2-reactive-better-functional-stronger-5924119d3098" caption="" %}
 
-{% embed url="https://medium.com/@jflakus/marble-js-when-node-js-meets-rxjs-da2764b7ca9b" %}
+{% embed url="https://medium.com/@jflakus/marble-js-when-node-js-meets-rxjs-da2764b7ca9b" caption="" %}
 
 ## Examples
 
