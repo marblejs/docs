@@ -37,7 +37,7 @@ const hello$: HttpEffect = req$ =>
   );
 ```
 
-The Effect above responds to incoming request with _"Hello, world!"_ message. In case of HTTP protocol each incoming request have to be mapped to an object with **body**, **status** or **headers** attributes. If the status code or headers are not defined, then the API by default responds with `200 OK` status and `Content-Type: application/json` header.
+The Effect above responds to incoming request with _"Hello, world!"_ message. In case of HTTP protocol each incoming request has to be mapped to an object with **body**, **status** or **headers** attributes. If the status code or headers are not defined, then the API by default responds with `200 OK` status and `Content-Type: application/json` header.
 
 {% hint style="info" %}
 Every Marble.js Effect is eagerly bootstrapped on app startup with its own hot Observable.  
@@ -57,7 +57,7 @@ const hello$ = r.pipe(
   r.matchType('GET'),
   r.useEffect(req$ => req$.pipe(
     mapTo({ body: 'Hello, world!' }),
-  )$));
+  )));
 ```
 {% endtab %}
 {% endtabs %}
@@ -83,7 +83,7 @@ const postUser$ = r.pipe(
 {% endtab %}
 {% endtabs %}
 
-The example above will match every POST request that matches to `/user` url. Using previously parsed body \(see [bodyParser$](../other/api-reference/middleware-body.md) middleware\) we can flat map it to other stream and its result map again to `HttpEffectResponse` object as an action confirmation.
+The example above will match every POST request that matches to `/user` url. Using previously parsed body \(see [bodyParser$](../other/api-reference/middleware-body.md) middleware\) we can flat map it to other stream and map again to `HttpEffectResponse` object as an action confirmation.
 
 {% hint style="warning" %}
 **Deprecation warning**
