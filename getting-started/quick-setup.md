@@ -92,7 +92,7 @@ Add the following script to your `package.json` file:
 
 ```javascript
 "scripts": {
-  "start": "ts-node server.ts"
+  "start": "ts-node index.ts"
 }
 ```
 
