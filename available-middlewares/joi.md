@@ -4,7 +4,7 @@ description: A Joi validation middleware for Marble.js.
 
 # middleware-joi
 
-![](../.gitbook/assets/68747470733a2f2f7261772e6769746875622e636f6d2f686170696a732f6a6f692f6d61737465722f696d616765732f6a6f.png)
+![](../.gitbook/assets/68747470733a2f2f7261772e6769746875622e636f6d2f686170696a732f6a6f692f6d61737465722f696d616765732f6a6f692e706e67.png)
 
 [Joi](https://github.com/hapijs/joi) is an object schema description language and validator for JavaScript objects. Using its schema language, we can validate things like:
 
