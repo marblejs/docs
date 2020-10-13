@@ -70,7 +70,7 @@ const server = createServer({
 
 const main: IO<void> = async () =>
   await (await server)();
-  
+
 main();
 ```
 {% endtab %}
@@ -102,11 +102,11 @@ Now go ahead, create `index.ts`, `http.listener.ts`, `api.effects.ts` modules in
 $ yarn start
 ```
 
-Finally test your "functional" server by visiting [http://localhost:1337]()
+Finally test your "functional" server by visiting [http://localhost:1337](quick-setup.md)
 
 {% hint style="info" %}
 For more API specific details about server bootstrapping, visit [createServer](../other/api-reference/core/createserver.md) API reference
 {% endhint %}
 
-In the next HTTP chapter you will learn how to create basic **Marble.js** endpoints using [Effects](), how to build and compose middlewares and how to build a basic REST API routing.
+In the next HTTP chapter you will learn how to create basic **Marble.js** endpoints using [Effects](quick-setup.md), how to build and compose middlewares and how to build a basic REST API routing.
 

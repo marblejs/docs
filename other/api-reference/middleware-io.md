@@ -79,7 +79,7 @@ const effect$ = r.pipe(
   r.matchPath('/'),
   r.matchType('POST'),
   r.useEffect(req$ => req$.pipe(
-    use(requestValidator$({ body: userSchema })),
+    requestValidator$({ body: userSchema }),
     // ..
   )));
 ```
@@ -91,7 +91,7 @@ For more validation use cases and recipes, visit [Validation]() chapter.
 You can also reuse the same schema for Events validation if you want.
 
 ```typescript
-import { matchEvent, use } from '@marblejs/core';
+import { matchEvent, act } from '@marblejs/core';
 import { WsEffect } from '@marblejs/websockets';
 import { eventValidator$, t } from '@marblejs/middleware-io';
 import { userSchema } from './user.schema.ts';
@@ -99,8 +99,8 @@ import { userSchema } from './user.schema.ts';
 const postUser$: WsEffect = event$ =>
   event$.pipe(
     matchEvent('CREATE_USER'),
-    use(eventValidator$(userSchema)),
-    // ...
+    act(eventValidator$(userSchema)),
+    act(event => { ... }),
   );
 ```
 
@@ -114,6 +114,10 @@ type User = {
   roles: ('ADMIN' | 'GUEST')[];
 };
 ```
+
+{% hint style="warning" %}
+Please note that **each** `eventValidator$` **must be** applied inside `act` operator to prevent closing of the main observable stream.
+{% endhint %}
 
 ### Validation errors
 
