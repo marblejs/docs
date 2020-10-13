@@ -22,7 +22,7 @@ import { eventValidator$ } from '@marblejs/middleware-io';
 
 ### Type declaration <a id="type-declaration"></a>
 
-```text
+```haskell
 requestValidator$ :: (RequestSchema, ValidatorOptions) -> Observable<HttpRequest> -> Observable<HttpRequest>
 eventValidator$ :: (Schema, ValidatorOptions) -> Observable<Event> -> Observable<Event>
 ```
