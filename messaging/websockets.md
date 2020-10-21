@@ -33,7 +33,7 @@ const middlewares = [
   // ...
 ];
 
-export const webSocketListener({ effects, middlewares });
+export const listener = webSocketListener({ effects, middlewares });
 ```
 {% endtab %}
 {% endtabs %}
