@@ -4,9 +4,9 @@
 
 ## Dependency Injection
 
-Dependency Injection \(DI\) is a very simple concept, which can be implemented in many different ways. It means to get dependencies of a class passed in by using constructor, or to get dependencies of a function passed in by using arguments, or even more advanced techniques. If we step back and look at the concept in a more abstract way, the only thing to remember is that we gain the possibility to provide dependencies to any of our entities any point in time. Now we can provide different implementations of those dependencies by using extension \(polymorphism\), interface implementation, or whatever technique we want to use.
+Dependency Injection \(DI\) is a very simple concept, which can be implemented in many ways. It means to get dependencies of a class passed in by using constructor, or to get dependencies of a function passed in by using arguments, or even more advanced techniques. If we step back and look at the concept in a more abstract way, the only thing to remember is that we gain the possibility to provide dependencies to any of our entities at any point in time. Now we can provide different implementations of those dependencies by using extension \(polymorphism\), interface implementation, or whatever technique we want to use.
 
-Marble.js comes to the DI concept in a different, more functional way, that can be very similar to popular pure functional languages like eg. Haskell. From version 2.0, Marble.js introduces a **Context**, which is an abstraction over Reader monad implementation of the DI system.
+Marble.js comes to the DI concept in a different, more functional way, that can be very similar to popular pure functional languages like e.g. Haskell. From version 2.0, Marble.js introduces a **Context**, which is an abstraction over Reader monad implementation of the DI system.
 
 What [Haskell docs](http://hackage.haskell.org/package/mtl-2.2.2/docs/Control-Monad-Reader.html) says about the Reader monad?
 
@@ -71,17 +71,17 @@ export const example$ = r.pipe(
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-The type safety is very important. If you are percipient, you'll notice that using previously defined `d2Token` together with provided dependency we can also grab its inferred type. Reading from the context is not safe every time, thats why the provided dependency is wrapped arround [`Option`](https://gcanti.github.io/fp-ts/Option.html) monad that you can work on. As you can see the real benefit of using Readers is to be able to provide that context in an implicit way without the need to state it explicitly on each one of the functions that needs it.
+The type safety is very important. If you are percipient, you'll notice that using previously defined `d2Token` together with provided dependency we can also grab its inferred type. Reading from the context is not safe every time, that's why the provided dependency is wrapped around [`Option`](https://gcanti.github.io/fp-ts/Option.html) monad that you can work on. As you can see, the real benefit of using Readers is to be able to provide that context in an implicit way without the need to state it explicitly on each one of the functions that needs it.
 
-If you will try to do a `GET /` request, you should see in the `Hello, world!` message in the respone. Thats how Dependency Injection work in Marble.js!
+If you try to do a `GET /` request, you should see in the `Hello, world!` message in the response. That's how Dependency Injection works in Marble.js!
 
 ## Eager vs lazy readers
 
-Let's say you have a HTTP server that would like to connect with a WebSocket server. When bootstrapping a WebSocket server we want to instantiate it as soon as possible \(aka eagerly\). The Marble.js Context was designed with a need for flexible way of connecting dependent modules - eagerly and lazily.
+Let's say you have an HTTP server that would like to connect with a WebSocket server. When bootstrapping a WebSocket server, we want to instantiate it as soon as possible \(aka eagerly\). The Marble.js Context was designed with a need for flexible way of connecting dependent modules - eagerly and lazily.
 
-**By default Instances are created lazily when they are needed**. If a dependency is never used by another component, then it won’t be created at all. This is usually what you want. For most components there’s no point creating them until they’re needed. However, in some cases you want dependencies to be started up straight away or even if they’re not used by another function. For example, you might want to send a message to a remote system, warm up a cache when the application starts or boostrapp a WebSocket server. You can force a dependency to be created eagerly by using an **eager binding**.
+**By default Instances are created lazily when they are needed**. If a dependency is never used by another component, then it won’t be created at all. This is usually what you want. For most components there’s no point creating them until they’re needed. However, in some cases you want dependencies to be started up straight away or even if they’re not used by another function. For example, you might want to send a message to a remote system, warm up a cache when the application starts or boostrap a WebSocket server. You can force a dependency to be created eagerly by using an **eager binding**.
 
-Lets look at an example of eagerly binding of a WebSocket server.
+Let's look at an example of eagerly binding of a WebSocket server.
 
 {% code-tabs %}
 {% code-tabs-item title="tokens.ts" %}
@@ -119,7 +119,7 @@ server.run();
 In order to instantiate our registered dependency as soon as possible, you have to run it inside `bindTo` function. It means that the registered dependency will try to resolve its dependencies during the binding, using previously registered context.
 
 {% hint style="warning" %}
-Note that in order to run registered dependency eagerly you have the provide proper context by registering dependent component before the eager dependency.
+Note that in order to run registered dependency eagerly you have to provide proper context by registering dependent component before the eager dependency.
 {% endhint %}
 
 ```typescript
@@ -130,7 +130,7 @@ bindTo(Token)(dependency());
 bindTo(Token)(dependency().run);
 ```
 
-Having the WebSocket dependency eagerly registered we can ask for it eg. inside HTTP Effect. Note that provided dependency won't be instantiated while asking - we can easily grab previously instantiated WebSocket server on demand. 😎
+Having the WebSocket dependency eagerly registered we can ask for it e.g. inside HTTP Effect. Note that provided dependency won't be instantiated while asking - we can easily grab previously instantiated WebSocket server on demand. 😎
 
 {% code-tabs %}
 {% code-tabs-item title="http.listener.ts" %}
