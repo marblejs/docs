@@ -14,7 +14,7 @@ $ yarn add @marblejs/websockets @marblejs/core rxjs fp-ts
 
 ## Bootstrapping
 
-Like [_httpListener_](../other/api-reference/core/core-httplistener.md) __the WebSocket module defines a similar way of bootstrapping the app.
+Like [_httpListener_](../other/api-reference/core/core-httplistener.md) \_\_the WebSocket module defines a similar way of bootstrapping the app.
 
 {% tabs %}
 {% tab title="webSocket.listener.ts" %}
@@ -57,14 +57,14 @@ const webSocketServer = createWebSocketServer({
 
 const main: IO<void> = async () =>
   await (await webSocketServer)();
-  
+
 main();
 ```
 {% endtab %}
 {% endtabs %}
 
 {% hint style="info" %}
-If you are curious about other ways of server bootstrapping, reach out the HTTP  [Server events](../http/advanced/server-events.md) chapter.
+If you are curious about other ways of server bootstrapping, reach out the HTTP [Server events](../http/advanced/server-events.md) chapter.
 {% endhint %}
 
 ## Effects
@@ -118,7 +118,7 @@ export const add$: WsEffect = (event$, ...args) =>
 
 In the example above we did a little bit of RxJS magic using `buffer` operator, which buffers the source Observable values until closing notifier emits \(in this case `sum$`\). Additionally, to be sure that incoming _ADD_ events are sent with payload of type number, we used [@marblejs/middleware-io](../other/api-reference/middleware-io.md) validator, which is able to infer payload type from defined schema.
 
-Lets examine in steps how the server will respond to given equation: $$7 + 3 + 1$$ 
+Lets examine in steps how the server will respond to given equation: $$7 + 3 + 1$$
 
 ```javascript
 // #1 sent to server

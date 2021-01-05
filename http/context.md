@@ -27,7 +27,7 @@ Every context dependency that you would like to register has to conform to `Cont
 {% tab title="example.ts" %}
 ```typescript
 import { createContextToken, reader } from '@marblejs/core';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/lib/function';
 import * as R from 'fp-ts/lib/Reader';
 import * as O from 'fp-ts/lib/Option';
 
@@ -68,7 +68,8 @@ Having our dependencies defined, let's define some test Effect where we can chec
 {% tab title="example.effect.ts" %}
 ```typescript
 import { r } from '@marblejs/core';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { mapTo } from 'rxjs/operators'; 
+import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
 import { Dependency2Token } from './example';
 
@@ -83,8 +84,7 @@ export const example$ = r.pipe(
     );
     
     return req$.pipe(
-      mapTo(dependency2),
-      map(body => ({ body })),
+      mapTo({ body: dependency2 }),
     ));
   });
 ```
@@ -118,18 +118,18 @@ export const Dependency2 = createReader(ask =>
 
 ```typescript
 import { r, useContext } from '@marblejs/core';
+import { mapTo } from 'rxjs/operators';
 import { Dependency2Token } from './example';
 
 export const example$ = r.pipe(
   r.matchPath('/'),
   r.matchType('GET'),
   r.useEffect((req$, ctx) => {
-  
+
     const dependency2 = useContext(Dependency2Token)(ctx.ask);
     
     return req$.pipe(
-      mapTo(Dependency2),
-      map(body => ({ body })),
+      mapTo({ body: dependency2 }),
     ));
   });
 ```
@@ -168,11 +168,13 @@ Sometimes there is a need to suspend the application startup until one or more a
 ```typescript
 import { bindTo, bindEagerly } from '@marblejs/core';
 
+// 1
+
 bindEagerlyTo(Token)(async () => 'bar');
 
 const foo = useContext(Token)(ask);   // foo === 'bar'
 
-// but...
+// 2
 
 bindTo(Token)(async () => 'bar');
 
@@ -202,7 +204,7 @@ import { WebSocketServerToken } from './tokens';
 import { webSocketServer } from './websocket.server';
 
 const server = createServer({
-  // ,.
+  // ...
   dependencies: [
     bindEageryTo(WebSocketServerToken)(async () =>
       await (await webSocketServer)()
@@ -228,7 +230,7 @@ import { bodyParser$ } from '@marblejs/middleware-body';
 import { map, mergeMap } from 'rxjs/operators';
 import { WebSocketServerToken } from './tokens';
 
-const validator$ = requestValidator$({
+const validateRequest = requestValidator$({
   body: t.type(...),
 });
 
@@ -239,7 +241,7 @@ const postItem$ = r.pipe(
     const webSocketServer = useContext(WebSocketServerToken)(ctx.ask);
     
     return req$.pipe(
-      use(validator$),
+      validateRequest,
       map(req => req.body),
       mergeMap(payload =>
         webSocketServer.sendBroadcastResponse({ type: 'ADDED_ITEM', payload })),
