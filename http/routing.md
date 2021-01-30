@@ -31,7 +31,7 @@ const getUsers$ = r.pipe(
     // ...
   )));
 
-const postUser$: r.pipe(
+const postUser$ = r.pipe(
   r.matchPath('/'),
   r.matchType('POST'),
   r.useEffect(req$ => req$.pipe(
@@ -114,7 +114,7 @@ By design, the `req.body, req.params, req.query`are of type `unknown`. In order 
 The `combineRoutes` function and the `matchPath` allows you to define parameters in the path argument. All parameters are defined by the syntax with a colon prefix.
 
 ```typescript
-import { r } from '@marblejs/core;
+import { r } from '@marblejs/core';
 
 const foo$ = r.pipe(
   r.matchPath('/:foo/:bar'),
@@ -146,7 +146,7 @@ Path parameters can be suffixed with an asterisk \(`*`\) to denote a zero or mor
 {% tabs %}
 {% tab title="getFile.effect.ts" %}
 ```typescript
-import { r } from '@marblejs/core;
+import { r } from '@marblejs/core';
 import { map, mergeMap } from 'rxjs/operators';
 
 const getFile$ = r.pipe(
