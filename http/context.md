@@ -85,8 +85,9 @@ export const example$ = r.pipe(
     
     return req$.pipe(
       mapTo({ body: dependency2 }),
-    ));
-  });
+    );
+  })
+);
 ```
 {% endtab %}
 {% endtabs %}
