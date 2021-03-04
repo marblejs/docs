@@ -170,8 +170,8 @@ If your middleware should operate globally, e.g. in case of request logging, the
 
 ```typescript
 import { httpListener } from '@marblejs/core';
-import { logger$ } from '@marblejs/middleware-body';
-import { bodyParser$ } from '@marblejs/middleware-logger';
+import { logger$ } from '@marblejs/middleware-logger';
+import { bodyParser$ } from '@marblejs/middleware-body';
 
 const middlewares = [
   logger$(),
