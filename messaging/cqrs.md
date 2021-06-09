@@ -145,7 +145,7 @@ import { act, useContext, matchEvent } from '@marblejs/core';
 import { reply, MsgEffect } from '@marblejs/messaging';
 import { eventValidator$ } from '@marblejs/middleware-io';
 import { mergeMap } from 'rxjs/operators';
-import { pipe } 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/lib/pipeable';
 import { createUser } from './user.model';
 import { CreateUserCommand } from './user.command';
 import { UserCreatedEvent } from './user.event';
