@@ -131,7 +131,7 @@ export enum UserEventType {
 };
 
 export const UserCreatedEvent =
-  event(UserCommandType.USER_CREATED)(t.type({
+  event(UserEventType.USER_CREATED)(t.type({
     id: t.string,
   }));
 ```
