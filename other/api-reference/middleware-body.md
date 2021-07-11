@@ -80,7 +80,7 @@ export const login$ = r.pipe(
   r.matchPath('/login'),
   r.matchType('POST'),
   r.useEffect(req$ => req$.pipe(
-    map(req => req.body as { username: string, password: string })
+    map(req => req.body as { username: string, password: string }),
     map(body => ({ body: `Hello, ${body.username}!` }))
   )));
 ```
