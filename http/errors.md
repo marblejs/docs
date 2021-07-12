@@ -64,8 +64,8 @@ import { mergeMap } from 'rxjs/operators';
 
 const authorize$: HttpMiddlewareEffect = req$ =>
   req$.pipe(
-    mergeMap(req => !isAuthorized(req),
-      ? throwError(new HttpError('Unauthorized', HttpStatus.UNAUTHORIZED)),
+    mergeMap(req => !isAuthorized(req)
+      ? throwError(new HttpError('Unauthorized', HttpStatus.UNAUTHORIZED))
       : of(req)),
   );
 ```
