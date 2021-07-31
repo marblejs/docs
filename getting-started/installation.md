@@ -2,8 +2,6 @@
 
 **Marble.js** requires node **v8.0** or higher:
 
->
-
 ```bash
 $ npm i @marblejs/core fp-ts rxjs
 ```
