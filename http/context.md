@@ -77,12 +77,12 @@ export const example$ = r.pipe(
   r.matchPath('/'),
   r.matchType('GET'),
   r.useEffect((req$, ctx) => {
-  
+
     const dependency2 = pipe(
       ctx.ask(Dependency2Token),
       O.getOrElse(() => ''),
     );
-    
+
     return req$.pipe(
       mapTo({ body: dependency2 }),
     );
@@ -128,7 +128,7 @@ export const example$ = r.pipe(
   r.useEffect((req$, ctx) => {
 
     const dependency2 = useContext(Dependency2Token)(ctx.ask);
-    
+
     return req$.pipe(
       mapTo({ body: dependency2 }),
     );
@@ -240,7 +240,7 @@ const postItem$ = r.pipe(
   r.matchType('POST'),
   r.useEffect((req$, ctx) => {
     const webSocketServer = useContext(WebSocketServerToken)(ctx.ask);
-    
+
     return req$.pipe(
       validateRequest,
       map(req => req.body),

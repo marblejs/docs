@@ -8,8 +8,6 @@ description: >-
 
 ![](.gitbook/assets/wallpaper.jpg)
 
-{% embed url="https://medium.com/@jflakus/announcing-marble-js-3-0-a-marbellous-evolution-ba9cdc91d591" caption="" %}
-
 ## Philosophy
 
 The core concept of **Marble.js** assumes that almost everything is a stream. The main building block of the whole framework is an Effect, which is just a function that returns a stream of events. With the big popularity of [RxJS](http://rxjs.dev) Observable, you can create a referential transparent program specification made up of functions that may produce side effects like network, logging, database access, etc. Using its monadic nature we can map I/O operations over effects and flat them to bring in other sequences of operations. RxJS is used as a hammer for expressing asynchronous flow with monadic manner.
@@ -29,6 +27,8 @@ Marble.js doesn't operate only over basic [HTTP](http/effects.md) protocol but c
 {% endhint %}
 
 ## Previous articles
+
+{% embed url="https://medium.com/@jflakus/announcing-marble-js-3-0-a-marbellous-evolution-ba9cdc91d591" caption="" %}
 
 {% embed url="https://medium.com/@jflakus/marble-2-reactive-better-functional-stronger-5924119d3098" caption="" %}
 
