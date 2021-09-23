@@ -36,9 +36,9 @@ const microservice = createMicroservice({
 
 {% tab title="client.ts" %}
 ```typescript
-import { createMicroservice, Transport } from '@marblejs/messaging';
+import { MessagingClient, createMicroservice, Transport } from '@marblejs/messaging';
 
-const client = messagingClient({
+const client = MessagingClient({
   transport: Transport.REDIS
   options: {
     host: 'redis://127.0.0.1:6379',

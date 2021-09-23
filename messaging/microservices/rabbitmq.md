@@ -37,9 +37,9 @@ const microservice = createMicroservice({
 
 {% tab title="client.ts" %}
 ```typescript
-import { createMicroservice, Transport } from '@marblejs/messaging';
+import { MessagingClient, createMicroservice, Transport } from '@marblejs/messaging';
 
-const client = messagingClient({
+const client = MessagingClient({
   transport: Transport.AMQP
   options: {
     host: 'amqp://localhost:5672',
