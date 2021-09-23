@@ -153,7 +153,7 @@ import { UserRespositoryToken } from './tokens';
 
 export const createUser$: MsgEffect = (event$, ctx) => {
   const userRepository = useContext(UserRespositoryToken)(ctx.ask);
-  
+
   return event$.pipe(
     matchEvent(CreateUserCommand),
     act(eventValidator$(CreateUserCommand)),
@@ -206,7 +206,7 @@ export const postUser$ = r.pipe(
       validateRequest,
       mergeMap(req => {
         const { firstName, lastName } = req.body;
-        
+
         return pipe(
           CreateUserCommand.create({ firstName, lastName }),
           eventBusClient.send,

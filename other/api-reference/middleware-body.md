@@ -4,7 +4,7 @@ description: HTTP request body parser middleware for Marble.js.
 
 # middleware-body
 
-### Installation
+## Installation
 
 ```bash
 yarn add @marblejs/middleware-body
@@ -12,19 +12,19 @@ yarn add @marblejs/middleware-body
 
 Requires `@marblejs/core` to be installed.
 
-### Importing
+## Importing
 
 ```typescript
 import { bodyParser$ } from '@marblejs/middleware-body';
 ```
 
-### Type declaration <a id="type-declaration"></a>
+## Type declaration <a id="type-declaration"></a>
 
 ```haskell
 bodyParser$ :: BodyParserOptions -> HttpMiddlewareEffect
 ```
 
-### Parameters
+## Parameters
 
 | parameter | definition |
 | :--- | :--- |
@@ -39,7 +39,7 @@ _**BodyParserOptions**_
 
 The `type` option is used to determine what media type the middleware will parse. It is passed directly to the [type-is](https://www.npmjs.org/package/type-is#readme) library and this can be an extension name \(like `json`\), a mime type \(like `application/json`\), or a mime type with a wildcard \(like `*/*` or `*/json`\). Defaults to `*/*`.
 
-### Basic usage
+## Basic usage
 
 {% code title="app.ts" %}
 ```typescript
@@ -61,7 +61,7 @@ $ curl --header "Content-Type: application/json" \
   http://localhost:3000/api/login
 ```
 
-Using previously connected `bodyParser$`  middleware, the app will intercept the following payload object:
+Using previously connected `bodyParser$` middleware, the app will intercept the following payload object:
 
 ```typescript
 req.body = {
@@ -94,9 +94,9 @@ All properties and values in `req.body` object are untrusted \(unknown\) and sho
 This middleware does not handle multipart bodies.
 {% endhint %}
 
-### Advanced usage
+## Advanced usage
 
-The middleware does nothing if request _Content-Type_ is not matched, which makes a possibility for chaining multiple parsers one after another. For example, we can register multiple middlewares that will parse only a certain set of possible _Content-Type_ headers. 
+The middleware does nothing if request _Content-Type_ is not matched, which makes a possibility for chaining multiple parsers one after another. For example, we can register multiple middlewares that will parse only a certain set of possible _Content-Type_ headers.
 
 **Default parser:**
 
@@ -160,7 +160,7 @@ bodyParser$({
 
 Parses `req.body` to Buffer.
 
-### Custom parsers
+## Custom parsers
 
 If the available parsers are not enough, you can create your own body parsers by conforming to `RequestBodyParser` interface. The example below shows how the `jsonParser` looks underneath.
 

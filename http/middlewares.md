@@ -32,13 +32,13 @@ const logger$ = (req$: Observable<HttpRequest>): Observable<HttpRequest> =>
   req$.pipe(
     tap(req => console.log(`${req.method} ${req.url}`)),
   );
-  
+
 // same as   
-  
+
 const logger$: HttpMiddlewareEffect = (req$, res) =>
   req$.pipe(
     tap(req => console.log(`${req.method} ${req.url}`)),
-  );  
+  );
 ```
 {% endtab %}
 {% endtabs %}
