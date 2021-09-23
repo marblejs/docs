@@ -20,7 +20,7 @@ HttpEffect :: Observable<HttpRequest> -> Observable<HttpEffectResponse>
 ```
 
 ```typescript
-import { HttpEffect, HttpEffectResponse, HttpRequest } from '@marblejs/core';
+import { HttpEffect, HttpEffectResponse, HttpRequest } from '@marblejs/http';
 import { Observable } from 'rxjs/operators';
 import { mapTo } from 'rxjs/operators';
 
@@ -44,12 +44,12 @@ Every Marble.js Effect is eagerly bootstrapped on app startup with its own hot O
 It means that a function can act as a constructor and a returned stream as a place "where the magic happens". It gives you a set of possibilities in terms of optimization, so e.g. you can inject all required [context readers](context.md) during the app startup only once. 
 {% endhint %}
 
-In order to route our first HttpEffect_,_ we have to define the path and HTTP method that the incoming request should be matched to. The simplest implementation of an HTTP API endpoint can look like this.
+In order to route our first HttpEffect_,_ we have to define the path and method that the incoming request should be matched to. The simplest implementation of an HTTP API endpoint can look like this.
 
 {% tabs %}
 {% tab title="hello.effect.ts" %}
 ```typescript
-import { r } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { mapTo } from 'rxjs/operators';
 
 const hello$ = r.pipe(
@@ -67,7 +67,7 @@ Let's define a little bit more complex endpoint.
 {% tabs %}
 {% tab title="postUser.effect.ts" %}
 ```typescript
-import { r } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { map, mergeMap } from 'rxjs/operators';
 import { User, createUser } from './user.helper';
 
@@ -88,7 +88,7 @@ The example above will match every POST request that matches to `/user` url. Usi
 {% hint style="warning" %}
 **Deprecation warning**
 
-With an introduction of Marble.js 3.0, old [`EffectFactory`](../other/api-reference/core/core-effectfactory.md) HTTP route builder is deprecated. Please use[`r.pipe`](../other/api-reference/core/r.pipe.md) builder instead.
+With an introduction of Marble.js 4.0, old [`EffectFactory`]() HTTP route builder does not exist anymore. Please use[`r.pipe`](../other/api-reference/marblejs-http/r.pipe.md) builder instead.
 {% endhint %}
 
 **HttpRequest**
@@ -99,8 +99,8 @@ Every HttpEffect has an access to two most basics objects created by http.Server
 * method
 * headers
 * body \(see [bodyParser$](../other/api-reference/middleware-body.md) section\)
-* params \(see [routing]() chapter\)
-* query \(see [routing]() chapter\)
+* params \(see [routing](routing.md) chapter\)
+* query \(see [routing](routing.md) chapter\)
 * res \(**HttpResponse\)**
 
 {% hint style="info" %}

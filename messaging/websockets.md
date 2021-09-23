@@ -14,7 +14,7 @@ $ yarn add @marblejs/websockets @marblejs/core rxjs fp-ts
 
 ## Bootstrapping
 
-Like [_httpListener_](../other/api-reference/core/core-httplistener.md) \_\_the WebSocket module defines a similar way of bootstrapping the app.
+Like [_httpListener_](../other/api-reference/marblejs-http/core-httplistener.md) \_\_the WebSocket module defines a similar way of bootstrapping the app.
 
 {% tabs %}
 {% tab title="webSocket.listener.ts" %}
@@ -94,7 +94,7 @@ Lets do some cool math! In the next example we will try to build a very basic ca
 {% tabs %}
 {% tab title="calculator.effect.ts" %}
 ```typescript
-import { use, matchEvent } from '@marblejs/core';
+import {  matchEvent } from '@marblejs/core';
 import { WsEffect } from '@marblejs/websockets';
 import { t, eventValidator$ } from '@marblejs/middleware-io';
 import { buffer, map } from 'rxjs/operators';
@@ -107,7 +107,7 @@ export const sum$: WsEffect = event$ =>
 export const add$: WsEffect = (event$, ...args) =>
   event$.pipe(
     matchEvent('ADD'),
-    use(eventValidator$(t.number)),
+    eventValidator$(t.number),
     buffer(sum$(event$, ...args)),
     map(events => events.reduce((a, e) => e.payload + a, 0)),
     map(payload => ({ type: 'SUM_RESULT', payload })),

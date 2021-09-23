@@ -24,7 +24,7 @@ By default, framework comes bundled with composable middlewares like: [logging](
 {% tabs %}
 {% tab title="logger.middleware.ts" %}
 ```typescript
-import { HttpMiddlewareEffect, HttpRequest } from '@marblejs/core';
+import { HttpMiddlewareEffect, HttpRequest } from '@marblejs/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -48,7 +48,7 @@ The example above performs I/O operation for every request that comes through th
 In order to use our custom middleware, we need to attach the defined middleware to the `httpListener` config.
 
 ```typescript
-import { httpListener } from '@marblejs/core';
+import { httpListener } from '@marblejs/http';
 import { logger$ } from './logger-middleware';
 
 const middlewares = [
@@ -64,6 +64,8 @@ const listener = httpListener({ middlewares, effects });
 There are some cases when our custom middleware needs to be parameterized - for example, the dummy `logger$` middleware should log request URL's conditionally. To achieve this behavior we can make our middleware function curried, where the last returned function should conform to`HttpMiddlewareEffect` interface.
 
 ```typescript
+import { HttpMiddlewareEffect } from '@marblejs/http';
+
 interface LoggerOpts {
   showUrl?: boolean;
 }
@@ -88,7 +90,7 @@ const middlewares = [
 Some types of middlewares need to send an HTTP response earlier. For this case Marble.js exposes a dedicated `req.res.send` method which allows to send an HTTP response using the same common interface that we use for sending a response inside API Effects. The mentioned method returns an empty Observable \(Observable that immediately completes\) as a result, so it can be composed easily inside a middleware pipeline.
 
 ```typescript
-import { HttpMiddlewareEffect } from '@marblejs/core';
+import { HttpMiddlewareEffect } from '@marblejs/http';
 import { mergeMap } from 'rxjs/operators';
 
 const middleware$: HttpMiddlewareEffect = req$ =>
@@ -111,12 +113,18 @@ You can compose middlewares in four ways:
 
 There are many scenarios where we would like to apply middlewares inside our API Effects. One of them is to authorize only specific endpoints. Going to meet the requirements, Marble.js allows us to compose them using dedicated [use operator](../other/api-reference/core/operator-use.md), directly inside request stream pipeline.
 
-Lets say we have an endpoint for getting list of all users, but also we would like to make it secure, and available only for authorized users. All we need to do is to compose authorization middleware using dedicated for this case `use` operator.
+Let's say we have an endpoint for getting list of all users, but also we would like to make it secure, and available only for authorized users. All we need to do is to compose authorization middleware directly to the effect Observable chain.
+
+{% hint style="warning" %}
+**Deprecation warning**
+
+With an introduction of version 4.0 `use` operator is deprecated. Apply middlewares directly to the effect Observable chain. The operator will be deleted in the next major version \(v5.0\).
+{% endhint %}
 
 {% tabs %}
 {% tab title="getUsers.effect.ts" %}
 ```typescript
-import { use, r } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { authorize$ } from './auth.middleware';
 
 const getUsers$ = r.pipe(
@@ -126,7 +134,7 @@ const getUsers$ = r.pipe(
   r.use(authorize$),
   r.useEffect(req$ => req$.pipe(
     // 👇 or here...
-    use(authorize$),
+    authorize$,
     // ...
   )));
 ```
@@ -138,13 +146,13 @@ The example implementation of `authorize$` middleware can look like in the follo
 {% tabs %}
 {% tab title="auth.middleware.ts" %}
 ```typescript
-import { HttpMiddlewareEffect, HttpError, HttpStatus } from '@marblejs/core';
+import { HttpMiddlewareEffect, HttpError, HttpStatus } from '@marblejs/http';
 import { of, throwError } from 'rxjs';
 
 const authorize$: HttpMiddlewareEffect = req$ =>
   req$.pipe(
     mergeMap(req => !isAuthorized(req),
-      ? throwError(new HttpError('Unauthorized', HttpStatus.UNAUTHORIZED)),
+      ? throwError(() => new HttpError('Unauthorized', HttpStatus.UNAUTHORIZED)),
       : of(req)),
   );
 ```
@@ -156,7 +164,7 @@ const authorize$: HttpMiddlewareEffect = req$ =>
 There are some cases where you would like to compose a bunch of middlewares before grouped routes, e.g. to authorize only a selected group of endpoints. Instead of composing middlewares for each route separately, you can also compose them via extended second parameter of `combineRoutes()` function.
 
 ```typescript
-import { combineRoutes } from '@marblejs/core';
+import { combineRoutes } from '@marblejs/http';
 
 const api$ = combineRoutes('/api/v1', {
   middlewares: [ authorize$ ],
@@ -169,7 +177,7 @@ const api$ = combineRoutes('/api/v1', {
 If your middleware should operate globally, e.g. in case of request logging, the best place is to compose it inside `httpListener`. In this case the middleware will operate on each request that goes through your HTTP server.
 
 ```typescript
-import { httpListener } from '@marblejs/core';
+import { httpListener } from '@marblejs/http';
 import { logger$ } from '@marblejs/middleware-logger';
 import { bodyParser$ } from '@marblejs/middleware-body';
 
@@ -186,6 +194,6 @@ export const listener = httpListener({ middlewares, effects });
 ```
 
 {% hint style="info" %}
-The stacking order of middlewares inside `httpListener` and `combineRoutes` matters, because middlewares are run sequentially \(one after another\).
+The stacking order of middlewares inside `httpListener` and `combineRoutes` matters - middlewares are run sequentially \(one after another\).
 {% endhint %}
 

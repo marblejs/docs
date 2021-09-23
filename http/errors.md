@@ -11,19 +11,19 @@ description: >-
 Middlewares and Effects are based on the same generic interface, so also error handlers can work in a very similar way.
 
 ```haskell
-HttpErrorEffect :: Observable<{ req: HttpRequest; error: E }>
+HttpErrorEffect :: Observable<{ request: HttpRequest; error: E }>
   -> Observable<HttpEffectResponse>
 ```
 
 {% tabs %}
 {% tab title="error.effect.ts" %}
 ```typescript
-import { HttpErrorEffect } from '@marblejs/core';
+import { HttpErrorEffect } from '@marblejs/http';
 import { map } from 'rxjs/operators';
 
 const error$: HttpErrorEffect = req$ =>
   req$.pipe(
-    map(({ req, error }) => ({
+    map(({ request, error }) => ({
      status: error.status,
      body: error.data,
     }),
@@ -41,7 +41,7 @@ By default Marble.js comes with built-in error handler, but based on requirement
 {% tabs %}
 {% tab title="http.listener.ts" %}
 ```typescript
-import { httpListener } from '@marblejs/core';
+import { httpListener } from '@marblejs/http';
 import { error$ } from './error.effect';
 
 const listener = httpListener({
@@ -58,14 +58,14 @@ Lets take a look again at the previous example of authorization middleware. In c
 {% tabs %}
 {% tab title="auth.middleware.ts" %}
 ```typescript
-import { HttpMiddlewareEffect, HttpError, HttpStatus } from '@marblejs/core';
+import { HttpMiddlewareEffect, HttpError, HttpStatus } from '@marblejs/http';
 import { of, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
 const authorize$: HttpMiddlewareEffect = req$ =>
   req$.pipe(
     mergeMap(req => !isAuthorized(req)
-      ? throwError(new HttpError('Unauthorized', HttpStatus.UNAUTHORIZED))
+      ? throwError(() => new HttpError('Unauthorized', HttpStatus.UNAUTHORIZED))
       : of(req)),
   );
 ```
@@ -74,7 +74,7 @@ const authorize$: HttpMiddlewareEffect = req$ =>
 
 Marble.js comes with a dedicated `HttpError` class for defining request related errors that can be caught easily inside error handler. Using RxJS built-in `throwError` function, we can throw an error and catch it on an upper level \(e.g. directly inside Effect or global error handler\).
 
-The `HttpError` class resides in the `@marblejs/core` package. The constructor takes as a first parameter an error message and as a second parameter a `HttpStatus` code that can be a plain JavaScript number or TypeScript enum. Optionally you can pass the third argument, which can contain any other error related values.
+The `HttpError` class resides in the `@marblejs/http` package. The constructor takes as a first parameter an error message and as a second parameter a `HttpStatus` code that can be a plain JavaScript number or TypeScript enum. Optionally you can pass the third argument, which can contain any other error related values.
 
 ```typescript
 new HttpError('Forbidden', HttpStatus.FORBIDDEN, { resource: 'index.html' });
@@ -87,7 +87,7 @@ new HttpError('Forbidden', HttpStatus.FORBIDDEN, { resource: 'index.html' });
 {% tabs %}
 {% tab title="not-found.effect.ts" %}
 ```typescript
-import { r, HttpError, HttpStatus } from '@marblejs/core';
+import { r, HttpError, HttpStatus } from '@marblejs/http';
 import { throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
@@ -96,7 +96,7 @@ const notFound$ = r.pipe(
   r.matchType('*'),
   r.useEffect(req$ => req$.pipe(
     mergeMap(() =>
-      throwError(new HttpError('Route not found', HttpStatus.NOT_FOUND))),
+      throwError(() => new HttpError('Route not found', HttpStatus.NOT_FOUND))),
   )));
 ```
 {% endtab %}

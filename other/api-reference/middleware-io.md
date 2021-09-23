@@ -1,4 +1,4 @@
-# middleware-io
+# @marblejs/middleware-io
 
 A data validation middleware based on awesome [io-ts](https://github.com/gcanti/io-ts) library authored by [_gcanti_](https://github.com/gcanti).
 

@@ -2,7 +2,7 @@
 description: A CORS middleware for Marble.js
 ---
 
-# middleware-cors
+# @marblejs/middleware-cors
 
 ### Installation
 

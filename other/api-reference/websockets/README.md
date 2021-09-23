@@ -2,7 +2,7 @@
 description: This section documents the complete @marblejs/websockets package API.
 ---
 
-# websockets
+# @marblejs/websockets
 
 ![Soon...](../../../.gitbook/assets/in_progress.png)
 

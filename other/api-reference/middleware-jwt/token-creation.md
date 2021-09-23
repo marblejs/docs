@@ -15,7 +15,7 @@ The middleware wraps auth0 [jsonwebtoken](https://github.com/auth0/node-jsonwebt
 ### Importing
 
 ```typescript
-import { generateToken } from '@marblejs/middleware-jwt';
+import { generateToken } from '@marblejs-contrib/middleware-jwt';
 ```
 
 ### Type declaration
@@ -65,7 +65,7 @@ The standard for JWT defines an `exp` claim for expiration. The expiration is re
 ### Importing
 
 ```typescript
-import { generateExpirationInHours } from '@marblejs/middleware-jwt';
+import { generateExpirationInHours } from '@marblejs-contrib/middleware-jwt';
 ```
 
 ### Type declaration
@@ -89,6 +89,9 @@ export const generateTokenPayload = (user: User) => ({
 
 {% code title="login.effect.ts" %}
 ```typescript
+import { r, HttpError, HttpStatus } from '@marblejs/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { generateTokenPayload } from './token.helper';
 
 const login$ = r.pipe(
@@ -101,7 +104,7 @@ const login$ = r.pipe(
     // 👇
     map(generateToken({ secret: Config.jwt.secret })),
     map(token => ({ body: { token } })),
-    catchError(() => throwError(
+    catchError(() => throwError(() =>
       new HttpError('Unauthorized', HttpStatus.UNAUTHORIZED)
     )),
   )));

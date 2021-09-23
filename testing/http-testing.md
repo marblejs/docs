@@ -88,7 +88,7 @@ export const useTestBedSetup = createTestBedSetup({
 {% tabs %}
 {% tab title="user.effect.spec.ts" %}
 ```typescript
-import { pipe } from 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/lib/function';
 import { useTestBedSetup } from './test.setup';
 
 describe('user$', () => {
@@ -124,7 +124,7 @@ The main role of the TestBed, besides constructing and sending test requests, is
 
 ```typescript
 import { bindTo, useContext } from '@marblejs/core';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/lib/function';
 import { useTestBedSetup } from './test.setup';
 import { UserDaoToken, UserDaoMock } from './user.dao';
 import { UserRepositoryToken, UserRepository } from './user.repository';
@@ -234,7 +234,7 @@ export const CustomDependencyToken = createContextToken<CustomDependency>('Custo
 In order to create a `DependencyCleanup` you have to provide a lookup \(context\) token and implement a cleanup method that will return a promise.
 
 ```typescript
-import { bindTo } from '@marblejs/testing';
+import { bindTo } from '@marblejs/core';
 import { DependencyCleanup, createTestBedSetup } from '@marblejs/testing';
 import { listener } from './http.listener';
 import { CustomDependency, CustomDependencyToken } from './custom.reader';

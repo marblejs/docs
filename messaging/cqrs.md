@@ -182,7 +182,8 @@ The logic of the command handler is quite simple:
 {% tabs %}
 {% tab title="postUser.effect.ts" %}
 ```typescript
-import { r, HttpStatus, useContext, use } from '@marblejs/core';
+import { useContext } from '@marblejs/core';
+import { r, HttpStatus } from '@marblejs/http';
 import { map, mapTo, mergeMap } from 'rxjs/operators';
 import { EventBusClientToken } from '@marblejs/messaging';
 import { requestValidator$, t } from '@marblejs/middleware-io';
@@ -224,8 +225,9 @@ The implementation of `postUser$` effect is also very simple. First we have to i
 {% tabs %}
 {% tab title="index.ts" %}
 ```typescript
-import { httpListener, createServer, bindEagerlyTo } from '@marblejs/core';
-import { messagingListener, EventBusToken, EventBusClientToken, eventBusClient, eventBus } from '@marblejs/messaging';
+import { bindEagerlyTo } from '@marblejs/core';
+import { httpListener, createServer } from '@marblejs/core';
+import { messagingListener, EventBusToken, EventBusClientToken, EventBusClient, EventBus } from '@marblejs/messaging';
 import { bodyParser$ } from '@marblejs/middleware-body';
 import { logger$ } from '@marblejs/middleware-logger';
 import { postUser$ } from './postUser.effect';
@@ -250,8 +252,8 @@ const listener = httpListener({
 export const server = createServer({
   listener,
   dependencies: [
-    bindEagerlyTo(EventBusClientToken)(eventBusClient),
-    bindEagerlyTo(EventBusToken)(eventBus({ listener: eventBusListener })),
+    bindEagerlyTo(EventBusClientToken)(EventBusClient),
+    bindEagerlyTo(EventBusToken)(EventBus({ listener: eventBusListener })),
   ],
 });
 

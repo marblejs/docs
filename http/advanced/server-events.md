@@ -1,11 +1,12 @@
 # Server Events
 
-The Node.js server after startup can emit a variety of different events that the app can listen to, eg. `upgrade`, `listening`, etc. As you know, streams are the main building block of Marble.js. **@marblejs/core** [createServer](../../other/api-reference/core/createserver.md) function allows you to listen to emitted server events via `event$` attribute, where you can hook your stream.
+The Node.js server after startup can emit a variety of different events that the app can listen to, eg. `upgrade`, `listening`, etc. As you know, streams are the main building block of Marble.js. @marblejs/http [createServer](../../other/api-reference/marblejs-http/createserver.md) function allows you to listen to emitted server events via `event$` attribute, where you can hook your stream.
 
 `HttpServerEffect` is used for dealing with stream of incoming server events, but in comparison to others, the interface doesn't specify what the output of the stream should be.
 
 ```typescript
-import { createServer, matchEvent, ServerEvent, HttpServerEffect } from '@marblejs/core';
+import { matchEvent } from '@marblejs/core';
+import { createServer, ServerEvent, HttpServerEffect } from '@marblejs/http';
 import { merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -36,7 +37,8 @@ As in the case of WebSocket or messaging module, you can match incoming events u
 > source: [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Protocol_upgrade_mechanism)
 
 ```typescript
-import { createServer, matchEvent, ServerEvent, HttpServerEffect, bindEagerlyTo } from '@marblejs/core';
+import { matchEvent, bindEagerlyTo } from '@marblejs/core';
+import { createServer, ServerEvent, HttpServerEffect } from '@marblejs/http';
 import { mapToServer } from '@marblejs/websockets';
 import { merge } from 'rxjs';
 import { WebSocketServerToken } from './tokens';

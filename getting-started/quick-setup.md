@@ -1,13 +1,21 @@
+---
+description: The page describes a quick and basic usage of @marblejs/http module.
+---
+
 # Quick setup
 
 The very basic configuration consists of two steps: HTTP listener definition and HTTP server configuration.
+
+{% hint style="warning" %}
+Since version 4.0 all _****_HTTP-related API's are moved and organized in a dedicated `@marblejs/http` package. 
+{% endhint %}
 
 `httpListener` is the basic starting point of every Marble application. It includes definitions of all global middlewares and API effects.
 
 {% tabs %}
 {% tab title="http.listener.ts" %}
 ```typescript
-import { httpListener } from '@marblejs/core';
+import { httpListener } from '@marblejs/http';
 import { logger$ } from '@marblejs/middleware-logger';
 import { bodyParser$ } from '@marblejs/middleware-body';
 import { api$ } from './api.effects';
@@ -40,7 +48,7 @@ And here is our simple "hello world" endpoint.
 {% tabs %}
 {% tab title="api.effects.ts" %}
 ```typescript
-import { r } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { mapTo } from 'rxjs/operators';
 
 export const api$ = r.pipe(
@@ -53,12 +61,12 @@ export const api$ = r.pipe(
 {% endtab %}
 {% endtabs %}
 
-To create Marble app instance, we can use [`createServer`](../other/api-reference/core/createserver.md), which is a wrapper around Node.js server creator with much more possibilities and goods inside. When created, it won't automatically start listening to given port and hostname until you call its awaited instance.
+To create Marble app instance, we can use [`createServer`](../other/api-reference/marblejs-http/createserver.md), which is a wrapper around Node.js server creator with much more possibilities and goods inside. When created, it won't automatically start listening to given port and hostname until you call its awaited instance.
 
 {% tabs %}
 {% tab title="index.ts" %}
 ```typescript
-import { createServer } from '@marblejs/core';
+import { createServer } from '@marblejs/http';
 import { IO } from 'fp-ts/lib/IO';
 import { listener } from './http.listener';
 
@@ -77,7 +85,7 @@ main();
 {% endtabs %}
 
 {% hint style="info" %}
-To see Marble.js in action you can visit [example repository](https://github.com/marblejs/example) for a complete Marble.js app example.
+To see Marble.js in action you can visit [example ](https://github.com/marblejs/example)usage of available module for a complete Marble.js app example.
 {% endhint %}
 
 We'll use [TypeScript](https://www.typescriptlang.org/) in the documentation but you can always write Marble apps in standard JavaScript \(and any other language that transpiles to JavaScript\).
@@ -105,7 +113,7 @@ $ yarn start
 Finally test your "functional" server by visiting [http://localhost:1337](quick-setup.md)
 
 {% hint style="info" %}
-For more API specific details about server bootstrapping, visit [createServer](../other/api-reference/core/createserver.md) API reference
+For more API specific details about server bootstrapping, visit [createServer](../other/api-reference/marblejs-http/createserver.md) API reference
 {% endhint %}
 
 In the next HTTP chapter you will learn how to create basic **Marble.js** endpoints using [Effects](quick-setup.md), how to build and compose middlewares and how to build a basic REST API routing.

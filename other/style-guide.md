@@ -10,7 +10,7 @@ Marble.js framework doesn't define any strict file structures and conventions fr
 
 ### Keep server and connected listeners in separate files
 
-From the framework perspective, **listeners** and **servers** are separate layers that are responsible for different things. [\#createServer](api-reference/core/createserver.md) and similar factory functions are responsible for handling transport-layer-related processes, like: bootstrapping server and bounded context, listening for incoming messages or reacting for transport-layer events, where for the contrast, listeners are responsible for processing I/O messages that go through underlying transport layer in order to fulfill business needs. Basically, it is just about the single responsibility principle.
+From the framework perspective, **listeners** and **servers** are separate layers that are responsible for different things. [\#createServer](api-reference/marblejs-http/createserver.md) and similar factory functions are responsible for handling transport-layer-related processes, like: bootstrapping server and bounded context, listening for incoming messages or reacting for transport-layer events, where for the contrast, listeners are responsible for processing I/O messages that go through underlying transport layer in order to fulfill business needs. Basically, it is just about the single responsibility principle.
 
 By convention Marble.js follows suffixed file naming which results in:
 
@@ -23,14 +23,14 @@ By convention Marble.js follows suffixed file naming which results in:
 
 ### Keep HTTP route with its corresponding HttpEffect
 
-In Marble.js HTTP effects are tightly connected to the route on which they operate. Having them in a separation makes the code more less readable and understandable. Always try to keep them as a one unit. Every HttpEffect that comes through `r.pipe` route builder is accessible via `.effect` property of the returned `RouteEffect` object. You can access it via this way if you want to unit test only the effect function.
+In Marble.js HTTP effects are tightly connected to the route on which they operate. Having them in a separation makes the code less readable and less understandable. Always try to keep them as a one unit. Every HttpEffect, that comes through `r.pipe` route builder, is accessible via `.effect` property of the returned `RouteEffect` object. It if you want to unit test only the effect function, that's the way of accessing it.
 
 **❌ Bad**
 
 {% tabs %}
 {% tab title="getFoo.route.ts" %}
 ```typescript
-import { r } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { getFooEffect } from './getFoo.effect';
 
 const getFoo = r.pipe(
@@ -42,7 +42,7 @@ const getFoo = r.pipe(
 
 {% tab title="getFoo.effect.ts" %}
 ```typescript
-import { HttpEffect } from '@marblejs/core';
+import { HttpEffect } from '@marblejs/http';
 
 export const getFooEffect: HttpEffect = (req$, ctx) => req$.pipe(
   ...
@@ -56,7 +56,7 @@ export const getFooEffect: HttpEffect = (req$, ctx) => req$.pipe(
 {% tabs %}
 {% tab title="getFoo.effect.ts" %}
 ```typescript
-import { r } from '@marblejs/core';
+import { r } from '@marblejs/http';
 
 const getFoo$ = r.pipe(
   r.matchPath('/foo'),
@@ -93,7 +93,7 @@ Index files are good for combining and re-exporting related files as a one modul
 {% tabs %}
 {% tab title="index.ts" %}
 ```typescript
-import { combineRoutes } from '@marblejs/core';
+import { combineRoutes } from '@marblejs/http';
 
 export const user$ = combineRoutes('/user', {
   middlewares: [
@@ -110,7 +110,7 @@ export const user$ = combineRoutes('/user', {
 
 {% tab title="http.listener.ts" %}
 ```typescript
-import { httpListener } from '@marblejs/core';
+import { httpListener } from '@marblejs/http';
 import { user$ } from './user';
 
 export const listener = httpListener({
@@ -122,7 +122,7 @@ export const listener = httpListener({
 {% endtab %}
 {% endtabs %}
 
-Or in case basic effects:
+Or in case of messaging/websockets effects:
 
 {% tabs %}
 {% tab title="index.ts" %}
@@ -438,7 +438,7 @@ const foo$: MsgEffect = event$ =>
 ```typescript
 import { act, matchEvent } from '@marblejs/core';
 import { MsgEffect } from '@marblejs/messaging';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/lib/function';
 
 const foo$: MsgEffect = event$ =>
   event$.pipe(
@@ -473,7 +473,7 @@ const foo$: MsgEffect = event$ =>
 ```typescript
 import { act, matchEvent } from '@marblejs/core';
 import { MsgEffect } from '@marblejs/messaging';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/lib/function';
 import { catchError } from 'rxjs/operators';
 
 const foo$: MsgEffect = event$ =>
@@ -492,7 +492,7 @@ const foo$: MsgEffect = event$ =>
 ```typescript
 import { act, matchEvent } from '@marblejs/core';
 import { MsgEffect } from '@marblejs/messaging';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/lib/function';
 
 const foo$: MsgEffect = event$ =>
   event$.pipe(

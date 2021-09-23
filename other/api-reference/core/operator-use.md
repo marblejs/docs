@@ -4,6 +4,10 @@ description: Effect operator for composing middleware directly inside stream pip
 
 # operator: use
 
+{% hint style="info" %}
+Since version 4.0 `use` operator is deprecated. You can easily compose middlewares directly to the Observable chain.
+{% endhint %}
+
 ### **Importing**
 
 ```typescript
@@ -30,7 +34,8 @@ use :: <I, O>(MiddlewareLike<I, O>, <?>EffectContext) -> Observable<I>
 ### Example
 
 ```typescript
-import { r, use } from '@marblejs/core';
+import { use } from '@marblejs/core';
+import { r } from '@marblejs/http';
 
 const foo$ = r.pipe(
   r.matchPath('/'),

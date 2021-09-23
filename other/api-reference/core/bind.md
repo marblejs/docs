@@ -24,8 +24,9 @@ The function is responsible for binding context token to `ContextReader` which c
 ### **Example**
 
 ```typescript
-import { reader, bindTo, createServer, createContextToken } from '@marblejs/core';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { reader, bindTo, createContextToken } from '@marblejs/core';
+import { createServer } from '@marblejs/http';
+import { pipe } from 'fp-ts/lib/function';
 import * as R from 'fp-ts/lib/Reader';
 
 // create reader

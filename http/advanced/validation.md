@@ -36,7 +36,7 @@ type User = {
 {% tabs %}
 {% tab title="postUser.effect.ts" %}
 ```typescript
-import { r } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { requestValidator$, t } from '@marblejs/middleware-io';
 import { UserDto } from './user.dto';
 

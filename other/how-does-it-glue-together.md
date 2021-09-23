@@ -5,14 +5,14 @@ Writing REST API in Marble.js isn't hard as you might think. The developer has t
 The aim of this chapter is to demonstrate how building blocks described in previous chapters glue together. For ease of understanding, lets build a tiny RESTful API for user handling. Lets omit the implementation details of database access and focus only on the Marble.js related things.
 
 ```typescript
-import { createServer, combineRoutes, httpListener, r, HttpError, use, HttpStatus } from '@marblejs/core';
+import { createServer, combineRoutes, httpListener, r, HttpError, HttpStatus } from '@marblejs/http';
 import { logger$ } from '@marblejs/middleware-logger';
 import { bodyParser$ } from '@marblejs/middleware-body';
 import { requestValidator$, t } from '@marblejs/middleware-io';
 import { catchError, mergeMapTo, mergeMap, mapTo, map } from 'rxjs/operators';
 import { of, throwError, from } from 'rxjs';
 import { IO } from 'fp-ts/lib/IO';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/lib/function';
 
 /*------------------------
   👇 utility functions
@@ -30,7 +30,7 @@ const getUserById = (id: string) =>
   👇 USERS API definition
 -------------------------*/
 
-const validator$ = requestValidator$({
+const validateRequest = requestValidator$({
   params: t.type({
     id: t.string,
   }),
@@ -49,10 +49,10 @@ const getUser$ = r.pipe(
   r.matchPath('/:id'),
   r.matchType('GET'),
   r.useEffect(req$ => req$.pipe(
-    use(validator$),
+    validateRequest,
     mergeMap(req => pipe(
       getUserById(req.params.id),
-      catchError(() => throwError(
+      catchError(() => throwError(() =>
         new HttpError('User does not exist', HttpStatus.NOT_FOUND)
       ))
     )),

@@ -8,46 +8,55 @@ description: >-
 
 ## Building your own output effect
 
-Using `HttpOutputEffect` you can grab an outgoing HTTP response and map it into different response, modifying outgoing data on demand.
+Using `HttpOutputEffect` you can grab an outgoing Effect response and map it into different one, modifying outgoing data on demand.
 
 ```haskell
-HttpOutputEffect :: Observable<{ req: HttpRequest; res: HttpEffectResponse }>
-  -> Observable<HttpEffectResponse>
+type Out = {
+  request: HttpRequest;
+  headers: HttpHeaders;
+  status: HttpStatus;
+  body: any;
+};
+
+HttpOutputEffect :: Observable<Out> -> Observable<Out>
 ```
 
-`HttpOutputEffect` allows you to grab the outgoing response together with corresponding initial request. Lets build a simple response compression middleware.
+`HttpOutputEffect` allows you to grab the outgoing response together with corresponding initial request.  The output effect works similar to the HttpMiddlewareEffect, but in that case for outgoing responses. Let's build a simple response compression middleware.
 
 {% tabs %}
 {% tab title="output.effect.ts" %}
 ```typescript
-import { HttpOutputEffect } from '@marblejs/core';
+import { HttpOutputEffect } from '@marblejs/http';
 import { map } from 'rxjs/operators';
 import * as zlib from 'zlib';
 
 const output$: HttpOutputEffect = res$ =>
   res$.pipe(
-    map(({ res, req }) =>  {
-      switch(req.headers['accept-encoding']) {
+    map(({ request, headers, bodu, status }) =>  {
+      switch(request.headers['accept-encoding']) {
         case 'br':
           return ({
-            ...res,
-            headers: { ...res.headers, 'Content-Encoding': 'br' },
-            body: res.body.pipe(zlib.createBrotliDecompress()),
+            request,
+            status,
+            headers: { ...headers, 'Content-Encoding': 'br' },
+            body: body.pipe(zlib.createBrotliDecompress()),
           });
         case 'gzip':
           return ({
-            ...res,
-            headers: { ...res.headers, 'Content-Encoding': 'gzip' },
-            body: res.body.pipe(zlib.createGunzip()),
+            request,
+            status,
+            headers: { ...headers, 'Content-Encoding': 'gzip' },
+            body: body.pipe(zlib.createGunzip()),
           });
         case 'deflate':
           return ({
-            ...res,
-            headers: { ...res.headers, 'Content-Encoding': 'deflate' },
-            body: res.body.pipe(zlib.createInflate()),
+            request,
+            status,
+            headers: { ...headers, 'Content-Encoding': 'deflate' },
+            body: body.pipe(zlib.createInflate()),
           });
         default:
-          return res;
+          return { status, headers, body, request };
       }
     }),
   );
@@ -58,7 +67,7 @@ const output$: HttpOutputEffect = res$ =>
 To connect the output effect, all you need to do is to attach it to `output$` property in `httpListener` config object.
 
 ```typescript
-import { httpListener } from '@marblejs/core';
+import { httpListener } from '@marblejs/http';
 import { output$ } from './output.effect';
 
 export const listener = httpListener({

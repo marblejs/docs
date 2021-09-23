@@ -36,7 +36,8 @@ const add$: WsEffect = event$ =>
 _**HttpServerEffect:**_
 
 ```typescript
-import { matchEvent, HttpServerEffect, ServerEvent } from '@marblejs/core';
+import { matchEvent } from '@marblejs/core';
+import { HttpServerEffect, ServerEvent } from '@marblejs/http';
 import { map } from 'rxjs/operators';
 
 const listening$: HttpServerEffect = event$ =>
@@ -50,31 +51,26 @@ const listening$: HttpServerEffect = event$ =>
 _**MsgEffect:**_
 
 ```typescript
-import { matchEvent, createEvent, EventsUnion } from '@marblejs/core';
+import { matchEvent, event, EventsUnion } from '@marblejs/core';
 import { MsgEffect } from '@marblejs/messaging';
+import * as t from 'io-ts';
 import { map } from 'rxjs/operators';
 
 // Commands definition
 
-export enum AddCommandType {
-  ADD = 'ADD',
-};
+export enum OfferCommandType {
+  GENERATE_OFFER_DOCUMENT = 'GENERATE_OFFER_DOCUMENT',
+}
 
-export const AddCommand = {
-  add: createEvent(
-    AddCommandType.ADD,
-    (val: number) => ({ val }),
-  ),
-};
-
-export type AddCommand = EventsUnion<typeof AddCommand>;
+export const GenerateOfferDocumentCommand =
+  event(OfferCommandType.GENERATE_OFFER_DOCUMENT)(t.type({ offerId: t.string }));
 
 // Effect definition
 
-const add$: MsgEffect = event$ =>
+const generateOfferDocument$: MsgEffect = event$ =>
   event$.pipe(
-    matchEvent(AddCommand.add),
-    map(event => event.payload), // (typeof payload) = { val: number };
+    matchEvent(GenerateOfferDocumentCommand),
+    map(event => event.payload), // (typeof payload) = { offerId: string };
     // ...
   );
 ```

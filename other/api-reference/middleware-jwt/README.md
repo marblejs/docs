@@ -2,9 +2,13 @@
 description: HTTP requests authentication middleware for Marble.js based on JWT mechanism.
 ---
 
-# middleware-jwt
+# @marblejs-contrib/middleware-jwt
 
 This module lets you authenticate HTTP requests using JWT tokens in your **Marble.js** applications. JWTs are typically used to protect API endpoints, and are often issued using OpenID Connect.
+
+{% hint style="warning" %}
+Since version 4.0, the middleware is a part of contrib packages. You can reach it via `@marblejs-contrib/middleware-joi`.
+{% endhint %}
 
 {% hint style="info" %}
 You can find more details about JWT \(RFC 7519\) standard [here](http://jwt.io).
@@ -16,7 +20,7 @@ RxJS-friendly abstractions that can be partially applied and composed inside Eff
 ### Installation
 
 ```bash
-yarn add @marblejs/middleware-jwt
+yarn add @marblejs-contrib/middleware-jwt
 ```
 
 Requires `@marblejs/core` to be installed.
@@ -24,7 +28,7 @@ Requires `@marblejs/core` to be installed.
 ### Importing
 
 ```typescript
-import { authorize$ } from '@marblejs/middleware-jwt';
+import { authorize$ } from '@marblejs-contrib/middleware-jwt';
 ```
 
 ### Type declaration
@@ -82,7 +86,7 @@ Config object, passed as a first argument, defines a set of parameters that are 
 {% endtabs %}
 
 {% hint style="info" %}
-For more infos about _jwt.VerifyOptions_ please read [jsonwebtoken docs](https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback).
+For more infos about `jwt.VerifyOptions` please read [jsonwebtoken docs](https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback).
 {% endhint %}
 
 {% hint style="info" %}
@@ -95,7 +99,7 @@ It is recommended to extract the middleware configuration into separate file. Th
 
 {% code title="auth.middleware.ts" %}
 ```typescript
-import { authorize$ as jwt$ } from '@marblejs/middleware-jwt';
+import { authorize$ as jwt$ } from '@marblejs-contrib/middleware-jwt';
 import { SECRET_KEY } from './config';
 
 const config = { secret: SECRET_KEY };
@@ -111,7 +115,7 @@ export const authorize$ = jwt$(config, verifyPayload$);
 The configured middleware can be simply composed in any route, that should be validated.
 
 ```typescript
-import { r } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { authorize$ } from './auth-middleware';
 
 const getUsers$ = r.pipe(

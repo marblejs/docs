@@ -21,11 +21,12 @@ Notice that mapping to **error** and **response** comes with an initial `request
 {% endhint %}
 
 ```typescript
-import { r, HttpRequestBusToken, HttpStatus } from '@marblejs/core';
+import { useContext } from '@marblejs/core';
+import { r, HttpRequestBusToken, HttpStatus } from '@marblejs/http';
 import { from, of } from 'rxjs';
 import { bufferWhen, catchError, filter, map, mergeMap } from 'rxjs/operators';
 
-const getFlush$ = (req$: Observable<HttpRequest>) =>
+const getFlush$ = (req$: Observable<HttpRequest>): Observable<HttpRequest> =>
   req$.pipe(
     filter(req => req.method === 'GET' && req.url === '/flush'),
   );

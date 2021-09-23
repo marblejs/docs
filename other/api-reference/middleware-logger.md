@@ -2,7 +2,7 @@
 description: HTTP request logger middleware for Marble.js
 ---
 
-# middleware-logger
+# @marblejs/middleware-logger
 
 **Simple** middleware for request logging inside your console. It displays the outgoing request events using the following format:
 

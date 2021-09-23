@@ -129,7 +129,8 @@ If you would like to communicate HTTP effects with your microservice just inject
 {% tabs %}
 {% tab title="publisher.effect.ts" %}
 ```typescript
-import { r, useContext, HttpStatus } from '@marblejs/core';
+import { useContext } from '@marblejs/core';
+import { r, HttpStatus } from '@marblejs/http';
 import { mapTo, mergeMapTo } from 'rxjs/operators';
 import { ClientToken } from './client';
 
@@ -154,7 +155,8 @@ Remember that you have to bound the client to context before usage.
 {% tabs %}
 {% tab title="publisher.ts" %}
 ```typescript
-import { bindEagerlyTo, createServer, httpListener } from '@marblejs/core';
+import { bindEagerlyTo } from '@marblejs/core';
+import { createServer, httpListener } from '@marblejs/http';
 import { IO } from 'fp-ts/lib/IO';
 import { client, ClientToken } from './client';
 import { getRoot$ } from './effect';

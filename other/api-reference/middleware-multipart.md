@@ -2,7 +2,7 @@
 description: A multipart/form-data middleware based on busboy library.
 ---
 
-# middleware-multipart
+# @marblejs/middleware-multipart
 
 ### Installation
 

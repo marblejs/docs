@@ -2,7 +2,7 @@
 description: HTTP request body parser middleware for Marble.js.
 ---
 
-# middleware-body
+# @marblejs/middleware-body
 
 ## Installation
 

@@ -91,7 +91,7 @@ When manual acknowledgements are turned on, we must send a proper acknowledgemen
 ```typescript
 import { MsgEffect, ackEvent, nackEvent } from '@marblejs/messaging';
 import { matchEvent } from '@marblejs/core';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/lib/function';
 import { mapTo, tap, catchError } from 'rxjs/operators';
 
 const foo$: MsgEffect = (event$, ctx) =>

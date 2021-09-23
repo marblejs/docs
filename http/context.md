@@ -47,7 +47,8 @@ export const Dependency2 = pipe(reader, R.map(ask => pipe(
 {% tabs %}
 {% tab title="index.ts" %}
 ```typescript
-import { bindTo createServer } from '@marblejs/core';
+import { bindTo } from '@marblejs/core';
+import { createServer } from '@marblejs/http';
 import { Dependency1, Dependency2, Dependency1Token, Dependency2Token } from './example';
 
 const server = createServer({
@@ -67,9 +68,9 @@ Having our dependencies defined, let's define some test Effect where we can chec
 {% tabs %}
 {% tab title="example.effect.ts" %}
 ```typescript
-import { r } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { mapTo } from 'rxjs/operators'; 
-import { pipe } from 'fp-ts/lib/function';
+import { pipe, constant } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
 import { Dependency2Token } from './example';
 
@@ -80,7 +81,7 @@ export const example$ = r.pipe(
 
     const dependency2 = pipe(
       ctx.ask(Dependency2Token),
-      O.getOrElse(() => ''),
+      O.getOrElse(constant('')),
     );
 
     return req$.pipe(
@@ -118,7 +119,8 @@ export const Dependency2 = createReader(ask =>
 ```
 
 ```typescript
-import { r, useContext } from '@marblejs/core';
+import { useContext } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { mapTo } from 'rxjs/operators';
 import { Dependency2Token } from './example';
 
@@ -126,7 +128,6 @@ export const example$ = r.pipe(
   r.matchPath('/'),
   r.matchType('GET'),
   r.useEffect((req$, ctx) => {
-
     const dependency2 = useContext(Dependency2Token)(ctx.ask);
 
     return req$.pipe(
@@ -199,7 +200,8 @@ export const WebSocketServerToken =
 {% tabs %}
 {% tab title="index.ts" %}
 ```typescript
-import { createServer, bindEageryTo } from '@marblejs/core';
+import { bindEageryTo } from '@marblejs/core';
+import { createServer } from '@marblejs/http';
 import { mapToServer } from '@marblejs/websockets';
 import { WebSocketServerToken } from './tokens';
 import { webSocketServer } from './websocket.server';
@@ -226,6 +228,7 @@ Note that provided dependency won't be instantiated one more time while asking s
 {% tab title="postItem.effect.ts" %}
 ```typescript
 import { useContext } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { requestValidator$, t } from '@marblejs/middleware-io';
 import { bodyParser$ } from '@marblejs/middleware-body';
 import { map, mergeMap } from 'rxjs/operators';

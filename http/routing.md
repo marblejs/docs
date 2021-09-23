@@ -14,7 +14,7 @@ As we know - every API requires composable routing. Lets assume that we have a s
 {% hint style="warning" %}
 **Deprecation warning**
 
-With an introduction of Marble.js 3.0, old [`EffectFactory`](../other/api-reference/core/core-effectfactory.md) HTTP route builder is deprecated. Please use[`r.pipe`](../other/api-reference/core/r.pipe.md) builder instead.
+With an introduction of Marble.js 4.0, old [`EffectFactory`]() HTTP route builder does not exists anymore. Please use[`r.pipe`](../other/api-reference/marblejs-http/r.pipe.md) builder instead.
 {% endhint %}
 
 `r.pipe` is an indexed monad builder used for collecting information about Marble REST route details, like: path, request method type, middlewares and connected Effect.
@@ -22,7 +22,7 @@ With an introduction of Marble.js 3.0, old [`EffectFactory`](../other/api-refere
 {% tabs %}
 {% tab title="user.effects.ts" %}
 ```typescript
-import { combineRoutes, r } from '@marblejs/core';
+import { combineRoutes, r } from '@marblejs/http';
 
 const getUsers$ = r.pipe(
   r.matchPath('/'),
@@ -51,7 +51,7 @@ Route effects can be grouped together using `combineRoutes` function, which comb
 {% tabs %}
 {% tab title="api.effects.ts" %}
 ```typescript
-import { combineRoutes, r } from '@marblejs/core';
+import { combineRoutes, r } from '@marblejs/http';
 import { user$ } from './user.effects';
 
 const root$ = r.pipe(
@@ -89,7 +89,7 @@ POST   /api/v1/user
 There are some cases where there is a need to compose a bunch of middlewares before grouped routes, e.g. to authenticate requests only for a selected group of endpoints. Instead of composing middlewares using [use operator](../other/api-reference/core/operator-use.md) for each route separately, you can compose them via the extended second parameter in`combineRoutes()` function.
 
 ```typescript
-import { combineRoutes } from '@marblejs/core';
+import { combineRoutes } from '@marblejs/http';
 
 const user$ = combineRoutes('/user', {
   middlewares: [authorize$],
@@ -111,10 +111,10 @@ By design, the `req.body, req.params, req.query`are of type `unknown`. In order 
 
 ## URL parameters
 
-The `combineRoutes` function and the `matchPath` allows you to define parameters in the path argument. All parameters are defined by the syntax with a colon prefix.
+The `combineRoutes` function and the `r.matchPath` allows you to define parameters in the path argument. All parameters are defined by the syntax with a colon prefix.
 
 ```typescript
-import { r } from '@marblejs/core';
+import { r } from '@marblejs/http';
 
 const foo$ = r.pipe(
   r.matchPath('/:foo/:bar'),
@@ -146,7 +146,7 @@ Path parameters can be suffixed with an asterisk \(`*`\) to denote a zero or mor
 {% tabs %}
 {% tab title="getFile.effect.ts" %}
 ```typescript
-import { r } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { map, mergeMap } from 'rxjs/operators';
 
 const getFile$ = r.pipe(

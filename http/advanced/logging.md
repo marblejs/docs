@@ -37,7 +37,8 @@ Logger :: LoggerOptions -> IO<void>;
 ```
 
 ```typescript
-import { LoggerTag, LoggerToken, LoggerLevel, use, r } from '@marblejs/core';
+import { LoggerTag, LoggerToken, LoggerLevel, useContext } from '@marblejs/core';
+import { r } from '@marblejs/http';
 import { requestValidator$, t } from '@marblejs/middleware-io';
 import { tap } from 'rxjs/operators';
 import { UserDto } from './user.dto';
@@ -70,7 +71,7 @@ You can override the binding and map the stdout IO operations to a different des
 {% tab title="logger.reader.ts" %}
 ```typescript
 import * as O from 'fp-ts/lib/Option';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/lib/function';
 import { Logger, LoggerLevel, createReader } from '@marblejs/core';
 import { CustomLogger } from './customLogger';
 
@@ -96,7 +97,8 @@ export const CustomLoggerReader = createReader<Logger>(() => opts => {
 Then in your server definition you have to override the binding.
 
 ```typescript
-import { bindTo, createServer, LoggerToken } from '@marblejs/core';
+import { bindTo, LoggerToken } from '@marblejs/core';
+import { createServer } from '@marblejs/http';
 import { CustomeLoggerReader } from './logger.reader.ts';
 
 const server = createServer({
