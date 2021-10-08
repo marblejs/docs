@@ -41,6 +41,7 @@
 
 * [How does it glue together?](other/how-does-it-glue-together.md)
 * [Migration guides](other/migration-guides/README.md)
+  * [Migration from version 3.x](other/migration-guides/version-3.md)
   * [Migration from version 2.x](other/migration-guides/version-2.md)
   * [Migration from version 1.x](other/migration-guides/version-1.md)
 * [API reference](other/api-reference/README.md)
