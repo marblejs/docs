@@ -32,7 +32,7 @@ import * as zlib from 'zlib';
 
 const output$: HttpOutputEffect = res$ =>
   res$.pipe(
-    map(({ request, headers, bodu, status }) =>  {
+    map(({ request, headers, body, status }) =>  {
       switch(request.headers['accept-encoding']) {
         case 'br':
           return ({
@@ -76,4 +76,3 @@ export const listener = httpListener({
   output$, // 👈
 });
 ```
-

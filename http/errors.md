@@ -11,8 +11,8 @@ description: >-
 Middlewares and Effects are based on the same generic interface, so also error handlers can work in a very similar way.
 
 ```haskell
-HttpErrorEffect :: Observable<{ request: HttpRequest; error: E }>
-  -> Observable<HttpEffectResponse>
+HttpErrorEffect :: Observable<{ request: HttpRequest; error: Error }>
+  -> Observable<{ status, body, headers, request }>
 ```
 
 {% tabs %}
@@ -24,6 +24,7 @@ import { map } from 'rxjs/operators';
 const error$: HttpErrorEffect = req$ =>
   req$.pipe(
     map(({ request, error }) => ({
+     request,
      status: error.status,
      body: error.data,
     }),
@@ -32,7 +33,7 @@ const error$: HttpErrorEffect = req$ =>
 {% endtab %}
 {% endtabs %}
 
-As any other Effect, error handler maps the stream of errored requests to objects of type HttpEffectResponse \(status, body, headers\). To connect the custom error handler, all you need to do is to attach it to `error$` property in `httpListener` config object.
+As any other Effect, error handler maps the stream of errored requests to objects of type HttpEffectResponse (status, body, headers). To connect the custom error handler, all you need to do is to attach it to `error$` property in `httpListener` config object.
 
 {% hint style="info" %}
 By default Marble.js comes with built-in error handler, but based on requirements you can override it anytime.
@@ -53,7 +54,7 @@ const listener = httpListener({
 {% endtab %}
 {% endtabs %}
 
-Lets take a look again at the previous example of authorization middleware. In case of unauthorized request, `authorize$` middleware will throw an error an propagate it to error stream \(custom or global one\).
+Lets take a look again at the previous example of authorization middleware. In case of unauthorized request, `authorize$` middleware will throw an error an propagate it to error stream (custom or global one).
 
 {% tabs %}
 {% tab title="auth.middleware.ts" %}
@@ -72,7 +73,7 @@ const authorize$: HttpMiddlewareEffect = req$ =>
 {% endtab %}
 {% endtabs %}
 
-Marble.js comes with a dedicated `HttpError` class for defining request related errors that can be caught easily inside error handler. Using RxJS built-in `throwError` function, we can throw an error and catch it on an upper level \(e.g. directly inside Effect or global error handler\).
+Marble.js comes with a dedicated `HttpError` class for defining request related errors that can be caught easily inside error handler. Using RxJS built-in `throwError` function, we can throw an error and catch it on an upper level (e.g. directly inside Effect or global error handler).
 
 The `HttpError` class resides in the `@marblejs/http` package. The constructor takes as a first parameter an error message and as a second parameter a `HttpStatus` code that can be a plain JavaScript number or TypeScript enum. Optionally you can pass the third argument, which can contain any other error related values.
 
@@ -82,7 +83,7 @@ new HttpError('Forbidden', HttpStatus.FORBIDDEN, { resource: 'index.html' });
 
 ## 404 error handling
 
-404 \(Not Found\) responses are not the result of an error, so the error handler will not capture them. This behavior is because a 404 response simply indicates the absence of matched Effect in request lifecycle; in other words, request didn't find a proper route. Since Marble.js comes with built-in effect for matching not-found routes, but you can override it anytime. All you need to do is to define a dedicated Effect at the very end of the effects stack to handle a 404 response.
+404 (Not Found) responses are not the result of an error, so the error handler will not capture them. This behavior is because a 404 response simply indicates the absence of matched Effect in request lifecycle; in other words, request didn't find a proper route. Since Marble.js comes with built-in effect for matching not-found routes, but you can override it anytime. All you need to do is to define a dedicated Effect at the very end of the effects stack to handle a 404 response.
 
 {% tabs %}
 {% tab title="not-found.effect.ts" %}
@@ -105,4 +106,3 @@ const notFound$ = r.pipe(
 The effect handles **all** paths and **all** method types then throws an 404 error code that can be intercepted inside global HttpErrorEffect.
 
 "Not-found" Effects can be placed in any layer you want, eg. you can have multiple Effects that will handle missing routes in dedicated organization levels of your API structure.
-
