@@ -76,7 +76,7 @@ import { isTestEnv } from './util';
 const middlewares = [
   logger$({
     silent: isTestEnv(),
-    filter: req => req.res.status >= 400;
+    filter: req => req.response.statusCode >= 400;
   }),
   ...
 ];
