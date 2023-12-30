@@ -47,7 +47,7 @@ describe('user$', () => {
     await finish();
   });
 
-);
+});
 ```
 {% endtab %}
 {% endtabs %}
@@ -70,7 +70,7 @@ const testBed = createHttpTestBed({
   defaultHeaders: {
     ...
   },
-}),
+});
 
 export const useTestBedSetup = createTestBedSetup({
   testBed,
@@ -113,7 +113,7 @@ describe('user$', () => {
     await testBedSetup.cleanup();
   });
 
-);
+});
 ```
 {% endtab %}
 {% endtabs %}
@@ -161,7 +161,7 @@ describe('user$', () => {
     await testBedSetup.cleanup();
   });
 
-);
+});
 ```
 
 ### Constructing test request
@@ -244,7 +244,7 @@ const customDependencyCleanup: DependencyCleanup<CustomDependency> = {
   cleanup: dep => dep.close(),
 };
 
-const testBed = createHttpTestBed({ listener }),
+const testBed = createHttpTestBed({ listener });
 
 export const useTestBedSetup = createTestBedSetup({
   testBed,
