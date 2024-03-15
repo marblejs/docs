@@ -76,7 +76,7 @@ Microservice Effects can defined as any other `MsgEffect`. For more details abou
 {% tab title="consumer.effect.ts" %}
 ```typescript
 import { act, matchEvent } from '@marblejs/core';
-import { MsgEffect } '@marblejs/messaging';
+import { MsgEffect, reply } from '@marblejs/messaging';
 import { of } from 'rxjs';
 
 export const hello$: MsgEffect = (event$, ctx) =>
