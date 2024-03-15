@@ -24,7 +24,7 @@ $ yarn add amqplib amqp-connection-manager
 import { createMicroservice, Transport } from '@marblejs/messaging';
 
 const microservice = createMicroservice({
-  transport: Transport.AMQP
+  transport: Transport.AMQP,
   options: {
     host: 'amqp://localhost:5672',
     queue: 'hello_queue',
@@ -40,7 +40,7 @@ const microservice = createMicroservice({
 import { MessagingClient, createMicroservice, Transport } from '@marblejs/messaging';
 
 const client = MessagingClient({
-  transport: Transport.AMQP
+  transport: Transport.AMQP,
   options: {
     host: 'amqp://localhost:5672',
     queue: 'hello_queue',
@@ -74,7 +74,7 @@ To enable manual acknowledgment mode, set the `expectAck` property to `true`.
 import { createMicroservice, Transport } from '@marblejs/messaging';
 
 const microservice = createMicroservice({
-  transport: Transport.AMQP
+  transport: Transport.AMQP,
   options: {
     host: 'amqp://localhost:5672',
     queue: 'hello_queue',
